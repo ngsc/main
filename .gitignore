@@ -1,0 +1,7 @@
+*.o
+*.moc
+moc_*.cpp
+moc_*.h
+/.qmake.stash
+*.pro.user
+Makefile*

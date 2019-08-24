@@ -1,0 +1,889 @@
+// -*-c++-*-
+
+/*!
+  \file main_window.cpp
+  \brief main application window class Source File.
+*/
+
+/*
+ *Copyright:
+
+ Copyright (C) The RoboCup Soccer Server Maintenance Group.
+ Hidehisa AKIYAMA
+
+ This code is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2, or (at your option)
+ any later version.
+
+ This code is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this code; see the file COPYING.  If not, write to
+ the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.
+
+ *EndCopyright:
+ */
+
+/////////////////////////////////////////////////////////////////////
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include "monitor_client.h"
+#include "options.h"
+#include "MonitorController.h"
+#include "PlayerController.h"
+#include <string>
+#include <iostream>
+#include <fstream>
+#include <cstring>
+#include <cstdio>
+#include "field_canvas.h"
+#include "config_dialog.h"
+
+#include<sstream>
+#include<iomanip>
+
+#include "icons\rcss.xpm"
+
+static int tactic_mask = 0;
+static rcss::rcg::Side M_side = rcss::rcg::LEFT;
+inline
+MonitorControl::Param::Param( const rcss::rcg::PlayerT & player,
+                              const rcss::rcg::BallT & ball,
+                              const rcss::rcg::ServerParamT & sparam,
+                              const rcss::rcg::PlayerTypeT & ptype )
+    : x_( Options::instance().screenX( player.x_ ) )
+    , y_( Options::instance().screenY( player.y_ ) )
+    , body_radius_( Options::instance().scale( ptype.player_size_ ) )
+    , kick_radius_( Options::instance().scale( ptype.player_size_ + ptype.kickable_margin_ + sparam.ball_size_ ) )
+      //, have_full_effort_( std::fabs( player.effort_ - ptype.effort_max_ ) < 1.0e-3 )
+    , player_( player )
+    , ball_( ball )
+    , player_type_( ptype )
+{
+
+    if ( body_radius_ < 1 ) body_radius_ = 1;
+    if ( kick_radius_ < 5 ) kick_radius_ = 5;
+
+    draw_radius_ =  ( Options::instance().playerSize() >= 0.01
+                      ? Options::instance().scale( Options::instance().playerSize() )
+                      : kick_radius_ );
+}
+
+MonitorControl::MonitorControl()
+    : M_monitor_client( nullptr )
+    , M_config_dialog( static_cast< ConfigDialog * >( 0 ) )
+    , M_field_canvas( static_cast< FieldCanvas * >( 0 ) )
+{
+}
+
+/*-------------------------------------------------------------------*/
+/*!
+
+ */
+MonitorControl::~MonitorControl()
+{
+    delete M_monitor_client;
+    delete M_field_canvas;
+}
+
+/*-------------------------------------------------------------------*/
+/*!
+
+ */
+void
+MonitorControl::init()
+{
+    M_field_canvas = new FieldCanvas( M_disp_holder );
+	createConfigDialog();
+	if ( Options::instance().connect() )
+    {
+        connectMonitor();
+    }
+}
+#include<fstream>
+void
+MonitorControl::connectMonitorTo( const char * hostname )
+{
+	// std::ofstream os("C:/Users/Martun/Desktop/monitor_log.txt", std::ofstream::out | std::ofstream::app);
+    if ( std::strlen( hostname ) == 0 )
+    {
+        std::cerr << "Empty host name. Connection failed." << std::endl;
+        // os << "Empty host name. Connection failed." << std::endl;
+        return;
+    }
+
+    disconnectMonitor();
+
+    std::cerr << "Connect to [" << hostname << "] ..." << std::endl;
+    // os << "Connect to [" << hostname << "] ..." << std::endl;
+
+    M_monitor_client = new MonitorClient( this,
+                                          M_disp_holder,
+                                          hostname,
+                                          Options::instance().serverPort(),
+                                          Options::instance().clientVersion() );
+
+    if ( ! M_monitor_client->isConnected() )
+    {
+        std::cerr << "Conenction failed." << std::endl;
+        // os << "Conenction failed." << std::endl;
+        delete M_monitor_client;
+        M_monitor_client = static_cast< MonitorClient * >( 0 );
+        return;
+    }
+    // os << "Connected!" << std::endl;
+
+    // reset all data
+    M_disp_holder.clear();
+
+    
+    Options::instance().setServerHost( hostname );
+    Options::instance().setMonitorClientMode( true );
+    Options::instance().setBufferRecoverMode( true );
+
+    //     M_set_live_mode_act->setEnabled( true );
+
+    M_monitor_client->sendDispInit();
+}
+
+
+bool 
+MonitorControl::isConnected() const
+{
+    if(M_monitor_client)
+        return M_monitor_client->isConnected();
+    else return false;
+} 
+
+void
+MonitorControl::connectMonitor()
+{
+    connectMonitorTo();
+}
+/*-------------------------------------------------------------------*/
+/*!
+
+ */
+void 
+MonitorControl::monitorStart()
+{
+    connectMonitor();
+}
+/*-------------------------------------------------------------------*/
+/*!
+
+ */
+void 
+MonitorControl::update()
+{
+    if(!isConnected())
+    {
+        monitorStart();
+    }
+    // if(!M_field_canvas)
+    // {
+    //     M_field_canvas = new FieldCanvas( M_disp_holder );
+    // }
+    // // std::ofstream os("C:/Users/Martun/Desktop/monitor_log.txt", std::ofstream::out | std::ofstream::app);
+    // // os << "File: " << __FILE__ << ":" << __LINE__ << "\n";
+
+    // M_field_canvas->show();
+    
+
+    DispConstPtr disp = M_disp_holder.currentDisp();
+
+    if ( ! disp )
+    {
+        return;
+    }
+
+    const rcss::rcg::BallT & ball = disp->show_.ball_;
+
+    for ( int i = 0; i < rcss::rcg::MAX_PLAYER*2; ++i )
+    {
+        //drawAll( painter, disp->show_.player_[i], ball );
+        const Options & opt = Options::instance();
+        const Param param( disp->show_.player_[i],
+                       ball,
+                       M_disp_holder.serverParam(),
+                       M_disp_holder.playerType( disp->show_.player_[i].type_ ) );
+		PlayerControl::setBallPoint(Options::instance().screenX(param.ball_.x_), 
+                                    Options::instance().screenY(param.ball_.y_));
+        //PlayerControl::setBallColor(param.ball.color_);
+        PlayerControl::setPlayerPoint(param.player_type_.id_, i < rcss::rcg::MAX_PLAYER, param.x_, param.y_);
+        // PlayerControl::setPlayerColor(param.player_type_.id_, i < rcss::rcg::MAX_PLAYER, QColor(Qt::blue) /*painter.brush().color()*/);
+        QColor color = MonitorControl::getPLayerColor(param);
+        PlayerControl::setPlayerColor(param.player_type_.id_, i < rcss::rcg::MAX_PLAYER, color);
+        PlayerControl::setPlayerNeckAngle(param.player_type_.id_, i < rcss::rcg::MAX_PLAYER, param.player_.neck_);
+
+        QString pitch_info = getPitchInfo();
+        PlayerControl::setPitchInfo(pitch_info);
+		QString foul_card_info = getFoulCardInfo();
+		PlayerControl::setFoulCardInfo(foul_card_info);
+
+    }
+    
+}
+/*-------------------------------------------------------------------*/
+/*!
+
+ */
+void
+MonitorControl::connectMonitorTo()
+{
+    connectMonitorTo("192.168.43.119");
+}
+
+/*-------------------------------------------------------------------*/
+/*!
+
+ */
+void
+MonitorControl::disconnectMonitor()
+{
+    if ( M_monitor_client )
+    {
+        M_monitor_client->disconnect();
+
+        delete M_monitor_client;
+        M_monitor_client = static_cast< MonitorClient * >( 0 );
+
+        //
+        // quit application if auto_quit_mode is on
+        //
+        
+    }
+
+    Options::instance().setMonitorClientMode( false );
+    Options::instance().setBufferRecoverMode( false );
+
+    //     M_set_live_mode_act->setEnabled( false );
+}
+
+/*-------------------------------------------------------------------*/
+/*!
+
+ */
+void
+MonitorControl::reconnectMonitor()
+{
+    if ( M_monitor_client )
+    {
+        disconnectMonitor();
+        std::cerr << "Trying to reconnect ..." << std::endl;
+    }
+    else
+    {
+        connectMonitor();
+    }
+}
+
+void
+MonitorControl::updateBufferingLabel()
+{
+    static int s_last_value = -1;
+
+    int current_index = M_disp_holder.currentIndex() == DispHolder::INVALID_INDEX
+        ? 0
+        : M_disp_holder.currentIndex();
+    
+    int current_cache = M_disp_holder.dispCont().size() - current_index;
+    current_cache = std::max( 0, current_cache - 1 );
+    if ( s_last_value != current_cache )
+    {
+        s_last_value = current_cache;
+    }
+}
+
+QColor
+MonitorControl::getPLayerColor(const MonitorControl::Param & param)
+{
+
+    // std::ofstream os("C:/Users/Martun/Desktop/monitor_log_player_color.txt", std::ofstream::out | std::ofstream::app);
+    const Options & opt = Options::instance();
+
+
+    switch ( param.player_.side_ ) {
+    case 'l':
+        // os << "l";
+        if ( param.player_.isGoalie() )
+        {
+            // os << "g";
+            return Options::LEFT_GOALIE_COLOR;
+        }
+        else
+        {
+            // os << "ng";
+            return Options::LEFT_TEAM_COLOR;
+        }
+        // os << "\n";
+
+        break;
+    case 'r':
+        // os << "r";
+        if ( param.player_.isGoalie() )
+        {
+            // os << "g";
+            return Options::RIGHT_GOALIE_COLOR;
+        }
+        else
+        {
+            // os << "ng";        
+            return Options::RIGHT_TEAM_COLOR;
+        }
+        // os << "\n";
+        break;
+    default:
+        break;
+    }
+
+
+    //decide status color
+    if ( ! param.player_.isAlive() )
+    {
+        return Qt::black;
+    }
+    if ( param.player_.isKicking() )
+    {
+        // os << "kick";
+        return Options::KICK_COLOR;
+    }
+    if ( param.player_.isCollidedPlayer() )
+    {
+        // os << "playerCollide";
+        return Options::PLAYER_COLLIDE_COLOR;
+    }
+}
+
+void
+MonitorControl::createConfigDialog()
+{
+    if ( M_config_dialog )
+    {
+        return;
+    }
+
+    M_config_dialog = new ConfigDialog( nullptr, M_disp_holder );
+
+    M_config_dialog->hide();
+}
+
+
+QString
+MonitorControl::getPitchInfo()
+{
+    static const std::string s_playmode_strings[] = PLAYMODE_STRINGS;
+
+    const Options & opt = Options::instance();
+
+    if ( ! opt.showScoreBoard() )
+    {
+        return NULL;
+    }
+
+    DispConstPtr disp = M_disp_holder.currentDisp();
+
+    if ( ! disp )
+    {
+        return NULL;
+    }
+
+    const int current_time = disp->show_.time_;
+
+    const rcss::rcg::TeamT & team_l = disp->team_[0];
+    const rcss::rcg::TeamT & team_r = disp->team_[1];
+
+    const rcss::rcg::PlayMode pmode = disp->pmode_;
+
+    const std::vector< std::pair< int, rcss::rcg::PlayMode > > & pen_scores_l = M_disp_holder.penaltyScoresLeft();
+    const std::vector< std::pair< int, rcss::rcg::PlayMode > > & pen_scores_r = M_disp_holder.penaltyScoresRight();
+
+    bool show_pen_score = true;
+
+    if ( pen_scores_l.empty()
+         && pen_scores_r.empty() )
+    {
+        show_pen_score = false;
+    }
+    else if ( ( ! pen_scores_l.empty()
+                && current_time < pen_scores_l.front().first )
+              && ( ! pen_scores_r.empty()
+                   && current_time < pen_scores_r.front().first )
+              && pmode != rcss::rcg::PM_PenaltySetup_Left
+              && pmode != rcss::rcg::PM_PenaltySetup_Right
+              && pmode != rcss::rcg::PM_PenaltyReady_Left
+              && pmode != rcss::rcg::PM_PenaltyReady_Right
+              && pmode != rcss::rcg::PM_PenaltyTaken_Left
+              && pmode != rcss::rcg::PM_PenaltyTaken_Right )
+    {
+        show_pen_score = false;
+    }
+
+
+    QString main_buf;
+    /*%-10s*/
+    std::ostringstream s_current_time;
+    s_current_time << std::setw(2) << std::setfill('0') << current_time / 600 
+                    << ":" << std::setw(2) << ((current_time % 600) / 10);
+    std::ofstream os ("time.txt");
+    os << s_current_time.str() << "\n";
+    
+    if ( ! show_pen_score )
+    {
+        main_buf.sprintf( " %10s %d:%d %2s %6s %10s ",
+                          ( team_l.name_.empty() || team_l.name_ == "null" )
+                          ? ""
+                          : team_l.name_.c_str(),
+                          team_l.score_,
+                          team_r.score_,
+                          ( team_r.name_.empty() || team_r.name_ == "null" )
+                          ? ""
+                          : team_r.name_.c_str(),
+                          //s_playmode_strings[pmode].c_str(),
+                          s_current_time.str().c_str(),
+                          disp->commentary_.c_str() );
+    }
+    else
+    {
+        std::string left_penalty; left_penalty.reserve( 10 );
+        std::string right_penalty; right_penalty.reserve( 10 );
+
+        for ( std::vector< std::pair< int, rcss::rcg::PlayMode > >::const_iterator it = pen_scores_l.begin();
+              it != pen_scores_l.end();
+              ++it )
+        {
+            if ( it->first > current_time ) break;
+
+            if ( it->second == rcss::rcg::PM_PenaltyScore_Left
+                 || it->second == rcss::rcg::PM_PenaltyScore_Right )
+            {
+                left_penalty += 'o';
+            }
+            else if ( it->second == rcss::rcg::PM_PenaltyMiss_Left
+                      || it->second == rcss::rcg::PM_PenaltyMiss_Right )
+            {
+                left_penalty += 'x';
+            }
+        }
+
+        for ( std::vector< std::pair< int, rcss::rcg::PlayMode > >::const_iterator it = pen_scores_r.begin();
+              it != pen_scores_r.end();
+              ++it )
+        {
+            if ( it->first > current_time ) break;
+
+            if ( it->second == rcss::rcg::PM_PenaltyScore_Left
+                 || it->second == rcss::rcg::PM_PenaltyScore_Right )
+            {
+                right_penalty += 'o';
+            }
+            else if ( it->second == rcss::rcg::PM_PenaltyMiss_Left
+                      || it->second == rcss::rcg::PM_PenaltyMiss_Right )
+            {
+                right_penalty += 'x';
+            }
+        }
+
+        main_buf.sprintf( " %10s %d:%d |%-5s:%-5s| %-10s %19s %6d",
+                          ( team_l.name_.empty() || team_l.name_ == "null" )
+                          ? ""
+                          : team_l.name_.c_str(),
+                          team_l.score_, team_r.score_,
+                          left_penalty.c_str(),
+                          right_penalty.c_str(),
+                          ( team_r.name_.empty() || team_r.name_ == "null" )
+                          ? ""
+                          : team_r.name_.c_str(),
+                          s_playmode_strings[pmode].c_str(),
+                          current_time );
+    }
+
+    return main_buf;
+}
+void 
+MonitorControl::sendPlayerMove(int player_id, double x, double y, int ang) {
+	std::cout << "Moving " << player_id << "\n";
+	M_monitor_client->sendMove(M_side, player_id, x, y, ang);	
+}
+
+void 
+MonitorControl::sendPlayerSubstitute(int player1_id, int player2_id) {
+	DispConstPtr disp = M_disp_holder.currentDisp();
+	if (!disp)
+	{
+		return;
+	}
+	M_monitor_client->sencChangePlayerType(disp->team_[M_side == rcss::rcg::RIGHT].name_, player1_id, player2_id);
+}
+
+QString
+MonitorControl::getLeftScore() {
+	DispConstPtr disp = M_disp_holder.currentDisp();
+	if (!disp)
+	{
+		return NULL;
+	}
+	return QVariant(disp->team_[0].score_).toString();
+}
+QString
+MonitorControl::getRightScore() {
+	DispConstPtr disp = M_disp_holder.currentDisp();
+	if (!disp)
+	{
+		return NULL;
+	}
+	return QVariant(disp->team_[1].score_).toString();
+}
+QString
+MonitorControl::getLeftName() {
+	DispConstPtr disp = M_disp_holder.currentDisp();
+	if (!disp)
+	{
+		return NULL;
+	}
+	return QString::fromStdString(disp->team_[0].name_);
+}
+QString
+MonitorControl::getRightName() {
+	DispConstPtr disp = M_disp_holder.currentDisp();
+	if (!disp)
+	{
+		return NULL;
+	}
+	return QString::fromStdString(disp->team_[1].name_);
+}
+QString
+MonitorControl::getFoulCardInfo() {
+	const std::pair<char, std::pair<char, int> > foul_card = M_disp_holder.FoulCard();
+	QString foul_card_info;
+	std::stringstream foul_card_sstream;
+	if (foul_card.first == 'y') {
+		foul_card_sstream << "Yellow Card";
+	}
+	else if (foul_card.first == 'r') {
+		foul_card_sstream << "Red Card";
+	}
+	else {
+		return "";
+	}
+	foul_card_sstream << " issued against ";
+	if (foul_card.second.first == 'l') {
+		foul_card_sstream << "Left Team";
+	}
+	else if (foul_card.second.first == 'r') {
+		foul_card_sstream << "Right Team";
+	}
+	else {
+		return "";
+	}
+	std::cout <<"final str: "<< foul_card_sstream.str();
+	foul_card_sstream << " Player " << foul_card.second.second;
+	foul_card_info.sprintf(foul_card_sstream.str().c_str());
+	return foul_card_info;
+}
+bool
+MonitorControl::getMatchParams() {
+	//PHP_GET: update and gets all parameters from server - match_id and side (left/right) of team
+	int port_no = 6000;
+	int match_id = 0;
+	//PHP_GET:send value of tactic_mask to server
+	//PHP_GET:update values of match_id and "M_side" here, use blocking get call so that function does not return before parameters are initalized
+	//match_id = //get from server
+	//M_side = //get from server
+	//IF cannot get - return false
+	port_no = 6000 + (10 * match_id);
+	Options::instance().setServerPort(port_no);
+	return true;
+}
+QString
+MonitorControl::getCommentaryLog() {
+	DispConstPtr disp = M_disp_holder.currentDisp();
+	if (!disp)
+	{
+		return NULL;
+	}
+	return QString::fromStdString(disp->commentary_log_);
+}
+
+void
+MonitorControl::sendTactics()
+{
+	M_monitor_client->sendTactic(M_side, tactic_mask);
+}
+QString MonitorControl::getTeamLeftStats()
+{
+	DispConstPtr disp = M_disp_holder.currentDisp();
+	if (!disp)
+	{
+		return NULL;
+	}
+	return QString::fromStdString(disp->statistic_.team_left_stats_);
+}
+QString MonitorControl::getTeamRightStats()
+{
+	DispConstPtr disp = M_disp_holder.currentDisp();
+	if (!disp)
+	{
+		return NULL;
+	}
+	return QString::fromStdString(disp->statistic_.team_right_stats_);
+}
+QString MonitorControl::getPlayerLeftStats()
+{
+	DispConstPtr disp = M_disp_holder.currentDisp();
+	if (!disp)
+	{
+		return NULL;
+	}
+	return QString::fromStdString(disp->statistic_.player_left_stats_);
+}
+QString MonitorControl::getPlayerRightStats()
+{
+	DispConstPtr disp = M_disp_holder.currentDisp();
+	if (!disp)
+	{
+		return NULL;
+	}
+	return QString::fromStdString(disp->statistic_.player_right_stats_);
+}
+QString MonitorControl::getLeftInterception()
+{
+	DispConstPtr disp = M_disp_holder.currentDisp();
+	if (!disp)
+	{
+		return NULL;
+	}
+	return QString::fromStdString(disp->statistic_.left_interception_);
+}
+QString MonitorControl::getLeftFoul()
+{
+	DispConstPtr disp = M_disp_holder.currentDisp();
+	if (!disp)
+	{
+		return NULL;
+	}
+	return QString::fromStdString(disp->statistic_.left_foul_);
+}
+QString MonitorControl::getLeftTackle()
+{
+	DispConstPtr disp = M_disp_holder.currentDisp();
+	if (!disp)
+	{
+		return NULL;
+	}
+	return QString::fromStdString(disp->statistic_.left_tackle_);
+}
+QString MonitorControl::getLeftGoal()
+{
+	DispConstPtr disp = M_disp_holder.currentDisp();
+	if (!disp)
+	{
+		return NULL;
+	}
+	return QString::fromStdString(disp->statistic_.left_goal_);
+}
+QString MonitorControl::getLeftYellowCard()
+{
+	DispConstPtr disp = M_disp_holder.currentDisp();
+	if (!disp)
+	{
+		return NULL;
+	}
+	return QString::fromStdString(disp->statistic_.left_yellow_card_);
+}
+QString MonitorControl::getLeftRedCard()
+{
+	DispConstPtr disp = M_disp_holder.currentDisp();
+	if (!disp)
+	{
+		return NULL;
+	}
+	return QString::fromStdString(disp->statistic_.left_red_card_);
+}
+QString MonitorControl::getRightInterception()
+{
+	DispConstPtr disp = M_disp_holder.currentDisp();
+	if (!disp)
+	{
+		return NULL;
+	}
+	return QString::fromStdString(disp->statistic_.right_interception_);
+}
+QString MonitorControl::getRightFoul()
+{
+	DispConstPtr disp = M_disp_holder.currentDisp();
+	if (!disp)
+	{
+		return NULL;
+	}
+	return QString::fromStdString(disp->statistic_.right_foul_);
+}
+QString MonitorControl::getRightTackle()
+{
+	DispConstPtr disp = M_disp_holder.currentDisp();
+	if (!disp)
+	{
+		return NULL;
+	}
+	return QString::fromStdString(disp->statistic_.right_tackle_);
+}
+QString MonitorControl::getRightGoal()
+{
+	DispConstPtr disp = M_disp_holder.currentDisp();
+	if (!disp)
+	{
+		return NULL;
+	}
+	return QString::fromStdString(disp->statistic_.right_goal_);
+}
+QString MonitorControl::getRightYellowCard()
+{
+	DispConstPtr disp = M_disp_holder.currentDisp();
+	if (!disp)
+	{
+		return NULL;
+	}
+	return QString::fromStdString(disp->statistic_.right_yellow_card_);
+}
+QString MonitorControl::getRightRedCard()
+{
+	DispConstPtr disp = M_disp_holder.currentDisp();
+	if (!disp)
+	{
+		return NULL;
+	}
+	return QString::fromStdString(disp->statistic_.right_red_card_);
+}
+
+void
+MonitorControl::UpdateOffsideTrap()
+{
+	tactic_mask ^= MonitorControl::TacticType::OFFSIDETRAP;
+}
+void
+MonitorControl::UpdateHardTackle()
+{
+	tactic_mask ^= MonitorControl::TacticType::HARDTACKLE;
+}
+void
+MonitorControl::UpdateHighLineClosingDown()
+{
+	tactic_mask ^= MonitorControl::TacticType::HIGHLINECLOSINGDOWN;
+}
+void
+MonitorControl::UpdateOffsideLine()
+{
+	tactic_mask ^= MonitorControl::TacticType::OFFSIDELINE;
+}
+void
+MonitorControl::UpdatePreventPass()
+{
+	tactic_mask ^= MonitorControl::TacticType::PREVENTPASS;
+}
+void
+MonitorControl::UpdatePreventingCutInside()
+{
+	tactic_mask ^= MonitorControl::TacticType::PREVENTINGCUTINSIDE;
+}
+void
+MonitorControl::UpdateTightMarking()
+{
+	tactic_mask ^= MonitorControl::TacticType::TIGHTMARKING;
+}
+void
+MonitorControl::UpdateStopsPlay()
+{
+	tactic_mask ^= MonitorControl::TacticType::STOPSPLAY;
+}
+void
+MonitorControl::UpdateGetsForward()
+{
+	tactic_mask ^= MonitorControl::TacticType::GETSFORWARD;
+}
+void
+MonitorControl::UpdateShootFromDistance()
+{
+	tactic_mask ^= MonitorControl::TacticType::SHOOTFROMDISTANCE;
+}
+void
+MonitorControl::UpdateStayBack()
+{
+	tactic_mask ^= MonitorControl::TacticType::STAYBACK;
+}
+void
+MonitorControl::UpdateRunDownTheLine()
+{
+	tactic_mask ^= MonitorControl::TacticType::RUNDOWNTHELINE;
+}
+void
+MonitorControl::UpdateMovesIntoChannels()
+{
+	tactic_mask ^= MonitorControl::TacticType::MOVESINTOCHANNELS;
+}
+void
+MonitorControl::UpdatePreferDribbleOverPass()
+{
+	tactic_mask ^= MonitorControl::TacticType::PREFERDRIBBLEOVERPASS;
+}
+void
+MonitorControl::UpdateDictatesTempo()
+{
+	tactic_mask ^= MonitorControl::TacticType::DICTATESTEMPO;
+}
+void
+MonitorControl::UpdateComesDeepToGetBall()
+{
+	tactic_mask ^= MonitorControl::TacticType::COMESDEEPTOGETBALL;
+}
+void
+MonitorControl::UpdateLongPasses()
+{
+	tactic_mask ^= MonitorControl::TacticType::LONGPASSES;
+}
+void
+MonitorControl::UpdateRoundToKeeper()
+{
+	tactic_mask ^= MonitorControl::TacticType::ROUNDTOKEEPER;
+}
+void
+MonitorControl::UpdateBeatOffsideTrap()
+{
+	tactic_mask ^= MonitorControl::TacticType::BEATOFFSIDETRAP;
+}
+void
+MonitorControl::UpdateCutInside()
+{
+	tactic_mask ^= MonitorControl::TacticType::CUTINSIDE;
+}
+void
+MonitorControl::UpdateCrossTheBallMoreOften()
+{
+	tactic_mask ^= MonitorControl::TacticType::CROSSTHEBALLMOREOFTEN;
+}
+void
+MonitorControl::UpdateRushOut()
+{
+	tactic_mask ^= MonitorControl::TacticType::RUSHOUT;
+}
+void
+MonitorControl::UpdateForwardInCornerKick()
+{
+	tactic_mask ^= MonitorControl::TacticType::FORWARDINCORNERKICK;
+}
+void
+MonitorControl::UpdatePassBallToDefender()
+{
+	tactic_mask ^= MonitorControl::TacticType::PASSBALLTODEFENDER;
+}
+void
+MonitorControl::UpdateTriesKillerBallOften()
+{
+	tactic_mask ^= MonitorControl::TacticType::TRIESKILLERBALLOFTEN;
+}

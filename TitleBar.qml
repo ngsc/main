@@ -1,0 +1,331 @@
+import QtQuick 2.4
+import QtGraphicalEffects 1.0
+
+Item {
+    id: app_title_bar
+    width: 950
+    height: 80
+
+    property var forwardlist:[]
+    property var forwardTitleProperties: []
+    property var backwardTitleProperties: []
+    property var forwardInside
+
+    property bool setforwordvisibility :false
+    property bool setportrailVisible: false
+
+    property string title: qsTr("Signin")
+    property string selectedportrail  : ""
+    property string selectedplayer: ""
+    property string selectedclubportrait  : ""
+    property string selectednation  : ""
+    property string selectedclubname: ""
+    property int selectedclubid: 0
+    property bool showselectedclubname: false
+    readonly property string defaultTextColor: "#ffaa00"
+    readonly property string defaultBackgroundColor: "#34537a"
+    property string textColor: defaultTextColor
+    property string backgroundColor: defaultBackgroundColor
+
+    readonly property int defaultTitleFontSize: 30
+    readonly property int defaultClubFontSize: 13
+    property int titleFontSize: defaultTitleFontSize
+    property int clubFontSize: defaultClubFontSize
+
+    function printObject(o) {
+      var out = '----------------------------------\n';
+      for (var p in o) {
+        out += '\t' + p + ': ' + o[p] + '\n';
+      }
+      out += '----------------------------------\n';
+      console.log(out);
+    }
+
+    function reset() {
+        setportrailVisible = false
+        showselectedclubname = false
+        title = ""
+        selectedportrail  = ""
+        selectedplayer= ""
+        selectedclubportrait  = ""
+        selectednation  = ""
+        selectedclubname = ""
+        selectedclubid = 0
+
+        textColor = defaultTextColor
+        backgroundColor = defaultBackgroundColor
+
+        titleFontSize = defaultTitleFontSize
+        clubFontSize = defaultClubFontSize
+    }
+
+    function pushProperties(list) {
+
+        var obj = {};
+        obj.title = app_title_bar.title;
+        obj.selectedportrail = app_title_bar.selectedportrail;
+        obj.selectedplayer = app_title_bar.selectedplayer;
+        obj.selectedclubportrait = app_title_bar.selectedclubportrait;
+        obj.selectednation = app_title_bar.selectednation;
+        obj.selectedclubname = app_title_bar.selectedclubname;
+        obj.selectedclubid = app_title_bar.selectedclubid;
+        obj.textColor = app_title_bar.textColor;
+        obj.backgroundColor = app_title_bar.backgroundColor;
+        obj.setportrailVisible = app_title_bar.setportrailVisible;
+        obj.showselectedclubname = app_title_bar.showselectedclubname;
+        obj.titleFontSize = app_title_bar.titleFontSize
+        obj.clubFontSize = app_title_bar.clubFontSize
+
+        console.log("add properties to array:");
+        //printObject(obj)
+        list.push(obj);
+    }
+
+    function popProperties(list) {
+        if(list.length < 1)
+            return;
+
+        var obj = list.pop();
+        //console.log("pop properties from array (remaining " + list.length + ")");
+
+        //printObject(obj);
+        app_title_bar.title = obj.title;
+        app_title_bar.selectedportrail = obj.selectedportrail;
+        app_title_bar.selectedplayer = obj.selectedplayer;
+        app_title_bar.selectedclubportrait = obj.selectedclubportrait;
+        app_title_bar.selectednation = obj.selectednation;
+        app_title_bar.selectedclubname = obj.selectedclubname;
+        app_title_bar.selectedclubid = obj.selectedclubid;
+        app_title_bar.textColor = obj.textColor === null || obj.textColor === "" ? defaultTextColor : obj.textColor;
+        app_title_bar.backgroundColor = obj.backgroundColor === null || obj.backgroundColor === "" ? defaultBackgroundColor : obj.backgroundColor;
+        app_title_bar.setportrailVisible = obj.setportrailVisible;
+        app_title_bar.showselectedclubname = obj.showselectedclubname;
+        app_title_bar.titleFontSize = obj.titleFontSize
+        app_title_bar.clubFontSize = obj.clubFontSize
+    }
+
+    function popPage() {
+        if(stackView.depth<=forwardlist.length){
+            forwardlist.pop()
+        }
+        if(stackView.depth>1) {
+            forwardlist.push(stackView.__currentItem)
+            pushProperties(forwardTitleProperties)
+
+            stackView.pop()
+
+            reset();
+            popProperties(backwardTitleProperties)
+            //title =  stackView.__currentItem.titleBar
+        }
+
+        if(forwardlist.length>0){
+            setforwordvisibility = true
+        }
+        else{
+            setforwordvisibility = false
+        }
+    }
+
+    Rectangle
+    {
+        id: rectangle
+        anchors.fill: parent
+        radius: width
+        opacity: 1.0
+
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: Qt.lighter(backgroundColor)}
+            GradientStop { position: 1.0; color: backgroundColor}
+        }
+
+        MouseArea{cursorShape: Qt.PointingHandCursor}
+        Text
+        {
+            id: title_text
+            anchors.centerIn: parent
+            property int vco: 0
+            color: textColor
+            font.family: "Comic Sans MS"
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            anchors.verticalCenterOffset: vco
+            text: title
+            font.pointSize: titleFontSize
+            font.letterSpacing: 1
+        }
+        Text {
+            id: club_text
+            text: app_title_bar.selectedclubname
+            anchors.horizontalCenter: title_text.horizontalCenter
+            font.family: "Comic Sans MS"//"Kristen ITC"
+            font.pointSize: clubFontSize
+            anchors.bottom: parent.bottom
+            color: "yellow"
+            anchors.bottomMargin: 2
+            visible: showselectedclubname || setportrailVisible
+
+            onVisibleChanged: {
+                if(visible)
+                    title_text.vco = -15
+                else
+                    title_text.vco = 0
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+                onClicked: {
+                    //go to league page.
+                    if(stackView.__currentItem === leaguePage) {
+                        leaguePage.flipLeague()
+                    }
+                    else {
+                        leaguePage.loadLeagueClubs(app_title_bar.selectedclubid)
+                        leaguePage.loadLeagueClubs(app_title_bar.selectedclubid)
+                        callinsidepage2(leaguePage)
+                     }
+                }
+            }
+        }
+        Image
+        {
+            id : forward
+            anchors.right: parent.right
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.rightMargin: 30
+            height: parent.height/2
+            width: height
+            visible: setforwordvisibility && stackView.__currentItem !== signinPage && stackView.__currentItem !== signupPage
+            fillMode: Image.Stretch
+            source: "qrc:/icons/forward-orange.png"
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked: {
+                    forwardInside = forwardlist.pop()
+                    if(forwardlist.length>0){
+                        setforwordvisibility = true
+                    }else{
+                        setforwordvisibility = false
+                    }
+                    stackView.push(forwardInside)
+                    popProperties(forwardTitleProperties)
+                    pushProperties(backwardTitleProperties)
+                    //reset()
+                    //app_title_bar.title = forwardInside.titleBar
+                }
+            }
+        }
+        Rectangle{
+            id : club
+            anchors.right: forward.left
+            anchors.rightMargin: height
+            visible: setportrailVisible
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.leftMargin : height
+            height: 2*parent.height/3
+            width: height
+            radius: height/2
+
+            Image{
+                anchors.fill: parent
+                height: 2*parent.height/3
+                width: height
+                source: selectedclubportrait
+                fillMode: Image.PreserveAspectCrop
+                layer.enabled: true
+                layer.effect: OpacityMask {
+                    maskSource: mask3
+                }
+            }
+            Rectangle {
+                id: mask3
+                width: height
+                height: 2*parent.height/3
+                radius: height
+                visible: false
+            }
+        }
+
+        Rectangle{
+            id : nation
+            anchors.right: club.left
+            anchors.rightMargin: height
+            visible: setportrailVisible
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.leftMargin : height
+            height: 2*parent.height/3
+            width: height
+            radius: height/2
+
+            Image{
+                anchors.fill: parent
+                height: 2*parent.height/3
+                width: height
+                source: selectednation
+                fillMode: Image.PreserveAspectCrop
+                layer.enabled: true
+                layer.effect: OpacityMask {
+                    maskSource: mask1
+                }
+            }
+            Rectangle {
+                id: mask1
+                width: height
+                height: 2*parent.height/3
+                radius: height
+                visible: false
+            }
+        }
+
+        Rectangle{
+            id : portrail
+            anchors.left: leftbutton.right
+            anchors.leftMargin : height
+            height: 2*parent.height/3
+            width: height
+            radius: height/2
+            visible: setportrailVisible
+            anchors.verticalCenter: parent.verticalCenter
+            Image{
+                anchors.fill: parent
+                height: 2*parent.height/3
+                width: height
+                source: selectedplayer
+                fillMode: Image.PreserveAspectCrop
+                layer.enabled: true
+                layer.effect: OpacityMask {
+                    maskSource: mask2
+                }
+            }
+            Rectangle {
+                id: mask2
+                width: height
+                height: 2*parent.height/3
+                radius: height
+                visible: false
+            }
+        }
+
+        Image
+        {
+            id : leftbutton
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.leftMargin: 30
+            height: parent.height/2
+            width: height
+            fillMode: Image.Stretch
+            visible: stackView.depth>1 && stackView.__currentItem !== signinPage && stackView.__currentItem !== signupPage ? true : false
+            source: "qrc:/icons/back-orange.png"
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked: {
+                    popPage()
+                }
+            }
+        }
+    }
+}
