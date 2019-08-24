@@ -60,7 +60,6 @@ Item {
         exit_button.enabled = enable;
     }
 
-
     Rectangle {
         id:  signin_rect
         anchors.fill: parent
@@ -246,7 +245,7 @@ Item {
             {
                 id: signin_error
                 readOnly: true
-                text: error_text
+                text: qsTr(error_text)
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom

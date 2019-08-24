@@ -7,6 +7,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.0
+import com.Game.APIConnection 1.0
 Rectangle
 {
     id: inside_2
@@ -119,8 +120,33 @@ Rectangle
                         clubSelection.loadLeagueClubs(406);     //this is a bug for now, models has to be called twice to pass the values correctly
                     }
                     else {
-                        app.callinsidepage2(clubPage)
-                        clubPage.setClub();
+                        ///
+                        if(managerUser.userPortrait == ""){
+                            app.clubDetailsforManager = true
+    //                        app_title_bar.selectedportrail = "qrc:/images/portrait/"+managerUser.userPortrait+".jpg"
+                            APIConnection.getClubDetails(managerUser.token, managerUser.clubId);
+//                            APIConnection.getClubDetails(managerUser.token, managerUser.clubId);
+
+//                            getInvitationsTimer.running = true
+                            getNewsTimer.running = true
+                            callinsidepage2(managerProfileGenerator)
+                        }else{
+
+                            app.clubDetailsforManager = false
+                            app_title_bar.selectedportrail = "/images/portrait/"+managerUser.userPortrait+".jpg"
+
+                            console.log(app_title_bar.selectedportrail)
+                            APIConnection.getClubDetails(managerUser.token, managerUser.clubId);
+                            clubPage.loadClubPlayers(managerUser.clubId)
+//                            clubPage.loadClubPlayers(managerUser.clubId)
+                            //add club players. Call it twice to populate it. needx fixing later on
+//                            getInvitationsTimer.running = true
+                            getNewsTimer.running = true
+                            callinsidepage2(clubPage)
+                            clubPage.setClub()
+                        }
+//                        app.callinsidepage2(clubPage)
+//                        clubPage.setClub();
                     }
                 }
                 onPressed: {parent.state="clicked"}

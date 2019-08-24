@@ -48,9 +48,7 @@ int
 monitor_main( int argc,
       char ** argv )
 {
-//    std::cout << PACKAGE << "-" << VERSION << "\n\n"
-//              << "Copyright (C) 2009 - 2014 RoboCup Soccer Simulator Maintenance Group.\n"
-//              << std::endl;
+
 
     QApplication app( argc, argv );
 

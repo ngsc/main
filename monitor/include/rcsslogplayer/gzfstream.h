@@ -91,7 +91,7 @@ public:
 private:
 
     //! Pimpl ideom. the instance of file buffer.
-    std::shared_ptr<gzfilebuf_impl> M_impl;
+    std::shared_ptr< gzfilebuf_impl > M_impl;
 
     //! buffer size (default: 8192)
     std::size_t M_buf_size;

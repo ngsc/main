@@ -52,7 +52,8 @@ class ClubModel : public QAbstractListModel
         OwnerIdRole,
         OwnerNameRole,
         NationRole,
-        LeagueIdRole
+        LeagueIdRole,
+        TargetClubRole
     };
 
 public:

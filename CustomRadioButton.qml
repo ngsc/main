@@ -45,7 +45,7 @@ Item {
 
             style: RadioButtonStyle {
                 label: Text {
-                    text: control.text
+                    text: qsTr(control.text)
                     font.family: "Comic Sans MS"
                     font.pointSize: 11
                     font.italic: radio_button.italicfont

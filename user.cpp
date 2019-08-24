@@ -103,6 +103,16 @@ void User::setClubName(const QString &clubName)
     emit clubNameChanged(clubName);
 }
 
+QString User::UserPortrait() const
+{
+    return m_UserPortrait;
+}
+
+void User::setUserPortrait(const QString &userPortrait)
+{
+    m_UserPortrait = userPortrait;
+}
+
 QString User::city() const
 {
     return m_city;
@@ -132,6 +142,12 @@ void User::printDetails()
     qDebug() << "lastName: " << m_lastName;
     qDebug() << "pass quiz: " << m_quizPass;
     qDebug() << "clubId: " << m_clubId;
+    qDebug() << "UserPortrait: " << m_UserPortrait;
+    qDebug() << "city: " << m_city;
+    qDebug() << "clubName: " << m_clubName;
+    qDebug() << "ID: " << m_id;
+    qDebug() << "token: " << m_token;
+
 }
 
 int User::id() const
@@ -183,4 +199,5 @@ void User::setUser(User *user)
 
     m_city = user->city();
     m_favFormation = user->favFormation();
+    m_UserPortrait = user->UserPortrait ();
 }

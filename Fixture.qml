@@ -12,6 +12,10 @@ Rectangle {
     color: "transparent"
 
     property string titleBar: qsTr("Fixture Page")
+    property alias simpleUserModelPtr: onlineUsersModel
+    property alias invitationModel: invitationModel
+    property alias getUsersTimer: getUsersTimer
+
 
     MatchModel {
         id: matchModel
@@ -41,6 +45,7 @@ Rectangle {
             role: "id"
             visible: false
         }
+
         TableViewColumn {
             id: homeClubNameCol
             role: "homeClubName"
@@ -77,7 +82,7 @@ Rectangle {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.horizontalCenter: parent.horizontalCenter
                     verticalAlignment: Text.AlignVCenter
-                    text: styleData.value
+                    text: qsTr(styleData.value)
                     elide: Text.ElideRight
                     color: "white"
                     renderType: Text.NativeRendering
@@ -137,7 +142,7 @@ Rectangle {
                     anchors.leftMargin: 30
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: styleData.column === 3 ? Text.AlignHCenter : Text.AlignLeft
-                    text: styleData.value
+                    text: (styleData.value)
                     elide: Text.ElideRight
                     color: "white"
                     renderType: Text.NativeRendering
@@ -229,7 +234,7 @@ Rectangle {
                 Text {
                     id: text
                     anchors.centerIn: parent
-                    text: styleData.title
+                    text: qsTr(styleData.title)
                     font.pointSize: 10
                     font.family: "Comic Sans MS"
                     color: styleData.selected ? "white" : "black"
@@ -340,7 +345,7 @@ Rectangle {
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.horizontalCenter: parent.horizontalCenter
                             verticalAlignment: Text.AlignVCenter
-                            text: styleData.value
+                            text: qsTr(styleData.value)
                             elide: Text.ElideRight
                             color: "white"
                             renderType: Text.NativeRendering
@@ -398,7 +403,7 @@ Rectangle {
                             anchors.leftMargin: 30
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: styleData.column === 3 ? Text.AlignHCenter : Text.AlignLeft
-                            text: styleData.role === onlineCol.role ? (styleData.value === true ? qsTr("Online") : qsTr("Offline")) : styleData.value
+                            text: (styleData.role === onlineCol.role ? (styleData.value === true ? qsTr("Online") : qsTr("Offline")) : styleData.value)
                             elide: Text.ElideRight
                             color: "white"
                             renderType: Text.NativeRendering
@@ -560,7 +565,7 @@ Rectangle {
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.horizontalCenter: parent.horizontalCenter
                             verticalAlignment: Text.AlignVCenter
-                            text: styleData.value
+                            text: qsTr(styleData.value)
                             elide: Text.ElideRight
                             color: "white"
                             renderType: Text.NativeRendering
@@ -701,11 +706,12 @@ Rectangle {
                 anchors.bottom: parent.bottom
                 text: qsTr("Decline")
                 enabled: accept_button.enabled
-                visible: enabled
+                visible: true//enabled
                 onClicked: {
                     APIConnection.declineInvitation(managerUser.token, invitationFilterModel.get(invitationTable.currentRow).id)
                     invitationFilterModel.get(invitationTable.currentRow).active = false
                 }
+
             }
 
         }
@@ -714,7 +720,7 @@ Rectangle {
     Timer {
         id: getUsersTimer
         interval: 10000
-        running: stackView.__currentItem === fixturePage
+        running: false//stackView.__currentItem === fixturePage
         repeat: true
         triggeredOnStart: true
         onTriggered: {
@@ -731,11 +737,15 @@ Rectangle {
         }
 
         onGetUsersFinished: {
+            console.log(managerUser.username)
             onlineUsersModel.setUsers(users, managerUser.username);
+//            annonucement_board.userAnnouncenemtList.setUserHistory(users, managerUser.username);
         }
 
         onGetInvitationsFinished: {
             invitationModel.setInvitations(invitations);
+
+            app.canResign = !invitationModel.areThereInvetationNews()
         }
     }
 

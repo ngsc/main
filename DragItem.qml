@@ -44,7 +44,7 @@ Item {
                 color: "#ffffff"
                 font.pointSize: 10
                 font.family: "Comic Sans MS"
-                text: root.text
+                text: qsTr(root.text)
                 horizontalAlignment:Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
             }

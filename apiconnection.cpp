@@ -1,20 +1,5 @@
 #include "apiconnection.h"
-#include "tournament.h"
-#include "player.h"
-#include "club.h"
-#include "searchingpoolmodel.h"
-#include "user.h"
-#include "notification.h"
-#include "match.h"
-#include "simpleusermodel.h"
-#include "invitationmodel.h"
-#include "newsmodel.h"
 
-#include <QNetworkReply>
-#include <QByteArray>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
 
 QString APIConnection::s_token = "";
 const QString APIConnection::s_apiUrl = "http://173.208.200.82";
@@ -36,808 +21,6 @@ APIConnection::APIConnection(QObject *parent) : QObject(parent)
 void APIConnection::setToken(QString &token)
 {
     s_token = token;
-}
-
-void APIConnection::parseJson(const QString &json)
-{
-    QJsonParseError parseError;
-    QJsonDocument doc = QJsonDocument::fromJson(json.toUtf8(), &parseError);
-
-    if (parseError.error != QJsonParseError::NoError)
-    {
-        qDebug() << "Parse error: " << parseError.errorString();
-        return;
-    }
-
-    QJsonObject obj = doc.object();
-    auto status = obj["status"].toBool();
-
-    if(!status) {
-        emit errorHappened(obj["message"].toString());
-        return;
-    }
-
-    auto action = obj["action_name"].toString();
-    auto operation = m_operationName[action];
-
-    if(operation == Operation::SIGN_UP)
-    {
-        auto message = obj["message"].toString();
-
-        qDebug() << "status: " << status << endl;
-        qDebug() << "message: " << message << endl;
-        emit signupFinished(message);
-    }
-    else if(operation == Operation::SIGN_IN)
-    {
-        auto message = obj["message"].toString();
-        auto token   = obj["token"].toString();
-        auto quizPass = obj["quiz_pass"].toString().toLower() == "true";
-        auto firstName = obj["first_name"].toString();
-        auto lastName = obj["last_name"].toString();
-        auto clubId = obj["club_id"].toString().toInt();
-        auto clubName = obj["club_name"].toString();
-        auto city = obj["city"].toString();
-        auto nickName = obj["nick_name"].toString();
-        auto username = obj["username"].toString();
-        auto userId = obj["user_id"].toString().toInt();
-
-
-        User *user = new User();
-        user->setId(userId);
-        user->setUsername(username);
-        user->setToken(token);
-        user->setFirstName(firstName);
-        user->setLastName(lastName);
-        user->setQuizPass(quizPass);
-        user->setClubId(clubId);
-		user->setClubName(clubName);
-        user->setCity(city);
-
-        qDebug() << "message: " << message << endl;
-        emit signinFinished(message, user);
-    }
-    else if(operation == Operation::GET_TOURNAMENTS)
-    {
-        auto tournaments = obj["tournaments"].toArray();
-        QVector<Tournament*> ts;
-        foreach (const QJsonValue & v, tournaments)
-        {
-            auto obj = v.toObject();
-            auto id  = obj["id"].toString().toInt();
-            auto name = obj["name"].toString();
-            auto startDate   = QDate::fromString(obj["start_date"].toString(), "yyyy/MM/dd");
-            Tournament *t = new Tournament(id, name, startDate);
-            ts.append(t);
-        }
-        emit getTournamentsFinished(ts);
-    }
-    else if(operation == Operation::GET_CLUB_PLAYERS)
-    {
-        auto players = obj["players"].toArray();
-        QList<Player*> ps;
-        foreach (const QJsonValue & v, players)
-        {
-            auto obj = v.toObject();
-            auto player = obj["player"].toObject();
-            auto info = player["info"].toObject();
-            PlayerInfo pi;
-            pi.setId(info["id"].toString().toInt());
-            pi.setNumber(info["assigned_number"].toString().toInt());
-            pi.setClubId(info["club_id"].toString().toInt());
-            pi.setName(info["name"].toString());
-            pi.setClubName(info["club_name"].toString());
-            pi.setNation(info["nation"].toString());
-            pi.setProposedPosition(info["proposed_position"].toString());
-            pi.setAssignedPosition(info["assigned_position"].toString());
-            pi.setAge(info["age"].toString().toInt());
-            pi.setIntCaps(info["int_caps"].toString().toInt());
-            pi.setIntGoals(info["int_goals"].toInt());
-            pi.setCurA(info["cur_a"].toString().toInt());
-            pi.setPotA(info["pot_a"].toString().toInt());
-            pi.setADiff(info["a_diff"].toString().toInt());
-            pi.setBased(info["based"].toString());
-            pi.setHomeRep(info["home_rep"].toString().toInt());
-            pi.setCurrentRep(info["current_rep"].toString().toInt());
-            pi.setWorldRep(info["world_rep"].toString().toInt());
-            auto s = info["date_of_birth"].toString();
-
-            QDate dob = QDate::fromString(s, "yyyy-MM-dd");
-            pi.setDob(dob);
-
-            //-------
-            PlayerAttributes pa;
-            auto attr = player["attributes"].toObject();
-            pa.m_acceleration = attr["acceleration"].toString().toInt();
-            pa.m_adaptability = attr["adaptability"].toString().toInt();
-            pa.m_aerialAbility = attr["aerial_ability"].toString().toInt();
-            pa.m_aggression = attr["aggression"].toString().toInt();
-            pa.m_agility = attr["agility"].toString().toInt();
-            pa.m_ambition = attr["ambition"].toString().toInt();
-            pa.m_anticipation = attr["anticipation"].toString().toInt();
-            pa.m_balance = attr["balance"].toString().toInt();
-            pa.m_bravery = attr["bravery"].toString().toInt();
-            pa.m_commandOfArea = attr["command_of_area"].toString().toInt();
-            pa.m_communication = attr["communication"].toString().toInt();
-            pa.m_composure = attr["composure"].toString().toInt();
-            pa.m_fr = attr["fr"].toString().toInt();
-            pa.m_concentration = attr["concentration"].toString().toInt();
-            pa.m_consistency = attr["consistency"].toString().toInt();
-            pa.m_controversy = attr["controversy"].toString().toInt();
-            pa.m_corners = attr["corners"].toString().toInt();
-            pa.m_vision = attr["vision"].toString().toInt();
-            pa.m_crossing = attr["crossing"].toString().toInt();
-            pa.m_decisions = attr["decisions"].toString().toInt();
-            pa.m_determination = attr["determination"].toString().toInt();
-            pa.m_dirtiness = attr["dirtiness"].toString().toInt();
-            pa.m_dribbling = attr["dribbling"].toString().toInt();
-            pa.m_eccentricity = attr["eccentricity"].toString().toInt();
-            pa.m_finishing = attr["finishing"].toString().toInt();
-            pa.m_firstTouch = attr["first_touch"].toString().toInt();
-            pa.m_flair = attr["flair"].toString().toInt();
-            pa.m_handling = attr["handling"].toString().toInt();
-            pa.m_heading = attr["heading"].toString().toInt();
-            pa.m_importantMatches = attr["important_matches"].toString().toInt();
-            pa.m_leadership = attr["leadership"].toString().toInt();
-            pa.m_injuryProneness = attr["injury_proneness"].toString().toInt();
-            pa.m_jumping = attr["jumping"].toString().toInt();
-            pa.m_kicking = attr["kicking"].toString().toInt();
-            pa.m_longShots = attr["long_shots"].toString().toInt();
-            pa.m_longThrows = attr["long_throws"].toString().toInt();
-            pa.m_loyalty = attr["loyalty"].toString().toInt();
-            pa.m_marking = attr["marking"].toString().toInt();
-            pa.m_naturalFitness = attr["natural_fitness"].toString().toInt();
-            pa.m_offTheBall = attr["off_the_ball"].toString().toInt();
-            pa.m_oneOnOnes = attr["one_on_ones"].toString().toInt();
-            pa.m_pace = attr["pace"].toString().toInt();
-            pa.m_passing = attr["passing"].toString().toInt();
-            pa.m_penalties = attr["penalties"].toString().toInt();
-            pa.m_positioning = attr["positioning"].toString().toInt();
-            pa.m_pressure = attr["pressure"].toString().toInt();
-            pa.m_professionalism = attr["professionalism"].toString().toInt();
-            pa.m_reflexes = attr["reflexes"].toString().toInt();
-            pa.m_rushingOut = attr["rushing_out"].toString().toInt();
-            pa.m_freeKicks = attr["free_kicks"].toString().toInt();
-            pa.m_sportsmanship = attr["sportsmanship"].toString().toInt();
-            pa.m_stamina = attr["stamina"].toString().toInt();
-            pa.m_strength = attr["strength"].toString().toInt();
-            pa.m_tackling = attr["tackling"].toString().toInt();
-            pa.m_teamwork = attr["teamwork"].toString().toInt();
-            pa.m_technique = attr["technique"].toString().toInt();
-            pa.m_temperament = attr["temperament"].toString().toInt();
-            pa.m_throwing = attr["throwing"].toString().toInt();
-            pa.m_versatility = attr["versatility"].toString().toInt();
-            pa.m_workRate = attr["work_rate"].toString().toInt();
-            pa.m_tendencyToPunch = attr["tendency_to_punch"].toString().toInt();
-            pa.m_leftFoot = attr["left_foot"].toString().toInt();
-            pa.m_rightFoot = attr["right_foot"].toString().toInt();
-
-
-            PlayerContracts pc;
-            auto contracts = player["contract"].toObject();
-            pc.setDivision(contracts["division"].toString());
-            pc.setSquad(contracts["squad"].toString());
-            pc.setSquadRep(contracts["squad_rep"].toString().toInt());
-            pc.setJoinedClub(contracts["joined_club"].toString());
-            pc.setContractEnd(contracts["contract_end"].toString());
-            pc.setLeavingOnBosman(contracts["leaving_on_bosman"].toString().toInt());
-            pc.setMinimumFee(contracts["minimum_fee"].toString().toInt());
-            pc.setRelegationFee(contracts["relegation_fee"].toString().toInt());
-            pc.setNonPromotionFee(contracts["non_promotion_fee"].toString().toInt());
-            pc.setSquadStatus(contracts["squad_status"].toString().toInt());
-            pc.setPerceivedSquadStatus(contracts["perceived_squad_status"].toString());
-            pc.setTransferStatus(contracts["transfer_status"].toString().toInt());
-            pc.setWage(contracts["wage"].toString().toInt());
-            pc.setValue(contracts["value"].toString().toInt());
-            pc.setSaleValue(contracts["sale_value"].toString().toInt());
-            pc.setHappinessLevel(contracts["happiness_level"].toString().toInt());
-
-            ps.append(new Player(nullptr, pi, pa, pc));
-        }
-        emit getPlayersFinished(ps);
-    }
-    else if(operation == Operation::GET_ALL_PLAYERS)
-    {
-        qDebug() << "Get all players...";
-        auto players = obj["players"].toArray();
-
-        QList<SearchingPoolPlayer*> ps;
-        foreach (const QJsonValue & v, players)
-        {
-            auto obj = v.toObject();
-            auto player = obj["player"].toObject();
-
-            SearchingPoolPlayer* p = new SearchingPoolPlayer();
-            p->setId(player["id"].toString().toInt());
-            p->setName(player["name"].toString());
-            p->setClubId(player["club_id"].toString().toInt());
-            p->setClubName(player["club_name"].toString());
-            p->setPosition(player["position"].toString());
-            p->setBased(player["based"].toString());
-            p->setValue(player["value"].toString().toInt());
-            p->setMinimumFee(player["minimum_fee"].toString().toInt());
-            p->setOfferId(player["offer_id"].toString().toInt());
-            ps.append(p);
-        }
-        qDebug() << "got all searching pool players: " << ps.count();
-        emit getAllPlayersFinished(ps);
-    }
-    else if(operation == Operation::GET_CLUB_DETAILS)
-    {
-        auto club    = obj["club"].toObject();            
-        Club *c = new Club();
-        c->setId(club["id"].toString().toInt());
-        c->setName(club["name"].toString());
-        c->setNation(club["nation"].toString());
-        c->setDivision(club["division"].toString());
-        c->setRep(club["rep"].toString().toInt());
-        c->setAvAge(club["av_age"].toString().toDouble());
-        c->setBalance(club["balance"].toString().toInt());
-        c->setTrnBudgetS(club["trn_budget_s"].toString().toInt());
-        c->setTrnBudgetR(club["trn_budget_r"].toString().toInt());
-        c->setWageBudget(club["wage_budget"].toString().toInt());
-        c->setStatus(club["status"].toString());
-        c->setTf(club["tf"].toString().toInt());
-        c->setYf(club["yf"].toString().toInt());
-        c->setYa(club["ya"].toString().toInt());
-        c->setStadCap(club["stad_cap"].toString().toInt());
-        c->setAvAtt(club["av_att"].toString().toInt());
-        c->setMinAtt(club["min_att"].toString().toInt());
-        c->setMaxAtt(club["max_att"].toString().toInt());
-        c->setRating(club["rating"].toString().toInt());
-        c->setPotRating(club["pot_rating"].toString().toDouble());
-        c->setDivisionId(club["division_id"].toString().toInt());
-        c->setForeground1(club["foreground1"].toString());
-        c->setBackground1(club["background1"].toString());
-        c->setForeground2(club["foreground2"].toString());
-        c->setBackground2(club["background2"].toString());
-        c->setForeground3(club["foreground3"].toString());
-        c->setForeground1Value(club["foreground1_value"].toString());
-        c->setBackground1Value(club["background1_value"].toString());
-        c->setForeground2Value(club["foreground2_value"].toString());
-        c->setBackground2Value(club["background2_value"].toString());
-        c->setForeground3Value(club["foreground3_value"].toString());
-        c->setBackground3(club["background3"].toString());
-        c->setFavourite1(club["favourite1"].toString());
-        c->setFavourite2(club["favourite2"].toString());
-        c->setFavourite3(club["favourite3"].toString());
-        c->setDislike1(club["dislike1"].toString());
-        c->setDislike2(club["dislike2"].toString());
-        c->setDislike3(club["dislike3"].toString());
-        c->setRival1(club["rival1"].toString());
-        c->setRival2(club["rival2"].toString());
-        c->setRival3(club["rival3"].toString());
-        c->setLeagueId(club["league_id"].toString().toInt());
-
-        emit getClubDetailsFinished(c);
-    }
-    else if(operation == Operation::GET_PLAYER_DETAILS)
-    {
-        auto player = obj["player"].toObject();
-        auto info = player["info"].toObject();
-        PlayerInfo pi;
-        pi.setId(info["id"].toString().toInt());
-        pi.setNumber(info["assigned_number"].toString().toInt());
-        pi.setClubId(info["club_id"].toString().toInt());
-        pi.setName(info["name"].toString());
-        pi.setClubName(info["club_name"].toString());
-        pi.setNation(info["nation"].toString());
-        pi.setProposedPosition(info["proposed_position"].toString());
-        pi.setAssignedPosition(info["assigned_position"].toString());
-        pi.setAge(info["age"].toString().toInt());
-        pi.setIntCaps(info["int_caps"].toString().toInt());
-        pi.setIntGoals(info["int_goals"].toInt());
-        pi.setCurA(info["cur_a"].toString().toInt());
-        pi.setPotA(info["pot_a"].toString().toInt());
-        pi.setADiff(info["a_diff"].toString().toInt());
-        pi.setBased(info["based"].toString());
-        pi.setHomeRep(info["home_rep"].toString().toInt());
-        pi.setCurrentRep(info["current_rep"].toString().toInt());
-        pi.setWorldRep(info["world_rep"].toString().toInt());
-        auto s = info["date_of_birth"].toString();
-        QDate dob = QDate::fromString(s, "yyyy-MM-dd");
-        pi.setOfferId(info["offer_id"].toString().toInt());
-        pi.setDob(dob);
-
-        //-------
-        PlayerAttributes pa;
-        auto attr = player["attributes"].toObject();
-        pa.m_acceleration = attr["acceleration"].toString().toInt();
-        pa.m_adaptability = attr["adaptability"].toString().toInt();
-        pa.m_aerialAbility = attr["aerial_ability"].toString().toInt();
-        pa.m_aggression = attr["aggression"].toString().toInt();
-        pa.m_agility = attr["agility"].toString().toInt();
-        pa.m_ambition = attr["ambition"].toString().toInt();
-        pa.m_anticipation = attr["anticipation"].toString().toInt();
-        pa.m_balance = attr["balance"].toString().toInt();
-        pa.m_bravery = attr["bravery"].toString().toInt();
-        pa.m_commandOfArea = attr["command_of_area"].toString().toInt();
-        pa.m_communication = attr["communication"].toString().toInt();
-        pa.m_composure = attr["composure"].toString().toInt();
-        pa.m_fr = attr["fr"].toString().toInt();
-        pa.m_concentration = attr["concentration"].toString().toInt();
-        pa.m_consistency = attr["consistency"].toString().toInt();
-        pa.m_controversy = attr["controversy"].toString().toInt();
-        pa.m_corners = attr["corners"].toString().toInt();
-        pa.m_vision = attr["vision"].toString().toInt();
-        pa.m_crossing = attr["crossing"].toString().toInt();
-        pa.m_decisions = attr["decisions"].toString().toInt();
-        pa.m_determination = attr["determination"].toString().toInt();
-        pa.m_dirtiness = attr["dirtiness"].toString().toInt();
-        pa.m_dribbling = attr["dribbling"].toString().toInt();
-        pa.m_eccentricity = attr["eccentricity"].toString().toInt();
-        pa.m_finishing = attr["finishing"].toString().toInt();
-        pa.m_firstTouch = attr["first_touch"].toString().toInt();
-        pa.m_flair = attr["flair"].toString().toInt();
-        pa.m_handling = attr["handling"].toString().toInt();
-        pa.m_heading = attr["heading"].toString().toInt();
-        pa.m_importantMatches = attr["important_matches"].toString().toInt();
-        pa.m_leadership = attr["leadership"].toString().toInt();
-        pa.m_injuryProneness = attr["injury_proneness"].toString().toInt();
-        pa.m_jumping = attr["jumping"].toString().toInt();
-        pa.m_kicking = attr["kicking"].toString().toInt();
-        pa.m_longShots = attr["long_shots"].toString().toInt();
-        pa.m_longThrows = attr["long_throws"].toString().toInt();
-        pa.m_loyalty = attr["loyalty"].toString().toInt();
-        pa.m_marking = attr["marking"].toString().toInt();
-        pa.m_naturalFitness = attr["natural_fitness"].toString().toInt();
-        pa.m_offTheBall = attr["off_the_ball"].toString().toInt();
-        pa.m_oneOnOnes = attr["one_on_ones"].toString().toInt();
-        pa.m_pace = attr["pace"].toString().toInt();
-        pa.m_passing = attr["passing"].toString().toInt();
-        pa.m_penalties = attr["penalties"].toString().toInt();
-        pa.m_positioning = attr["positioning"].toString().toInt();
-        pa.m_pressure = attr["pressure"].toString().toInt();
-        pa.m_professionalism = attr["professionalism"].toString().toInt();
-        pa.m_reflexes = attr["reflexes"].toString().toInt();
-        pa.m_rushingOut = attr["rushing_out"].toString().toInt();
-        pa.m_freeKicks = attr["free_kicks"].toString().toInt();
-        pa.m_sportsmanship = attr["sportsmanship"].toString().toInt();
-        pa.m_stamina = attr["stamina"].toString().toInt();
-        pa.m_strength = attr["strength"].toString().toInt();
-        pa.m_tackling = attr["tackling"].toString().toInt();
-        pa.m_teamwork = attr["teamwork"].toString().toInt();
-        pa.m_technique = attr["technique"].toString().toInt();
-        pa.m_temperament = attr["temperament"].toString().toInt();
-        pa.m_throwing = attr["throwing"].toString().toInt();
-        pa.m_versatility = attr["versatility"].toString().toInt();
-        pa.m_workRate = attr["work_rate"].toString().toInt();
-        pa.m_tendencyToPunch = attr["tendency_to_punch"].toString().toInt();
-        pa.m_leftFoot = attr["left_foot"].toString().toInt();
-        pa.m_rightFoot = attr["right_foot"].toString().toInt();
-
-
-        PlayerContracts pc;
-        auto contracts = player["contract"].toObject();
-        pc.setDivision(contracts["division"].toString());
-        pc.setSquad(contracts["squad"].toString());
-        pc.setSquadRep(contracts["squad_rep"].toString().toInt());
-        pc.setJoinedClub(contracts["joined_club"].toString());
-        pc.setContractEnd(contracts["contract_end"].toString());
-        pc.setLeavingOnBosman(contracts["leaving_on_bosman"].toString().toInt());
-        pc.setMinimumFee(contracts["minimum_fee"].toString().toInt());
-        pc.setRelegationFee(contracts["relegation_fee"].toString().toInt());
-        pc.setNonPromotionFee(contracts["non_promotion_fee"].toString().toInt());
-        pc.setSquadStatus(contracts["squad_status"].toString().toInt());
-        pc.setPerceivedSquadStatus(contracts["perceived_squad_status"].toString());
-        pc.setTransferStatus(contracts["transfer_status"].toString().toInt());
-        pc.setWage(contracts["wage"].toString().toInt());
-        pc.setValue(contracts["value"].toString().toInt());
-        pc.setSaleValue(contracts["sale_value"].toString().toInt());
-        pc.setHappinessLevel(contracts["happiness_level"].toString().toInt());
-
-        emit getPlayerDetailsFinished(new Player(nullptr, pi, pa, pc));
-    }
-    else if(operation == Operation::GET_LEAGUE_CLUBS || operation == Operation::GET_CLUBS_BY_LEAGUE || operation == Operation::GET_CLUBS)
-    {
-        auto clubs = obj["clubs"].toArray();
-        QVector<Club*> cs;
-        foreach (const QJsonValue & v, clubs)
-        {
-            auto obj = v.toObject();
-            auto club = obj["club"].toObject();
-            Club *c = new Club();
-            c->setId(club["id"].toString().toInt());
-            c->setName(club["name"].toString());
-            c->setNation(club["nation"].toString());
-            c->setDivision(club["division"].toString());
-            c->setRep(club["rep"].toString().toInt());
-            c->setAvAge(club["av_age"].toString().toDouble());
-            c->setBalance(club["balance"].toString().toInt());
-            c->setTrnBudgetS(club["trn_budget_s"].toString().toInt());
-            c->setTrnBudgetR(club["trn_budget_r"].toString().toInt());
-            c->setWageBudget(club["wage_budget"].toString().toInt());
-            c->setStatus(club["status"].toString());
-            c->setTf(club["tf"].toString().toInt());
-            c->setYf(club["yf"].toString().toInt());
-            c->setYa(club["ya"].toString().toInt());
-            c->setStadCap(club["stad_cap"].toString().toInt());
-            c->setAvAtt(club["av_att"].toString().toInt());
-            c->setMinAtt(club["min_att"].toString().toInt());
-            c->setMaxAtt(club["max_att"].toString().toInt());
-            c->setRating(club["rating"].toString().toInt());
-            c->setPotRating(club["pot_rating"].toString().toDouble());
-            c->setDivisionId(club["division_id"].toString().toInt());
-            c->setForeground1(club["foreground1"].toString());
-            c->setBackground1(club["background1"].toString());
-            c->setForeground2(club["foreground2"].toString());
-            c->setBackground2(club["background2"].toString());
-            c->setForeground3(club["foreground3"].toString());
-            c->setForeground1Value(club["foreground1_value"].toString());
-            c->setBackground1Value(club["background1_value"].toString());
-            c->setForeground2Value(club["foreground2_value"].toString());
-            c->setBackground2Value(club["background2_value"].toString());
-            c->setForeground3Value(club["foreground3_value"].toString());
-            c->setBackground3(club["background3"].toString());
-            c->setFavourite1(club["favourite1"].toString());
-            c->setFavourite2(club["favourite2"].toString());
-            c->setFavourite3(club["favourite3"].toString());
-            c->setDislike1(club["dislike1"].toString());
-            c->setDislike2(club["dislike2"].toString());
-            c->setDislike3(club["dislike3"].toString());
-            c->setRival1(club["rival1"].toString());
-            c->setRival2(club["rival2"].toString());
-            c->setRival3(club["rival3"].toString());
-            c->setOwnerId(club["owner_id"].toString().toInt());
-            c->setOwnerName(club["username"].toString());
-            c->setLeagueId(club["league_id"].toString().toInt());
-
-            cs.append(c);
-        }
-
-        emit getClubsFinished(cs);
-    }
-    else if(operation == Operation::GET_NOTIFICATIONS) {
-        QList<Notification *> ns;
-        auto nots = obj["notifications"].toArray();
-        foreach (const QJsonValue & n, nots)
-        {
-            auto obj = n.toObject();
-            auto id  = obj["id"].toString().toInt();
-            auto date = QDate::fromString(obj["date"].toString(), "yyyy/MM/dd");
-            auto status = obj["status"].toString().toInt();
-            auto oci = obj["owner_club_id"].toString().toInt();
-            auto ocn = obj["owner_club_name"].toString();
-            auto bci = obj["bidding_club_id"].toString().toInt();
-            auto bcn = obj["bidding_club_name"].toString();
-            auto* notification = new Notification(nullptr, id, date, status, oci, ocn, bci, bcn);
-            ns.append(notification);
-        }
-
-        emit  getNotificationsFinished(ns);
-    }
-    else if(operation == Operation::GET_MATCHES) {
-        QList<Match*> ms;
-        auto matches= obj["matches"].toArray();
-        foreach (const QJsonValue & v, matches)
-        {
-            auto obj = v.toObject();
-            auto match = obj["Match"].toObject();
-            auto id = match["id"].toString().toInt();
-            auto homeClubId = match["home_club_id"].toString().toInt();
-            auto awayClubId = match["away_club_id"].toString().toInt();
-            auto date = QDate::fromString(match["date"].toString(), "yyyy-MM-dd");
-            auto time = QTime::fromString(match["time"].toString(), "hh:mm:ss");
-
-            auto homeClub = obj["HomeClub"].toObject();
-            auto homeName = homeClub["name"].toString();
-
-            auto awayClub = obj["AwayClub"].toObject();
-            auto awayName = awayClub["name"].toString();
-            auto m = new Match();
-            m->setId(id);
-            m->setDate(date);
-            m->setTime(time);
-            m->setAwayClubId(awayClubId);
-            m->setAwayClubName(awayName);
-            m->setHomeClubId(homeClubId);
-            m->setHomeClubName(homeName);
-            ms.append(m);
-        }
-
-        emit getMatchesFinished(ms);
-    }
-    else if(operation == Operation::GET_USERS) {
-        QList<SimpleUser*> ous;
-        auto users = obj["users"].toArray();
-        foreach (const QJsonValue & v, users)
-        {
-            auto user = v.toObject();
-            auto userId = user["id"].toString().toInt();
-            auto username = user["username"].toString();
-            auto firstName = user["first_name"].toString();
-            auto lastName = user["last_name"].toString();
-            auto clubId = user["club_id"].toString().toInt();
-            auto clubName = user["club_name"].toString();
-            auto online = user["status"].toBool();
-
-            auto ou = new SimpleUser();
-            ou->setUserId(userId);
-            ou->setUsername(username);
-            ou->setFirstName(firstName);
-            ou->setLastName(lastName);
-            ou->setClubId(clubId);
-            ou->setClubName(clubName);
-            ou->setOnline(online);
-            ous.append(ou);
-        }
-
-        emit getUsersFinished(ous);
-    }
-    else if(operation == Operation::INVITE_TO_MATCH || operation == Operation::CHANGE_OFFER_DETAILS || operation == Operation::ACCEPT_OFFER ||
-            operation == Operation::ACCEPT_INVITATION || operation == Operation::DECLINE_INVITATION || operation == Operation::CREATE_OFFER_CONTRACT) {
-        auto message = obj["message"].toString();
-        emit messageReceived(message);
-    }
-    else if(operation == Operation::GET_INVITATIONS) {
-        QList<Invitation*> is;
-        auto invitations = obj["invitations"].toArray();
-        foreach (const QJsonValue & v, invitations)
-        {
-            auto obj = v.toObject();
-            auto invitation = obj["Invitation"].toObject();
-            auto id = invitation["id"].toString().toInt();
-            auto homeUserId = invitation["home_user_id"].toString().toInt();
-            auto awayUserId = invitation["away_user_id"].toString().toInt();
-            auto homeClubId = invitation["home_user_club_id"].toString().toInt();
-            auto awayClubId = invitation["away_user_club_id"].toString().toInt();
-            auto active     = invitation["status"].toString().toLower() == "active";
-            auto date = QDateTime::fromString(invitation["created_time"].toString(), "yyyy-MM-dd hh:mm:ss");
-
-            auto homeClub = obj["HomeClub"].toObject();
-            auto homeName = homeClub["name"].toString();
-
-            auto awayClub = obj["AwayClub"].toObject();
-            auto awayName = awayClub["name"].toString();
-
-            auto i = new Invitation();
-            i->setId(id);
-            i->setDate(date);
-            i->setHomeUserId(homeUserId);
-            i->setAwayUserId(awayUserId);
-            i->setAwayClubId(awayClubId);
-            i->setAwayClubName(awayName);
-            i->setHomeClubId(homeClubId);
-            i->setHomeClubName(homeName);
-            i->setActive(active);
-            is.append(i);
-        }
-        emit getInvitationsFinished(is);
-    }
-    else if(operation == Operation::CREATE_OFFER) {
-        //{"status":true,"offer_id":"44","player_id":"132202","message":"The club has remaining 22832950 in transfer budget","action_name":"create_offer"}
-        auto message = "Offer submitted successfully";   //obj["message"].toString();
-        auto offer_id = obj["offer_id"].toString().toInt();
-        auto player_id = obj["player_id"].toString().toInt();
-        auto m = obj["message"].toString();
-        emit submitOfferFinished(offer_id, player_id, message);
-    }
-    else if(operation == Operation::GET_OFFER) {
-        /*
-        {"status":true,"offer":
-        {"Offer":
-        {"id":"5","about_player_id":"14044150","bidding_club_id":"1736",
-        "bidding_user_id":"8","owner_club_id":"1139",
-        "owner_user_id":"15","type":"Transfer",
-        "fee":"95000","minimum_fee":"70000"},
-
-        "BidClub":{"id":"1736","name":"R. Madrid"},
-        "OwnerClub":{"id":"1139","name":"Juventus"}
-        },
-        "action_name":"GET_OFFER"}
-        */
-        auto trans = obj["offer"].toObject();
-        auto offer = trans["Offer"].toObject();
-        auto offer_id = offer["id"].toString().toInt();
-        auto offer_type = offer["type"].toString().toLower();
-        if(offer_type == "transfer") {
-            auto player_id = offer["about_player_id"].toString().toInt();
-            auto bidding_club_id = offer["bidding_club_id"].toString().toInt();
-            auto fee = offer["fee"].toString().toInt();
-            auto minimum_fee = offer["minimum_fee"].toString().toInt();
-            auto owner_club_id = offer["owner_club_id"].toString().toInt();
-            emit getTransferOfferFinished(offer_id, owner_club_id, bidding_club_id, player_id, fee, minimum_fee);
-        }
-        else {
-        }
-    }
-    else if(operation == Operation::GET_OFFER_WITH_PLAYER_DETAILS) {
-        auto trans = obj["offer"].toObject();
-
-        auto bidClub = trans["BidClub"].toObject();
-        auto bci = bidClub["id"].toString().toInt();
-        auto bcn = bidClub["name"].toString();
-
-        auto ownClub = trans["OwnerClub"].toObject();
-        auto oci = ownClub["id"].toString().toInt();
-        auto ocn = ownClub["name"].toString();
-
-        auto player = trans["Player"].toObject();
-        auto info = player["info"].toObject();
-        PlayerInfo pi;
-        pi.setId(info["id"].toString().toInt());
-        pi.setNumber(info["assigned_number"].toString().toInt());
-        pi.setClubId(info["club_id"].toString().toInt());
-        pi.setName(info["name"].toString());
-        pi.setClubName(info["club_name"].toString());
-        pi.setNation(info["nation"].toString());
-        pi.setProposedPosition(info["proposed_position"].toString());
-        pi.setAssignedPosition(info["assigned_position"].toString());
-        pi.setAge(info["age"].toString().toInt());
-        pi.setIntCaps(info["int_caps"].toString().toInt());
-        pi.setIntGoals(info["int_goals"].toInt());
-        pi.setCurA(info["cur_a"].toString().toInt());
-        pi.setPotA(info["pot_a"].toString().toInt());
-        pi.setADiff(info["a_diff"].toString().toInt());
-        pi.setBased(info["based"].toString());
-        pi.setHomeRep(info["home_rep"].toString().toInt());
-        pi.setCurrentRep(info["current_rep"].toString().toInt());
-        pi.setWorldRep(info["world_rep"].toString().toInt());
-        auto s = info["date_of_birth"].toString();
-        QDate dob = QDate::fromString(s, "yyyy-MM-dd");
-        pi.setOfferId(info["offer_id"].toString().toInt());
-        pi.setDob(dob);
-
-        //-------
-        PlayerAttributes pa;
-        auto attr = player["attributes"].toObject();
-        pa.m_acceleration = attr["acceleration"].toString().toInt();
-        pa.m_adaptability = attr["adaptability"].toString().toInt();
-        pa.m_aerialAbility = attr["aerial_ability"].toString().toInt();
-        pa.m_aggression = attr["aggression"].toString().toInt();
-        pa.m_agility = attr["agility"].toString().toInt();
-        pa.m_ambition = attr["ambition"].toString().toInt();
-        pa.m_anticipation = attr["anticipation"].toString().toInt();
-        pa.m_balance = attr["balance"].toString().toInt();
-        pa.m_bravery = attr["bravery"].toString().toInt();
-        pa.m_commandOfArea = attr["command_of_area"].toString().toInt();
-        pa.m_communication = attr["communication"].toString().toInt();
-        pa.m_composure = attr["composure"].toString().toInt();
-        pa.m_fr = attr["fr"].toString().toInt();
-        pa.m_concentration = attr["concentration"].toString().toInt();
-        pa.m_consistency = attr["consistency"].toString().toInt();
-        pa.m_controversy = attr["controversy"].toString().toInt();
-        pa.m_corners = attr["corners"].toString().toInt();
-        pa.m_vision = attr["vision"].toString().toInt();
-        pa.m_crossing = attr["crossing"].toString().toInt();
-        pa.m_decisions = attr["decisions"].toString().toInt();
-        pa.m_determination = attr["determination"].toString().toInt();
-        pa.m_dirtiness = attr["dirtiness"].toString().toInt();
-        pa.m_dribbling = attr["dribbling"].toString().toInt();
-        pa.m_eccentricity = attr["eccentricity"].toString().toInt();
-        pa.m_finishing = attr["finishing"].toString().toInt();
-        pa.m_firstTouch = attr["first_touch"].toString().toInt();
-        pa.m_flair = attr["flair"].toString().toInt();
-        pa.m_handling = attr["handling"].toString().toInt();
-        pa.m_heading = attr["heading"].toString().toInt();
-        pa.m_importantMatches = attr["important_matches"].toString().toInt();
-        pa.m_leadership = attr["leadership"].toString().toInt();
-        pa.m_injuryProneness = attr["injury_proneness"].toString().toInt();
-        pa.m_jumping = attr["jumping"].toString().toInt();
-        pa.m_kicking = attr["kicking"].toString().toInt();
-        pa.m_longShots = attr["long_shots"].toString().toInt();
-        pa.m_longThrows = attr["long_throws"].toString().toInt();
-        pa.m_loyalty = attr["loyalty"].toString().toInt();
-        pa.m_marking = attr["marking"].toString().toInt();
-        pa.m_naturalFitness = attr["natural_fitness"].toString().toInt();
-        pa.m_offTheBall = attr["off_the_ball"].toString().toInt();
-        pa.m_oneOnOnes = attr["one_on_ones"].toString().toInt();
-        pa.m_pace = attr["pace"].toString().toInt();
-        pa.m_passing = attr["passing"].toString().toInt();
-        pa.m_penalties = attr["penalties"].toString().toInt();
-        pa.m_positioning = attr["positioning"].toString().toInt();
-        pa.m_pressure = attr["pressure"].toString().toInt();
-        pa.m_professionalism = attr["professionalism"].toString().toInt();
-        pa.m_reflexes = attr["reflexes"].toString().toInt();
-        pa.m_rushingOut = attr["rushing_out"].toString().toInt();
-        pa.m_freeKicks = attr["free_kicks"].toString().toInt();
-        pa.m_sportsmanship = attr["sportsmanship"].toString().toInt();
-        pa.m_stamina = attr["stamina"].toString().toInt();
-        pa.m_strength = attr["strength"].toString().toInt();
-        pa.m_tackling = attr["tackling"].toString().toInt();
-        pa.m_teamwork = attr["teamwork"].toString().toInt();
-        pa.m_technique = attr["technique"].toString().toInt();
-        pa.m_temperament = attr["temperament"].toString().toInt();
-        pa.m_throwing = attr["throwing"].toString().toInt();
-        pa.m_versatility = attr["versatility"].toString().toInt();
-        pa.m_workRate = attr["work_rate"].toString().toInt();
-        pa.m_tendencyToPunch = attr["tendency_to_punch"].toString().toInt();
-        pa.m_leftFoot = attr["left_foot"].toString().toInt();
-        pa.m_rightFoot = attr["right_foot"].toString().toInt();
-
-
-        PlayerContracts pc;
-        auto contracts = player["contract"].toObject();
-        pc.setDivision(contracts["division"].toString());
-        pc.setSquad(contracts["squad"].toString());
-        pc.setSquadRep(contracts["squad_rep"].toString().toInt());
-        pc.setJoinedClub(contracts["joined_club"].toString());
-        pc.setContractEnd(contracts["contract_end"].toString());
-        pc.setLeavingOnBosman(contracts["leaving_on_bosman"].toString().toInt());
-        pc.setMinimumFee(contracts["minimum_fee"].toString().toInt());
-        pc.setRelegationFee(contracts["relegation_fee"].toString().toInt());
-        pc.setNonPromotionFee(contracts["non_promotion_fee"].toString().toInt());
-        pc.setSquadStatus(contracts["squad_status"].toString().toInt());
-        pc.setPerceivedSquadStatus(contracts["perceived_squad_status"].toString());
-        pc.setTransferStatus(contracts["transfer_status"].toString().toInt());
-        pc.setWage(contracts["wage"].toString().toInt());
-        pc.setValue(contracts["value"].toString().toInt());
-        pc.setSaleValue(contracts["sale_value"].toString().toInt());
-        pc.setHappinessLevel(contracts["happiness_level"].toString().toInt());
-
-        auto pp = new Player(nullptr, pi, pa, pc);
-
-        auto offer = trans["Offer"].toObject();
-        auto offer_id = offer["id"].toString().toInt();
-        auto offer_type = offer["type"].toString().toLower();
-        if(offer_type == "transfer") {
-            auto fee = offer["fee"].toString().toInt();
-            emit getTransferOfferWithPlayerDetailsFinished(offer_id, pp, oci, ocn, bci, bcn, fee);
-        }
-        else {
-            auto fee = offer["fee"].toString().toInt();
-            auto future_fee = offer["futureFee"].toString().toInt();
-            auto wages = offer["wages"].toString().toInt();
-            auto duration = offer["duration"].toString();
-            auto duration_type = offer["duration_type"].toString();
-            auto can_play_in_cup = offer["canPlayInCup"].toString() == "true";
-            auto can_play_against = offer["canPlayAgainst"].toString() == "true";
-            auto can_be_recalled = offer["canBeRecalled"].toString() == "true";
-            emit getLoanOfferWithPlayerDetailsFinished(offer_id, pp, oci, ocn, bci, bcn,
-                        fee, future_fee, wages, duration, duration_type, can_play_in_cup, can_play_against, can_be_recalled);
-
-        }
-    }
-    else if(operation == Operation::WITHDRAW_OFFER) {
-        auto offer_id = obj["offer_id"].toString().toInt();
-        auto player_id = obj["player_id"].toString().toInt();
-        auto message = obj["message"].toString();
-        emit withdrawOfferFinished(offer_id, player_id, message);
-    }
-    else if(operation == Operation::GET_NEWS) {
-        QList<News*> l;
-        auto array = obj["news"].toArray();
-        foreach (const QJsonValue & a, array)
-        {
-            auto obj = a.toObject();
-            auto news = obj;    //["News"].toObject();
-            auto id = news["news_id"].toString().toInt();
-            auto date = QDateTime::fromString(news["date_time"].toString(), "yyyy-MM-dd hh:mm:ss");
-            auto news_type = news["message_type"].toString();
-            auto brief = news["brief"].toString();
-            auto message = news["full_message"].toString();
-            auto read = news["message_read_status"].toString().toLower() == "read";
-
-            auto *n = new News();
-            n->setId(id);
-            n->setNewsType(news_type);
-            n->setDateTime(date);
-            n->setBrief(brief);
-            n->setMessage(message);
-            n->setRead(read);
-
-            if(n->newsType() == News::NewsType::Offer)
-            {
-                auto role = news["role"].toString();
-                auto offer_id = news["offer_id"].toString().toInt();
-                auto bci = news["bidding_club_id"].toString().toInt();
-                auto oci = news["owner_club_id"].toString().toInt();
-                auto stage = news["stage"].toString();
-                auto active = news["status"].toString().toLower() == "active";
-                auto offerType = news["offer_type"].toString();
-                n->setRole(role);
-                n->setOfferId(offer_id);
-                n->setBiddingClubId(bci);
-                n->setOwnerClubId(oci);
-                n->setActive(active);
-                n->setStage(stage);
-                n->setOfferType(offerType);
-            }
-
-            l.append(n);
-        }
-        emit getNewsFinished(l);
-    }
 }
 
 void APIConnection::signIn(const QString& username, const QString& password)
@@ -870,7 +53,7 @@ void APIConnection::updateQuizPass(const QString &token, bool success)
 void APIConnection::updateUser(User *user)
 {
     m_operationName["update_user_details"] = Operation::UPDATE_USER_DETAILS;
-    auto url = QString("%1/?action=update_user_details&token=%2&first_name=%3&last_name=%4&nick_name=%5&city=%6&club_id=%7&club_name=%8&fav_formation=%9")
+    auto url = QString("%1/?action=update_user_details&token=%2&first_name=%3&last_name=%4&nick_name=%5&city=%6&club_id=%7&club_name=%8&fav_formation=%9&user_portrait=%10")
             .arg(s_apiUrl)
             .arg(user->token())
             .arg(user->firstName())
@@ -879,7 +62,8 @@ void APIConnection::updateUser(User *user)
             .arg(user->city())
             .arg(user->clubId())
             .arg(user->clubName())
-            .arg(user->favFormation());
+            .arg(user->favFormation())
+            .arg (user->UserPortrait ());
     sendRequest(url);
 }
 
@@ -892,8 +76,11 @@ void APIConnection::getTournaments(const QString &token)
 
 void APIConnection::getClubPlayers(const QString &token, int club_id)
 {
-    m_operationName["get_club_players"] = Operation::GET_CLUB_PLAYERS;
-    auto url = QString("%1/?action=get_club_players&token=%2&club_id=%3").arg(s_apiUrl).arg(token).arg(club_id);
+    //    m_operationName["get_club_players"] = Operation::GET_CLUB_PLAYERS;
+    //    auto url = QString("%1/?action=get_club_players&token=%2&club_id=%3").arg(s_apiUrl).arg(token).arg(club_id);
+    //http://173.208.200.82/?action=get_club_players_by_sort&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&club_id=23172080
+    m_operationName["get_club_players_by_sort"] = Operation::GET_CLUB_PLAYERS;
+    auto url = QString("%1/?action=get_club_players_by_sort&token=%2&club_id=%3").arg(s_apiUrl).arg(token).arg(club_id);
     sendRequest(url);
 }
 
@@ -946,6 +133,15 @@ void APIConnection::getMatches(const QString &token)
     auto url = QString("%1/?action=get_all_fixtures&token=%2").arg(s_apiUrl).arg(token);
 
     sendRequest(url);
+}
+
+void APIConnection::upDateUserStatus(const QString &token,const QString &userName,const QString &userStatus)
+{
+    //TODO
+    //    m_operationName["update_user_status"] = Operation::UPDATE_USER_STATUS;
+    //    auto url = QString("%1/?action=update_user_status&token=%2&%3=%4").arg(s_apiUrl).arg(token);
+
+    //    sendRequest(url);
 }
 
 void APIConnection::sendRequest(const QString &url)
@@ -1199,5 +395,198 @@ void APIConnection::terminateOfferContract(const QString &token, int offer_id)
     //http://173.208.200.82/?action=terminate_transfer_contract_offer&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzI4XzE1NTI1ODU5NTI=&offer_id=92
     m_operationName["terminate_transfer_contract_offer"] = Operation::TERMINATE_OFFER_CONTRACT;
     auto url = QString("%1/?action=terminate_transfer_contract_offer&token=%2&offer_id=%3").arg(s_apiUrl).arg(token).arg(offer_id);
+    sendRequest(url);
+}
+/////////////
+void APIConnection::getAnnouncement(const QString &token)
+{
+    //http://173.208.200.82/?action=get_announcements&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf
+    m_operationName["get_announcements"] = Operation::Get_Announcement;
+    auto url = QString("%1/?action=get_announcements&token=%2").arg(s_apiUrl).arg(token);
+    sendRequest(url);
+}
+
+void APIConnection::sendResign(const QString &token, int user_id)
+{
+    m_operationName["resign_user"] = Operation::Get_Resign;
+    auto url = QString("%1/?action=resign_user&token=%2&user_id=%3").arg(s_apiUrl).arg(token).arg (user_id);
+    sendRequest(url);
+}
+
+void APIConnection::getPublicNews(const QString &token)
+{
+    m_operationName["get_public_news"] = Operation::Get_Public_News;
+    //http://173.208.200.82/?action=get_notifications&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&club_id=1736
+    auto url = QString("%1/?action=get_public_news&token=%2").arg(s_apiUrl).arg(token);
+    sendRequest(url);
+}
+
+void APIConnection::sendRetire(const QString &token, int user_id)
+{
+    m_operationName["retire_user"] = Operation::Get_Retire;
+    auto url = QString("%1/?action=retire_user&token=%2&user_id=%3").arg(s_apiUrl).arg(token).arg (user_id);
+    sendRequest(url);
+}
+
+void APIConnection::updatePublicNewsReadStatus(const QString &token, int news_id)
+{
+    m_operationName["update_pubic_news_read"] = Operation::Send_Message;
+    //http://173.208.200.82/?action=update_message_status&news_id=84&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzEzXzE1NTA4MjE3MTk=
+    auto url = QString("%1/?action=update_pubic_news_read&token=%2&news_id=%3").arg(s_apiUrl).arg(token).arg(news_id);
+    sendRequest(url);
+}
+
+void APIConnection::increasePlayerRate(const QString &token, int player_id)
+{
+    m_operationName["increase_player_rate"] = Operation::Send_Message;//http://173.208.200.82/?action=increase_player_like_rate
+    //http://173.208.200.82/?action=update_message_status&news_id=84&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzEzXzE1NTA4MjE3MTk=
+    auto url = QString("%1/?action=increase_player_like_rate&token=%2&player_id=%3").arg(s_apiUrl).arg(token).arg(player_id);
+    sendRequest(url);
+}
+
+void APIConnection::decreasePlayerRate(const QString &token, int player_id)
+{
+    m_operationName["decrease_player_rate"] = Operation::Send_Message;//increase_player_dislike_rate
+    //http://173.208.200.82/?action=update_message_status&news_id=84&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzEzXzE1NTA4MjE3MTk=
+    auto url = QString("%1/?action=increase_player_dislike_rate&token=%2&player_id=%3").arg(s_apiUrl).arg(token).arg(player_id);
+    sendRequest(url);
+}
+
+void APIConnection::likeplayerComment(const QString &token, int player_id, int commentID)
+{
+    qDebug()<<"like player comment";
+    m_operationName["like_player_announcement"] = Operation::Send_Message;
+    //http://173.208.200.82/?action=increase_comment_rate&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&comment_id=8
+    auto url = QString("%1/?action=increase_comment_rate&token=%2&&comment_id=%3").arg(s_apiUrl)
+            .arg(token).arg(commentID);//.arg(player_id)
+    sendRequest(url);
+}
+
+void APIConnection::setPlayerComment(const QString &token, int player_id, const QString &comment)
+{
+    m_operationName["create_player_comment"] = Operation::Send_Message;
+    //http://173.208.200.82/?action=create_player_comment&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&player_id=11252&player_comment=comment2
+    auto url = QString("%1/?action=create_player_comment&token=%2&player_id=%3&player_comment=%4").arg(s_apiUrl)
+            .arg(token).arg(player_id).arg(comment);
+    sendRequest(url);
+}
+
+void APIConnection::getPlayerComment(const QString &token, int player_id)
+{
+    qDebug()<<"get player comment";
+    m_operationName["get_player_comment"] = Operation::Get_Player_Comment;
+    //http://173.208.200.82/?action=update_message_status&news_id=84&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzEzXzE1NTA4MjE3MTk=
+    auto url = QString("%1/?action=get_player_comment&token=%2&player_id=%3").arg(s_apiUrl)
+            .arg(token).arg(player_id);
+    sendRequest(url);
+}
+
+void APIConnection::getBulletText(const QString &token)
+{
+    m_operationName["get_bullet"] = Operation::Get_Bullet;
+    //http://173.208.200.82/?action=update_message_status&news_id=84&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzEzXzE1NTA4MjE3MTk=
+    auto url = QString("%1/?action=get_bullet&token=%2").arg(s_apiUrl).arg(token);
+    sendRequest(url);
+}
+
+void APIConnection::createBullet(const QString &token, int user_id, const QString &comment)
+{
+    m_operationName["create_bullet"] = Operation::Send_Message;
+    //http://173.208.200.82/?action=update_message_status&news_id=84&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzEzXzE1NTA4MjE3MTk=
+    auto url = QString("%1/?action=create_bullet&token=%2&user_id=%3&comment=%4").arg(s_apiUrl)
+            .arg(token).arg(user_id).arg(comment);
+    sendRequest(url);
+}
+
+void APIConnection::getGameClock(const QString &token)
+{
+    //http://173.208.200.82/?action=get_game_clock&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf
+    m_operationName["get_game_clock"] = Operation::Get_Game_Clock;
+    auto url = QString("%1/?action=get_game_clock&token=%2").arg(s_apiUrl).arg(token);
+    sendRequest(url);
+}
+
+void APIConnection::likeUserComment(const QString &token, int user_id, int commentID)
+{
+    qDebug()<<"like user comment";
+    m_operationName["like_user_announcement"] = Operation::Send_Message;
+    //http://173.208.200.82/?action=increase_comment_rate&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&comment_id=8
+    auto url = QString("%1/?action=increase_user_comment_rate&token=%2&&comment_id=%3").arg(s_apiUrl)
+            .arg(token).arg(commentID);//.arg(player_id)
+    sendRequest(url);
+}
+
+void APIConnection::setUserComment(const QString &token, int user_id, const QString &comment)
+{
+    m_operationName["create_user_comment"] = Operation::Send_Message;
+    //http://173.208.200.82/?action=create_player_comment&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&player_id=11252&player_comment=comment2
+    auto url = QString("%1/?action=create_user_comment&token=%2&user_id=%3&comment=%4").arg(s_apiUrl)
+            .arg(token).arg(user_id).arg(comment);
+    sendRequest(url);
+}
+
+void APIConnection::getUserComment(const QString &token, int user_id)
+{
+    qDebug()<<"get user comment";
+    m_operationName["get_user_comment"] = Operation::Get_User_Comment;
+    //http://173.208.200.82/?action=update_message_status&news_id=84&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzEzXzE1NTA4MjE3MTk=
+    auto url = QString("%1/?action=get_user_comment&token=%2&user_id=%3").arg(s_apiUrl).arg(token).arg(user_id);
+    sendRequest(url);
+}
+
+void APIConnection::setPlayerValue(const QString &token, int player_id, int value)
+{
+    m_operationName["set_player_value"] = Operation::Send_Message;
+    auto url = QString("%1/?action=set_player_value&token=%2&player_id=%3&value=%4").arg(s_apiUrl).arg(token).arg(player_id).arg(value);
+    sendRequest(url);
+}
+
+void APIConnection::createTransferOfferContract(const QString &token, int offer_id, QString squad_status,
+                                                QString job,int wage,QString contract_type, int contract_length, int signing_on_fee)
+{
+    m_operationName["create_transfer_offer_contract"] = Operation::Create_Transfer_Offer_Contract;
+    auto url = QString("%1/?action=create_transfer_offer_contract&token=%2&offer_id=%3&squad_status=%4"
+                       "&job=%5&wage=%6&contract_type=%7&contract_length=%8&signing_on_fee=%9")
+            .arg(s_apiUrl).arg(token).arg(offer_id).arg(squad_status).arg(job).arg(wage).arg(contract_type)
+            .arg(contract_length).arg(signing_on_fee);
+    sendRequest(url);
+}
+
+void APIConnection::acceptTransferContractOffer(const QString &token, int offer_id)
+{
+    m_operationName["accept_transfer_contract_offer"] = Operation::Send_Message;
+    auto url = QString("%1/?action=accept_transfer_contract_offer&token=%2&offer_id=%3").arg(s_apiUrl).arg(token).arg(offer_id);
+    sendRequest(url);
+}
+
+void APIConnection::terminateTransferContractOffer(const QString &token, int offer_id)
+{
+    m_operationName["terminate_transfer_contract_offer"] = Operation::Send_Message;
+    auto url = QString("%1/?action=terminate_transfer_contract_offer&token=%2&offer_id=%3").arg(s_apiUrl).arg(token).arg(offer_id);
+    sendRequest(url);
+}
+
+void APIConnection::createFreeOfferContract(const QString &token, int player_id,int bidding_club_id, QString squad_status,
+                                            int wage,QString contract_type, int contract_length, int signing_on_fee)
+{
+    m_operationName["create_free_offer_contract"] = Operation::Send_Message;
+    auto url = QString("%1/?action=create_free_offer_contract&token=%2&player_id=%3&bidding_club_id=%4"
+                       "&squad_status=%5&wage=%6&contract_type=%7&contract_length=%8&signing_on_fee=%9")
+            .arg(s_apiUrl).arg(token).arg(player_id).arg(bidding_club_id).arg(squad_status).arg(wage)
+            .arg(contract_type).arg(contract_length).arg(signing_on_fee);
+    sendRequest(url);
+}
+
+void APIConnection::acceptFreePlayerContractOffer(const QString &token, int contract_id)
+{
+    m_operationName["accept_free_player_contract_offer"] = Operation::Send_Message;
+    auto url = QString("%1/?action=accept_free_player_contract_offer&token=%2&offer_id=%3").arg(s_apiUrl).arg(token).arg(contract_id);
+    sendRequest(url);
+}
+
+void APIConnection::terminateFreePlayerContractOffer(const QString &token, int contract_id)
+{
+    m_operationName["terminate_free_player_contract_offer"] = Operation::Send_Message;
+    auto url = QString("%1/?terminate_free_player_contract_offer&token=%2&offer_id=%3").arg(s_apiUrl).arg(token).arg(contract_id);
     sendRequest(url);
 }

@@ -71,6 +71,7 @@ class SimpleUserModel : public QAbstractListModel
 
 
 public:
+
     explicit SimpleUserModel(QObject *parent = nullptr);
 
     // Basic functionality:

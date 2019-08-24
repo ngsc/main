@@ -25,6 +25,8 @@ Rectangle{
         listview.currentIndex = value
     }
 
+
+
     Rectangle {
 
         width: parent.width-30; height: parent.height - 40
@@ -112,7 +114,7 @@ Rectangle{
                                 visible: false
                             }
                             Text {
-                                text: "  "+name ;
+                                text: qsTr("  "+name)
                                 color: textcolor
                                 z : listview.z
                                 MouseArea {

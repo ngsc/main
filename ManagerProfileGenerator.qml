@@ -72,14 +72,44 @@ Rectangle
                     return;
                 }
 
-                managerUser.clubId = root.selectedClubId;
-                managerUser.clubName = root.selectedClubName
+                if(managerUser.userPortrait.trim().length === 0) {
+                    alerts.show(qsTr("Please select your favorite portrait"), "red");
+                    return;
+                }
 
-                APIConnection.updateUser(managerUser);
-                app.callinsidepage2(clubPage)
-                clubPage.titleBar = selectedClubName
-                clubPage.loadClubPlayers(managerUser.clubId)
-                clubPage.loadClubPlayers(managerUser.clubId)
+                if((managerUser.userPortrait.trim().length != 0)&&
+                        (managerUser.favFormation.trim().length != 0)&&
+                        (managerUser.city.trim().length != 0)&&
+                        (managerUser.nickName.trim().length != 0)&&
+                        (managerUser.lastName.trim().length != 0)&&
+                        (managerUser.firstName.trim().length != 0)){
+
+
+                    managerUser.clubId = root.selectedClubId;
+                    managerUser.clubName = root.selectedClubName
+
+                    app.clubDetailsforManager = false
+                    APIConnection.updateUser(managerUser);
+                    APIConnection.getClubDetails(managerUser.token, managerUser.clubId);
+                    clubPage.loadClubPlayers(managerUser.clubId)
+//                    clubPage.loadClubPlayers(managerUser.clubId)
+                    //add club players. Call it twice to populate it. needx fixing later on
+//                    APIConnection.getClubPlayers(managerUser.token, managerUser.clubId);
+    //                APIConnection.getClubPlayers(managerUser.token, managerUser.clubId);
+                    APIConnection.getUsers(managerUser.token)
+                    APIConnection.getNews(managerUser.token, managerUser.id)
+//                    getInvitationsTimer.running = true
+                    getNewsTimer.running = true
+                    app.callinsidepage2(clubPage)
+                    clubPage.titleBar = managerUser.clubName
+
+                    if(app.takeControl){
+//                        APIConnection.getPublicNews(managerUser.token )
+                        app.takeControl = false
+                    }
+
+                }
+
             }
             onReleased: {
                 done.bordercolor = "#bfbbd3"
@@ -143,7 +173,7 @@ Rectangle
             }
             TextField{
                 font.pointSize: 9
-                placeholderText: qsTr("Enter First Name ")
+                placeholderText: managerUser.firstName !== "" ? managerUser.firstName : qsTr("Enter First Name ")
                 font.bold: true;
                 onTextChanged: {
                     managerUser.firstName = text
@@ -158,7 +188,7 @@ Rectangle
             }
             TextField{
                 font.pointSize: 9
-                placeholderText: qsTr("Enter Last Name ")
+                placeholderText: managerUser.lastName !== "" ? managerUser.lastName :  qsTr("Enter Last Name ")
                 font.bold: true;
                 onTextChanged: {
                     managerUser.lastName = text
@@ -173,7 +203,7 @@ Rectangle
             }
             TextField{
                 font.pointSize: 9
-                placeholderText: qsTr("Enter Nick Name ")
+                placeholderText: managerUser.nickName !== "" ? managerUser.nickName : qsTr("Enter Nick Name ")
                 font.bold: true;
                 onTextChanged: {
                     managerUser.nickName = text
@@ -188,7 +218,7 @@ Rectangle
             }
             TextField{
                 font.pointSize: 9
-                placeholderText: qsTr("Enter City ")
+                placeholderText: managerUser.city !== "" ? managerUser.city : qsTr("Enter City ")
                 font.bold: true;
                 onTextChanged: {
                     managerUser.city = text
@@ -203,7 +233,7 @@ Rectangle
             }
             TextField{
                 font.pointSize: 9
-                placeholderText: qsTr("Enter Fav Club")
+                placeholderText: managerUser.clubName !== "" ? managerUser.clubName : qsTr("Enter Fav Club")
                 font.bold: true;
                 text: root.selectedClubName
                 readOnly: true
@@ -217,7 +247,7 @@ Rectangle
             }
             TextField{
                 font.pointSize: 9
-                placeholderText: qsTr("Enter Fav Formation [3-4-3]")
+                placeholderText: (managerUser.favFormation !== "" )? managerUser.favFormation : qsTr("Enter Fav Formation [3-4-3]")
                 font.bold: true;
                 onTextChanged: {
                     managerUser.favFormation = text
@@ -295,7 +325,9 @@ Rectangle
                     cursorShape: Qt.PointingHandCursor
                     acceptedButtons: Qt.LeftButton
                     onPressed: {
-                        app_title_bar.selectedportrail = "qrc:/images/portrait/adult.jpg"
+//                        app_title_bar.selectedportrail = "qrc:/images/portrait/adult.jpg"
+                        managerUser.userPortrait = "adult"
+                        selectedPortrail.source = "qrc:/images/portrait/adult.jpg"
                     }
                     onHoveredChanged: {
                         if( adultrect.hoveredornot === false){
@@ -345,7 +377,9 @@ Rectangle
                     cursorShape: Qt.PointingHandCursor
                     acceptedButtons: Qt.LeftButton
                     onPressed: {
-                        app_title_bar.selectedportrail = "qrc:/images/portrait/africa.jpg"
+//                        app_title_bar.selectedportrail = "qrc:/images/portrait/africa.jpg"
+                        managerUser.userPortrait = "africa"
+                        selectedPortrail.source = "qrc:/images/portrait/africa.jpg"
                     }
                     onHoveredChanged: {
                         if( africarect.hoveredornot === false){
@@ -395,7 +429,10 @@ Rectangle
                     cursorShape: Qt.PointingHandCursor
                     acceptedButtons: Qt.LeftButton
                     onPressed: {
-                        app_title_bar.selectedportrail = "qrc:/images/portrait/bald.jpg"
+//                        app_title_bar.selectedportrail = "qrc:/images/portrait/bald.jpg"
+                        managerUser.userPortrait = "bald"
+                        selectedPortrail.source = "qrc:/images/portrait/bald.jpg"
+
                     }
                     onHoveredChanged: {
                         if( baldrect.hoveredornot === false){
@@ -446,7 +483,9 @@ Rectangle
                     cursorShape: Qt.PointingHandCursor
                     acceptedButtons: Qt.LeftButton
                     onPressed: {
-                        app_title_bar.selectedportrail = "qrc:/images/portrait/black.jpg"
+//                        app_title_bar.selectedportrail = "qrc:/images/portrait/black.jpg"
+                        managerUser.userPortrait = "black"
+                        selectedPortrail.source = "qrc:/images/portrait/black.jpg"
                     }
                     onHoveredChanged: {
                         if( blackrect.hoveredornot === false){
@@ -497,7 +536,9 @@ Rectangle
                     cursorShape: Qt.PointingHandCursor
                     acceptedButtons: Qt.LeftButton
                     onPressed: {
-                        app_title_bar.selectedportrail = "qrc:/images/portrait/kid.jpg"
+//                        app_title_bar.selectedportrail = "qrc:/images/portrait/kid.jpg"
+                        managerUser.userPortrait = "kid"
+                        selectedPortrail.source = "qrc:/images/portrait/kid.jpg"
                     }
                     onHoveredChanged: {
                         if( kidrect.hoveredornot === false){
@@ -548,7 +589,9 @@ Rectangle
                     cursorShape: Qt.PointingHandCursor
                     acceptedButtons: Qt.LeftButton
                     onPressed: {
-                        app_title_bar.selectedportrail = "qrc:/images/portrait/moustache.JPG"
+//                        app_title_bar.selectedportrail = "qrc:/images/portrait/moustache.JPG"
+                        managerUser.userPortrait = "moustache"
+                        selectedPortrail.source = "qrc:/images/portrait/moustache.jpg"
                     }
                     onHoveredChanged: {
                         if( moustacherect.hoveredornot === false){
@@ -570,7 +613,7 @@ Rectangle
                     height: width*1.5
                     anchors.fill: parent
                     fillMode: Image.PreserveAspectCrop
-                    source: "qrc:/images/portrait/moustache.JPG"
+                    source: "qrc:/images/portrait/moustache.jpg"
                 }
             }
 
@@ -598,7 +641,9 @@ Rectangle
                     cursorShape: Qt.PointingHandCursor
                     acceptedButtons: Qt.LeftButton
                     onPressed: {
-                        app_title_bar.selectedportrail = "qrc:/images/portrait/old.jpg"
+//                        app_title_bar.selectedportrail = "qrc:/images/portrait/old.jpg"
+                        managerUser.userPortrait = "old"
+                        selectedPortrail.source = "qrc:/images/portrait/old.jpg"
                     }
                     onHoveredChanged: {
                         if( oldrect.hoveredornot === false){
@@ -648,7 +693,9 @@ Rectangle
                     cursorShape: Qt.PointingHandCursor
                     acceptedButtons: Qt.LeftButton
                     onPressed: {
-                        app_title_bar.selectedportrail = "qrc:/images/portrait/ordinary.jpg"
+//                        app_title_bar.selectedportrail = "qrc:/images/portrait/ordinary.jpg"
+                        managerUser.userPortrait = "ordinary"
+                        selectedPortrail.source = "qrc:/images/portrait/ordinary.jpg"
                     }
                     onHoveredChanged: {
                         if( ordinaryrect.hoveredornot === false){
@@ -699,7 +746,9 @@ Rectangle
                     cursorShape: Qt.PointingHandCursor
                     acceptedButtons: Qt.LeftButton
                     onPressed: {
-                        app_title_bar.selectedportrail = "qrc:/images/portrait/yellow hair.jpg"
+//                        app_title_bar.selectedportrail = "qrc:/images/portrait/yellow hair.jpg"
+                        managerUser.userPortrait = "yellow hair"
+                        selectedPortrail.source = "qrc:/images/portrait/yellow hair.jpg"
                     }
                     onHoveredChanged: {
                         if( yellowhairrect.hoveredornot === false){
@@ -748,7 +797,9 @@ Rectangle
                     cursorShape: Qt.PointingHandCursor
                     acceptedButtons: Qt.LeftButton
                     onPressed: {
-                        app_title_bar.selectedportrail = "qrc:/images/portrait/young.JPG"
+//                        app_title_bar.selectedportrail = "qrc:/images/portrait/young.JPG"
+                        managerUser.userPortrait = "young"
+                        selectedPortrail.source = "qrc:/images/portrait/young.jpg"
                     }
                     onHoveredChanged: {
                         if( youngrect.hoveredornot === false){
@@ -771,7 +822,7 @@ Rectangle
                     scale: 1
                     anchors.fill: parent
                     fillMode: Image.PreserveAspectCrop
-                    source: "qrc:/images/portrait/young.JPG"
+                    source: "qrc:/images/portrait/young.jpg"
                 }
             }
         }

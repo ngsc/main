@@ -27,7 +27,7 @@ Rectangle {
     states: State {
         name: "visible"
         PropertyChanges { target: popup; opacity: 1 }
-        //PropertyChanges { target: popup; y: (parent.height-popup.height)/2 }
+//        PropertyChanges { target: popup; y: (parent.height-popup.height)/2 }
     }
 
     transitions: [

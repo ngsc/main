@@ -11,6 +11,15 @@ Rectangle {
     property string titleBar: qsTr("Submit Offer to %1").arg(player.name)
 
     property Player player : Player{ id: tmpPlayer }
+    property int index: 0
+    property bool activeIndex: true
+
+    ListModel {
+        id: itemsList
+        ListElement {
+            fee: "$0"
+        }
+    }
 
     function setPlayer(p) {
         player = p
@@ -19,7 +28,39 @@ Rectangle {
         app_title_bar.textColor = player.background1Value !== "" ? player.foreground1Value : app_title_bar.defaultTextColor;
         app_title_bar.selectedclubid = player.clubId        //app_title_bar.selectedplayer = "file:///" + applicationPath + "images/players/" + player.id + ".png"
         app_title_bar.setportrailVisible = false
-        console.log("Manager club: " + managerUser.club + ", player club: " + player.clubId)
+        fillFeeList()
+        //        console.log("Manager club: " + managerUser.club + ", player club: " + player.clubId)
+    }
+
+    function fillFeeList(){
+        index = 0 ;
+        if(playerProfile.player.value > 0){
+            for(var i = playerProfile.player.value/10 ; i < playerProfile.player.value*10 ; i+=playerProfile.player.value/100){
+                if(activeIndex){
+                    index++;
+                }
+                if(i === playerProfile.player.value ){
+                    activeIndex = false
+                }
+                itemsList.append({"fee" :currencyFormatter.currencyString(i)})
+            }
+        }else{
+            for(var i = 1000000 ; i < 10000000 ; i+=100000){
+                itemsList.append({"fee" :currencyFormatter.currencyString(i)})
+            }
+        }
+
+        //        for(var i = 100000 ; i < 1000000 ; i+=10000){
+        //            if(activeIndex){
+        //                index++;
+        //            }
+        //            if((i < playerProfile.player.value && playerProfile.player.value < i+10000)||
+        //                    (0 < playerProfile.player.value && i === 100000)){
+        //                itemsList.append({"fee" : currencyFormatter.currencyString(playerProfile.player.value)})
+        //                activeIndex = false;
+        //            }
+        //            itemsList.append({"fee" :currencyFormatter.currencyString(i)})
+        //        }
     }
 
     Rectangle {
@@ -32,7 +73,7 @@ Rectangle {
             anchors.top: parent.top
             //width: 400
             anchors.right: parent.right
-            height: 80
+            height: 100
             title_text: qsTr("Transfer Value")
             border_color: "#55aaff"
             border_width: 1
@@ -72,7 +113,7 @@ Rectangle {
             anchors.right: parent.right
             anchors.top: transfer_value_gorup_box.bottom
             anchors.topMargin: 1
-            height: offer_combo_box.currentIndex === 0 ? 120 : 185
+            height: 160//offer_combo_box.currentIndex === 0 ? 220 : 285
             title_text: qsTr("Basic Offer")
             border_color: "#55aaff"
             border_width: 1
@@ -143,16 +184,16 @@ Rectangle {
                     {
                         id: transfer_fees_combo_box
                         anchors.verticalCenter: transfer_fees_label.verticalCenter
-                        items_list: [currencyFormatter.currencyString("9000000"),
-                            currencyFormatter.currencyString("9250000"),
-                            currencyFormatter.currencyString("9500000"),
-                            currencyFormatter.currencyString("9750000"),
-                            currencyFormatter.currencyString("10000000")]
+                        items_list: itemsList// [currencyFormatter.currencyString("9000000"),
+                        //                            currencyFormatter.currencyString("9250000"),
+                        //                            currencyFormatter.currencyString("9500000"),
+                        //                            currencyFormatter.currencyString("9750000"),
+                        //                            currencyFormatter.currencyString("10000000")]
                         anchors.left: parent.left
                         anchors.leftMargin: parent.width/2 - 40
                         height: transfer_fees_label.height+5
                         width: parent.width/4
-                        currentIndex: 0
+                        currentIndex: index
                     }
                     MyButtonNormal {
                         id: transfer_increase_fees
@@ -539,10 +580,10 @@ Rectangle {
             else if(offer_combo_box.currentIndex === 1) {
                 var loan_params = "action=create_offer&about_player_id=%1&bidding_club_id=%2&owner_club_id=%3&type=Loan&fee=%4&token=%5&minimum_fee=%6&duration=%7&wages=%8&futureFee=%9&canPlayInCup=%10&canPlayAgainst=%11&canBeRecalled=%12";
                 APIConnection.createOffer(loan_params.arg(player.id).arg(managerUser.clubId).arg(player.clubId).
-                    arg(currencyFormatter.currencyValue(loan_fees_combo_box.displayText)).arg(managerUser.token).arg(player.minimumFee).
-                    arg(loan_duration_combo_box.displayText).arg(loan_wages_combo_box.displayText.replace("%", "")).
-                    arg(currencyFormatter.currencyValue(loan_future_fees_combo_box.displayText)).
-                    arg(recall_check_box.checked ? "1" : "0").arg("0").arg("0"));
+                                          arg(currencyFormatter.currencyValue(loan_fees_combo_box.displayText)).arg(managerUser.token).arg(player.minimumFee).
+                                          arg(loan_duration_combo_box.displayText).arg(loan_wages_combo_box.displayText.replace("%", "")).
+                                          arg(currencyFormatter.currencyValue(loan_future_fees_combo_box.displayText)).
+                                          arg(recall_check_box.checked ? "1" : "0").arg("0").arg("0"));
             }
         }
 

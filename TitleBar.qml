@@ -3,7 +3,7 @@ import QtGraphicalEffects 1.0
 
 Item {
     id: app_title_bar
-    width: 950
+    width: 830
     height: 80
 
     property var forwardlist:[]
@@ -15,7 +15,7 @@ Item {
     property bool setportrailVisible: false
 
     property string title: qsTr("Signin")
-    property string selectedportrail  : ""
+    property string selectedportrail  : ""//"qrc:/images/portrait/"+managerUser.userPortrait+".jpg"
     property string selectedplayer: ""
     property string selectedclubportrait  : ""
     property string selectednation  : ""
@@ -45,7 +45,7 @@ Item {
         setportrailVisible = false
         showselectedclubname = false
         title = ""
-        selectedportrail  = ""
+//        selectedportrail  = ""
         selectedplayer= ""
         selectedclubportrait  = ""
         selectednation  = ""
@@ -77,7 +77,7 @@ Item {
         obj.clubFontSize = app_title_bar.clubFontSize
 
         console.log("add properties to array:");
-        //printObject(obj)
+        printObject(obj)
         list.push(obj);
     }
 
@@ -88,7 +88,7 @@ Item {
         var obj = list.pop();
         //console.log("pop properties from array (remaining " + list.length + ")");
 
-        //printObject(obj);
+        printObject(obj);
         app_title_bar.title = obj.title;
         app_title_bar.selectedportrail = obj.selectedportrail;
         app_title_bar.selectedplayer = obj.selectedplayer;
@@ -150,13 +150,13 @@ Item {
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             anchors.verticalCenterOffset: vco
-            text: title
+            text: qsTr(title)
             font.pointSize: titleFontSize
             font.letterSpacing: 1
         }
         Text {
             id: club_text
-            text: app_title_bar.selectedclubname
+            text: qsTr(app_title_bar.selectedclubname)
             anchors.horizontalCenter: title_text.horizontalCenter
             font.family: "Comic Sans MS"//"Kristen ITC"
             font.pointSize: clubFontSize
@@ -217,13 +217,14 @@ Item {
                 }
             }
         }
+
         Rectangle{
             id : club
             anchors.right: forward.left
-            anchors.rightMargin: height
+            anchors.rightMargin: 20
             visible: setportrailVisible
             anchors.verticalCenter: parent.verticalCenter
-            anchors.leftMargin : height
+            anchors.leftMargin : 20
             height: 2*parent.height/3
             width: height
             radius: height/2
@@ -251,10 +252,10 @@ Item {
         Rectangle{
             id : nation
             anchors.right: club.left
-            anchors.rightMargin: height
+            anchors.rightMargin: 20
             visible: setportrailVisible
             anchors.verticalCenter: parent.verticalCenter
-            anchors.leftMargin : height
+            anchors.leftMargin : 20
             height: 2*parent.height/3
             width: height
             radius: height/2
@@ -282,7 +283,7 @@ Item {
         Rectangle{
             id : portrail
             anchors.left: leftbutton.right
-            anchors.leftMargin : height
+            anchors.leftMargin : 20
             height: 2*parent.height/3
             width: height
             radius: height/2

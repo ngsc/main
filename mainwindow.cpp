@@ -1,79 +1,64 @@
 #include "mainwindow.h"
 #include <QSettings>
-#include <QTextStream>
+//#include <QTextStream>
 #include <QDebug>
 #include <QDir>
 #include <QApplication>
 
-void switchTranslator(QTranslator& translator, const QString& filename)
-{
-    qApp->removeTranslator(&translator);
-    if(translator.load(filename))
-        qApp->installTranslator(&translator);
-}
-
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
-    loadSettings("GameSetting.ini");
+    m_ini_fname = "GameSetting.ini";
+    readSettings();
 }
 
 MainWindow::~MainWindow()
 {
-    saveSettings("GameSetting.ini");
+    writeSettings();
 }
 
-void MainWindow::loadSettings(const QString& ini_fname)
+void MainWindow::readSettings()
 {
-    QString ini_file_path = QDir(QApplication::applicationDirPath()).filePath(ini_fname);
+    getLangFiles();
+    QString ini_file_path = QDir(QApplication::applicationDirPath()).filePath(m_ini_fname);
     QSettings settings(ini_file_path, QSettings::IniFormat);
 
-    g_language =  settings.value("Lang/myLang",0).toBool();
+    m_currLang =  settings.value("Lang/myLang","English").toString();
+    loadLanguage(m_currLang);
     g_skin = settings.value("Skin/mySkin",0).toBool();
-    Abuse_Filter = settings.value("Abuse_Filter/Abuse_Filter",0).toInt();
-    MusicSwitch = settings.value("MusicSwitch/MusicSwitch",0).toInt();
+    Abuse_Filter = settings.value("Abuse_Filter/Abuse_Filter",0).toBool();
+    MusicSwitch = settings.value("MusicSwitch/MusicSwitch",0).toBool();
+}
 
+void MainWindow::getLangFiles()
+{
+    m_langPath.append("./languages");
+    QDir dir(m_langPath);
+    QStringList fileNames = dir.entryList(QStringList("snarky_*.qm"));
+    for (int i = 0; i < fileNames.size(); ++i) {
+        QString locale;
+        locale = fileNames[i];
+        locale.truncate(locale.lastIndexOf('.'));
+        locale.remove(0, locale.indexOf('_') + 1);
+        //        QString lang = QLocale::languageToString(QLocale(locale).language());
+        m_LangList.append(locale);//fileNames.at(i).fileName());
+    }
 }
 
 void MainWindow::loadLanguage(const QString &rLanguage)
 {
-    if(m_currLang != rLanguage) {
-        m_currLang = rLanguage;
-        QLocale locale = QLocale(m_currLang);
-        QLocale::setDefault(locale);
-        QString languageName = QLocale::languageToString(locale.language());
-        auto langPath = m_langPath + QString("snarky_%1.qm").arg(rLanguage);
-        switchTranslator(m_translator, langPath);
-    }
+    QString langPath =  QString("./languages/snarky_%1.qm").arg(rLanguage);//m_langPath +
+    if(m_translator.load(langPath))
+        qApp->installTranslator(&m_translator);
 }
 
-QString MainWindow::getCurrLang() const
+void MainWindow::writeSettings()
 {
-    return m_currLang;
-}
-
-void MainWindow::setCurrLang(const QString &currLang)
-{
-    m_currLang = currLang;
-}
-
-QString MainWindow::getLangPath() const
-{
-    return m_langPath;
-}
-
-void MainWindow::setLangPath(const QString &langPath)
-{
-    m_langPath = langPath;
-}
-
-void MainWindow::saveSettings(const QString& ini_fname)
-{
-    QString ini_file_path = QDir(QApplication::applicationDirPath()).filePath(ini_fname);
+    QString ini_file_path = QDir(QApplication::applicationDirPath()).filePath(m_ini_fname);
     QSettings settings(ini_file_path, QSettings::IniFormat);
 
     settings.clear();
     settings.beginGroup("Lang");
-    settings.setValue("myLang", g_language);
+    settings.setValue("myLang", m_currLang);
     settings.endGroup();
 
     settings.beginGroup("Skin");
@@ -89,9 +74,26 @@ void MainWindow::saveSettings(const QString& ini_fname)
     settings.endGroup();
 }
 
-void MainWindow::getConfig(bool lan, bool skin, int AbuseFilter, int Music){
+QString MainWindow::getCurrLang() const
+{
+    return m_currLang;
+}
 
-    g_language = lan;
+void MainWindow::setCurrLang(const QString &currLang)
+{
+    m_currLang = currLang;
+}
+
+QStringList MainWindow::getLangList() const
+{
+    return m_LangList;
+}
+
+void MainWindow::setConfig(QString lan, bool skin, bool AbuseFilter, bool Music){
+
+    m_currLang = lan;
+
+    loadLanguage(m_currLang);
 
     g_skin = skin;
 
@@ -99,25 +101,20 @@ void MainWindow::getConfig(bool lan, bool skin, int AbuseFilter, int Music){
 
     MusicSwitch = Music;
 
+    writeSettings();
 }
 
-bool MainWindow::setLang(){
-
-    return g_language ;
-}
-
-bool MainWindow::setSkin(){
+bool MainWindow::getSkin(){
 
     return g_skin ;
 }
 
-int MainWindow::setAbuse_Filter(){
+bool MainWindow::getAbuse_Filter(){
 
     return Abuse_Filter ;
 }
 
-int MainWindow::setMusicSwitch(){
+bool MainWindow::getMusicSwitch(){
 
     return MusicSwitch ;
 }
-

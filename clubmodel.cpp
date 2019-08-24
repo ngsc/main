@@ -109,6 +109,8 @@ QVariant ClubModel::data(const QModelIndex &index, int role) const
         return QVariant(club->nation());
     case LeagueIdRole:
         return QVariant(club->leagueId());
+    case TargetClubRole:
+        return QVariant(club->targetClub());
     }
     return QVariant();
 }
@@ -241,6 +243,9 @@ bool ClubModel::setData(const QModelIndex &index, const QVariant &value, int rol
     case Rival3Role:
         club->setRival3(value.toString());
         break;
+    case TargetClubRole:
+        club->settargetClub(value.toBool());
+        break;
     }
 
     emit dataChanged(index, index, {role});
@@ -293,7 +298,8 @@ QHash<int, QByteArray> ClubModel::roleNames() const
         {OwnerIdRole, "ownerId"},
         {OwnerNameRole, "ownerName"},
         {NationRole, "nation"},
-        {LeagueIdRole, "leagueId"}
+        {LeagueIdRole, "leagueId"},
+        {TargetClubRole,"targetClub"}
     };
 }
 

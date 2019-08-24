@@ -3,7 +3,8 @@ import QtQuick 2.0
 import com.Game.APIConnection 1.0
 import com.Game.SortFilterProxyModel 1.0
 import com.Game.News 1.0
-
+import com.Game.Player 1.0
+import com.Game.SortFilterProxyModel 1.0
 
 Rectangle {
     id: root
@@ -16,7 +17,10 @@ Rectangle {
     property int newsCount: 0
 
     onCurrentNewsChanged: {
-        console.log("news changed: " + currentNews.stage + "\n" + currentNews.brief)
+//        console.log("news changed: " + currentNews.stage + "\n"
+//                    + currentNews.brief + "\n" + currentNews.message)
+        newsflashanimation.running = newsModel.containsUnread()
+        //        mesg =  newsModel.checkMessageWord(root.currentNews.message)
     }
 
     Component {
@@ -28,12 +32,15 @@ Rectangle {
 
             Rectangle {
                 id: background
-                x: 2; y: 2; width: parent.width - x*2; height: parent.height - y*2
+                x: 2
+                y: 2
+                width: parent.width - x * 2
+                height: parent.height - y * 2
                 color: "transparent"
                 radius: 5
 
                 Text {
-                    text: brief
+                    text: qsTr(brief)
                     color: "red"
                     font.pointSize: 14
                     font.family: "Comic Sans MS"
@@ -54,12 +61,11 @@ Rectangle {
         anchors.top: parent.top
         //width: 400
         anchors.right: parent.right
-        height: parent.height/3
+        height: parent.height / 3
         title_text: qsTr("Inbox")
         border_color: "#55aaff"
         border_width: 1
-        box_content_item: Rectangle
-        {
+        box_content_item: Rectangle {
             anchors.fill: parent
             color: "transparent"
             radius: parent.radius
@@ -67,8 +73,13 @@ Rectangle {
             ListView {
                 id: listView
                 anchors.fill: parent
-                model: newsModel
-                highlight: Rectangle { color:"lightblue" /*"lightsteelblue"*/; radius: 5 }
+                model:  newsModel
+
+                highlight: Rectangle {
+                    color: "lightblue" /*"lightsteelblue"*/
+                    radius: 5
+                }
+
                 focus: true
                 highlightFollowsCurrentItem: true
                 highlightRangeMode: ListView.NoHighlightRange
@@ -91,13 +102,12 @@ Rectangle {
                             anchors.leftMargin: 20
                             anchors.right: parent.right
                             anchors.bottom: parent.bottom
-
-                            text: brief
+                            text: qsTrId(brief)// + localization.updateLanguage;//QT_TR_NOOP(brief)//qsTr(brief)
                             color: read === true ? "white" : "red"
                             font.pointSize: 11
                             font.family: "Comic Sans MS"
                             verticalAlignment: Text.AlignVCenter
-                            z : listView.z
+                            z: listView.z
                         }
 
                         MouseArea {
@@ -109,8 +119,13 @@ Rectangle {
                                 root.currentNews = listView.model.at(index)
                                 details_box.showDetails = true
                                 bid.color = "white"
-                                if(root.currentNews.read !== true) {
-                                    APIConnection.updateNewsReadStatus(managerUser.token, root.currentNews.id)
+                                //APIConnection.translate(currentNews.message);
+                                if (root.currentNews.read !== true) {
+                                    if(!currentNews.isPublicNews){
+                                        APIConnection.updateNewsReadStatus(managerUser.token,root.currentNews.id)
+                                    } else if (currentNews.isPublicNews) {
+                                        APIConnection.updatePublicNewsReadStatus(managerUser.token,root.currentNews.id)
+                                    }
                                 }
                             }
                         }
@@ -130,7 +145,7 @@ Rectangle {
         property bool showDetails: false
 
         title_text: qsTr("Details")
-        box_content_item: Rectangle{
+        box_content_item: Rectangle {
             anchors.fill: parent
             color: "transparent"
             radius: parent.radius
@@ -151,7 +166,7 @@ Rectangle {
                     anchors.leftMargin: 20
                     anchors.right: parent.right
 
-                    text: qsTr("Date: %1").arg(Qt.formatDateTime(currentNews.dateTime, "yyyy-MM-dd hh:mm:ss"))
+                    text: qsTr("Date: %1").arg(Qt.formatDateTime(currentNews.dateTime,"yyyy-MM-dd hh:mm:ss"))
                     color: "white"
                     font.pointSize: 11
                     font.family: "Comic Sans MS"
@@ -168,47 +183,95 @@ Rectangle {
                     anchors.rightMargin: 20
                     anchors.bottom: parent.bottom
 
-                    text: currentNews.message
+                    property string message: ""
+                    text: qsTr(currentNews.message) //mesg//currentNews.message
+                    onLinkActivated: {
+
+                        message = newsModel.getLinkID(link)
+
+                        if (newsModel.checkMessageWord(link)) {
+                            app.clubDetailsforManager = false
+                            APIConnection.getClubDetails(managerUser.token,
+                                                         message)
+                            clubPage.loadClubPlayers(message)
+                            //                            clubPage.loadClubPlayers(managerUser.clubId)
+                            //                            APIConnection.getClubPlayers(managerUser.token, message);
+                            //                            APIConnection.getClubPlayers(managerUser.token, message);
+//                            getInvitationsTimer.running = true
+                            getNewsTimer.running = true
+                            app.callinsidepage2(clubPage)
+                        } else {
+                            APIConnection.getPlayerDetails(managerUser.token,
+                                                           message)
+                            app.busyIndicator.running = true
+                            //                            var player = playerModel.player(message);
+                            //                            playerProfile.setPlayer(player);
+                        }
+                    }
                     color: "white"
                     font.pointSize: 13
                     font.family: "Comic Sans MS"
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+
+                    MouseArea {
+                        anchors.fill: parent
+                        acceptedButtons: Qt.NoButton // we don't want to eat clicks on the Text
+                        cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+                    }
                 }
             }
 
             MyButtonNormal {
                 id: respond_button
-                anchors { bottom: parent.bottom; bottomMargin: 20; right: parent.right; rightMargin: 10 }
-                visible: currentNews.newsType === News.Offer && currentNews.active && details_box.showDetails
-                text: currentNews.stage === News.OfferContract ? qsTr("Offer Contract") : qsTr("Respond")
+                anchors {
+                    bottom: parent.bottom
+                    bottomMargin: 20
+                    right: parent.right
+                    rightMargin: 10
+                }
+                visible: currentNews.isPublicNews ? false : true
+                text: qsTr("Accept") //currentNews.stage === News.OfferContract ? qsTr("Offer Contract") : qsTr("Respond")
                 width: 120
                 onClicked: {
-                    if(currentNews.stage === News.OfferContract)
-                    {
-                        submitContract.news = currentNews
-                        app.callinsidepage2(submitContract);
-                        app.busyIndicator.running = true
-                        APIConnection.getOfferWithPlayerDetails(managerUser.token, currentNews.offerId)
-                    }
-                    else
-                    {
-                        viewOffer.news = currentNews;
-                        app.callinsidepage2(viewOffer);
-                        app.busyIndicator.running = true
-                        APIConnection.getOfferWithPlayerDetails(managerUser.token, currentNews.offerId)
+
+                    if (!currentNews.isPublicNews) {
+                        if (currentNews.newsType === News.Invitation) {
+                            APIConnection.acceptInvitation(managerUser.token,currentNews.invitationId)
+                        } else if (currentNews.stage === News.OfferContract) {
+                            console.log("submit")
+                            submitContract.news = currentNews
+                            app.callinsidepage2(submitContract)
+                            app.busyIndicator.running = true
+                            APIConnection.getOfferWithPlayerDetails(
+                                        managerUser.token, currentNews.offerId)
+                        } else if (currentNews.stage === News.Offer) {
+                            console.log("offer")
+                            viewOffer.news = currentNews
+                            app.callinsidepage2(viewOffer)
+                            app.busyIndicator.running = true
+                            APIConnection.getOfferWithPlayerDetails(
+                                        managerUser.token, currentNews.offerId)
+                        }
                     }
                 }
             }
 
             MyButtonNormal {
                 id: close_button
-                anchors { top: parent.top; topMargin: 20; right: parent.right; rightMargin: 10 }
-                visible: details_box.showDetails
-                text: qsTr("Close")
+                anchors {
+                    bottom: parent.bottom
+                    bottomMargin: 20
+                    right: respond_button.left
+                    rightMargin: 10
+                }
+                visible: currentNews.isPublicNews ? false : true //true//details_box.showDetails
+                text: qsTr("Decline")
                 onClicked: {
-                    did.text = ""
-                    msg.text = ""
                     details_box.showDetails = false
+                    if (currentNews.newsType === News.Invitation) {
+                        console.log(currentNews.invitationId)
+                        APIConnection.declineInvitation(managerUser.token, currentNews.invitationId)
+                    }
                 }
             }
         }
@@ -218,12 +281,21 @@ Rectangle {
         target: APIConnection
 
         onGetNewsFinished: {
-            newsModel.setNews(news);
-            newsflashanimation.running = stackView.__currentItem !== newsPage && newsModel.containsUnread() && newsModel.count != root.newsCount
 
-            if(stackView.__currentItem === newsPage) {
+            newsModel.setGeneralNews(news)
+
+            newsflashanimation.running = newsPage.newsModel.containsUnread()
+
+            //            newsflashanimation.running = true;//newsModel.containsUnread()// && newsModel.count != root.newsCount//stackView.__currentItem !== newsPage &&
+            if (stackView.__currentItem === newsPage) {
                 root.newsCount = newsModel.count
             }
+        }
+
+        onGetTakeControl: {
+            //            newsModel.setNews(publicNews);
+            newsModel.setpublicNews(publicNews)
+            newsflashanimation.running = newsPage.newsModel.containsUnread()
         }
     }
 }

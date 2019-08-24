@@ -416,7 +416,7 @@ Rectangle {
                         anchors.horizontalCenter: parent.horizontalCenter
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
-                        text: styleData.value
+                        text: qsTr(styleData.value)
                         elide: Text.ElideRight
                         color: "white"
                         renderType: Text.NativeRendering
@@ -473,7 +473,7 @@ Rectangle {
                         anchors.fill: parent
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
-                        text: styleData.column === 4 ? currencyFormatter.currencyString(styleData.value): styleData.value
+                        text: (styleData.column === 4 ? currencyFormatter.currencyString(styleData.value): styleData.value)
                         elide: Text.ElideRight
                         color: "white"
                         renderType: Text.NativeRendering
@@ -553,13 +553,30 @@ Rectangle {
         onGetPlayerDetailsFinished: {
             app.busyIndicator.running = false;
             overViewTable.enabled = true
+            app.clubDetailsforManager = true
             if(player.isGoalkeeper === true) {
                 app.callinsidepage2(goalkeeperProfile)
                 goalkeeperProfile.setPlayer(player)
+                if(goalkeeperProfile.player.clubId > 0){
+                    APIConnection.getClubDetails(managerUser.token, goalkeeperProfile.player.clubId);
+                }
+                APIConnection.getPlayerComment(managerUser.token, goalkeeperProfile.player.id)
+//                APIConnection.getClubPlayers(managerUser.token, goalkeeperProfile.player.clubId);
+//                APIConnection.getClubPlayers(managerUser.token, goalkeeperProfile.player.clubId);
+//                clubPage.loadClubPlayers(playerProfile.player.clubId)
+//                clubPage.loadClubPlayers(playerProfile.player.clubId)
             }
             else {
                 app.callinsidepage2(playerProfile)
                 playerProfile.setPlayer(player);
+                if(playerProfile.player.clubId > 0){
+                    APIConnection.getClubDetails(managerUser.token, playerProfile.player.clubId);
+                }
+                APIConnection.getPlayerComment(managerUser.token, playerProfile.player.id)
+//                APIConnection.getClubPlayers(managerUser.token, goalkeeperProfile.player.clubId);
+//                APIConnection.getClubPlayers(managerUser.token, goalkeeperProfile.player.clubId);
+//                clubPage.loadClubPlayers(playerProfile.player.clubId)
+//                clubPage.loadClubPlayers(playerProfile.player.clubId)
             }
         }
     }

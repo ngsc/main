@@ -28,7 +28,9 @@ class PlayerModel : public QAbstractListModel
         CurrentRepRole,
         WorldRepRole,
         DobRole,
-        OfferId
+        OfferId,
+        LikeRate,
+        DislikeRate
     };
 
 public:

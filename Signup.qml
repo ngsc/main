@@ -344,7 +344,7 @@ Item {
             {
                 id: signup_error
                 readOnly: true
-                text: error_text
+                text: qsTr(error_text)
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom

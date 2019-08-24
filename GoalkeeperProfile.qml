@@ -7,7 +7,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.0
-
+import com.Game.PlayerComment 1.0
 import com.Game.Player 1.0
 
 Rectangle
@@ -15,6 +15,7 @@ Rectangle
     id: goalkeeperProfile
     color: "transparent"
     property string titleBar: player.name
+    property alias playerCommentBoard: playerCommentBoard
 
     property string handling : qsTr("Handling: %1").arg(player.handling)
     property string onOnOne : qsTr("One On One: %1").arg(player.oneOnOnes)
@@ -27,14 +28,19 @@ Rectangle
     property string tendencyToPunch: qsTr("Tendency to punch: %1").arg(player.tendencyToPunch)
     property string commandOfArea: qsTr("Command of area: %1").arg(player.commandOfArea)
     property string aerialAbility: qsTr("Aerial ability: %1").arg(player.aerialAbility)
+    property date gameClockDate
 
     property Player player : Player {id: tmpPlayer}
 
+    property PlayerCommentsModel playerCommentmodel:PlayerCommentsModel {
+        id: playercommmentModel
+    }
+
     function setPlayer(p) {
         player = p
-
-        app_title_bar.selectedplayer = "file:///" + applicationPath + "images/players/" + player.id + ".png"
-        app_title_bar.selectedclubportrait = "file:///" + applicationPath + "images/clubs/normal/" + player.clubId + ".png"
+        player.setGameClock(gameClockDate)
+        app_title_bar.selectedplayer = "file:///" + applicationPath + "../images/players/" + player.id + ".png"
+        app_title_bar.selectedclubportrait = "file:///" + applicationPath + "../images/clubs/normal/" + player.clubId + ".png"
         app_title_bar.title = titleBar
         app_title_bar.titleFontSize = 25
         app_title_bar.clubFontSize = 15
@@ -43,6 +49,11 @@ Rectangle
         app_title_bar.textColor = player.background1Value !== "" ? player.foreground1Value : app_title_bar.defaultTextColor;
         app_title_bar.selectedclubname = player.clubName
         app_title_bar.selectedclubid = player.clubId
+
+        console.log(player.background1Value)
+        console.log(player.clubName)
+        console.log(player.clubId)
+        console.log(player.foreground1Value)
 
         //set the  values
         overviewModel.clear()
@@ -57,6 +68,7 @@ Rectangle
         //overviewModel.append({"pname": qsTr("EU Member"), "pvalue" : player.})
 
         contractModel.clear()
+        contractModel.append({"pname": qsTr("PlayerType"), "pvalue": player.getPlayertype })
         contractModel.append({"pname": qsTr("Wage"), "pvalue" : currencyFormatter.currencyString(player.wage)})
         contractModel.append({"pname": qsTr("Value"), "pvalue" : currencyFormatter.currencyString(player.value)})
         contractModel.append({"pname": qsTr("Joind Club"), "pvalue" : player.joinedClub})
@@ -74,6 +86,7 @@ Rectangle
 
         //injuryModel.clear()
         //injuryModel.append({"pname": qsTr("Happiness Level"), "pvalue" : player.inj})
+        //.setGameClock(dateTime)
         playerActions.setPlayer(player);
 
     }
@@ -102,7 +115,7 @@ Rectangle
         color: "transparent"
         Rectangle{
             id:portraitrect
-            width: parent.width/3-20
+            width: parent.width/3-27
             anchors.left: parent.left
             height:parent.height
             color: "gray"
@@ -115,10 +128,26 @@ Rectangle
                 smooth: true
             }
         }
+
+        BravoThumbDown{
+            id : bravothumbrate
+            anchors.left: portraitrect.right
+            anchors.bottom: portraitrect.bottom
+            width: 60
+            color: "transparent"
+            playerName: player.name
+            likeRateText: player.likeRate
+            dislikeRateText: player.dislikeRate
+//            border.color: "gray"
+            z: 11
+        }
+
         Rectangle{
             id:knowlegerect
-            width: parent.width/3-20
-            anchors.horizontalCenter: parent.horizontalCenter
+            width: parent.width/3-15
+            //            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.left: bravothumbrate.right
+            //            anchors.leftMargin: 5
             height:parent.height
             color: "gray"
             Rectangle{
@@ -145,8 +174,12 @@ Rectangle
                         id :communcationtext
                         anchors.horizontalCenter: parent.horizontalCenter
                         anchors.verticalCenter: parent.verticalCenter
-                        font.pointSize: 9
-                        text: communication
+                        fontSizeMode: Text.Fit;
+                        minimumPointSize: 7;
+                        font.pointSize: 9;
+                        anchors.leftMargin: 5;
+                        anchors.rightMargin: 5;
+                        text: qsTr(communication)
                         color:"black"
                     }
                 }
@@ -170,14 +203,18 @@ Rectangle
                     width: parent.width-20
                     height: parent.height
                     border.color: "black"
-                    Text {
-                        id :eccentricitytext
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.verticalCenter: parent.verticalCenter
-                        font.pointSize: 9
-                        text: eccentricity
-                        color:"black"
-                    }
+                }
+                Text {
+                    id :eccentricitytext
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    fontSizeMode: Text.Fit;
+                    minimumPointSize: 7;
+                    font.pointSize: 9;
+                    anchors.leftMargin: 5;
+                    anchors.rightMargin: 5;
+                    text: qsTr(eccentricity)
+                    color:"black"
                 }
 
             }
@@ -199,14 +236,18 @@ Rectangle
                     width: parent.width-20
                     height: parent.height
                     border.color: "black"
-                    Text {
-                        id :tendencytext
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.verticalCenter: parent.verticalCenter
-                        font.pointSize: 9
-                        text: tendencyToPunch
-                        color:"black"
-                    }
+                }
+                Text {
+                    id :tendencytext
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    fontSizeMode: Text.Fit;
+                    minimumPointSize: 7;
+                    font.pointSize: 9;
+                    anchors.leftMargin: 5;
+                    anchors.rightMargin: 5;
+                    text: qsTr(tendencyToPunch)
+                    color:"black"
                 }
 
             }
@@ -228,14 +269,18 @@ Rectangle
                     width: parent.width-20
                     height: parent.height
                     border.color: "black"
-                    Text {
-                        id :commandtext
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.verticalCenter: parent.verticalCenter
-                        font.pointSize: 9
-                        text: commandOfArea
-                        color:"black"
-                    }
+                }
+                Text {
+                    id :commandtext
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    fontSizeMode: Text.Fit;
+                    minimumPointSize: 7;
+                    font.pointSize: 9;
+                    anchors.leftMargin: 5;
+                    anchors.rightMargin: 5;
+                    text: qsTr(commandOfArea)
+                    color:"black"
                 }
             }
             Rectangle{
@@ -256,14 +301,18 @@ Rectangle
                     width: parent.width-20
                     height: parent.height
                     border.color: "black"
-                    Text {
-                        id :aerialtext
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.verticalCenter: parent.verticalCenter
-                        font.pointSize: 9
-                        text: aerialAbility
-                        color:"black"
-                    }
+                }
+                Text {
+                    id :aerialtext
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    fontSizeMode: Text.Fit;
+                    minimumPointSize: 7;
+                    font.pointSize: 9;
+                    anchors.leftMargin: 5;
+                    anchors.rightMargin: 5;
+                    text: qsTr(aerialAbility)
+                    color:"black"
                 }
             }
             Rectangle{
@@ -284,21 +333,27 @@ Rectangle
                     width: parent.width-20
                     height: parent.height
                     border.color: "black"
-                    Text {
-                        id :extratext
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.verticalCenter: parent.verticalCenter
-                        font.pointSize: 9
-                        text: ""
-                        color:"black"
-                    }
+                }
+                Text {
+                    id :extratext
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    fontSizeMode: Text.Fit;
+                    minimumPointSize: 7;
+                    font.pointSize: 9;
+                    anchors.leftMargin: 5;
+                    anchors.rightMargin: 5;
+                    text: ""
+                    color:"black"
                 }
             }
         }
         Rectangle{
             id:handlingrect
-            width: parent.width/3-20
-            anchors.right: parent.right
+            width: parent.width/3-15
+            //            anchors.right: parent.right
+            anchors.left: knowlegerect.right
+            anchors.leftMargin: 5
             height:parent.height
             color: "gray"
             Rectangle{
@@ -321,14 +376,18 @@ Rectangle
                     height: parent.height
                     border.color: "black"
                     color: "gray"
-                    Text {
-                        id :handlingtext
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.verticalCenter: parent.verticalCenter
-                        font.pointSize: 9
-                        text: handling
-                        color:"black"
-                    }
+                }
+                Text {
+                    id :handlingtext
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    fontSizeMode: Text.Fit;
+                    minimumPointSize: 7;
+                    font.pointSize: 9;
+                    anchors.leftMargin: 5;
+                    anchors.rightMargin: 5;
+                    text: qsTr(handling)
+                    color:"black"
                 }
 
             }
@@ -350,14 +409,18 @@ Rectangle
                     width: parent.width-20
                     height: parent.height
                     border.color: "black"
-                    Text {
-                        id :oneOnOnetext
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.verticalCenter: parent.verticalCenter
-                        font.pointSize: 9
-                        text: onOnOne
-                        color:"black"
-                    }
+                }
+                Text {
+                    id :oneOnOnetext
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    fontSizeMode: Text.Fit;
+                    minimumPointSize: 7;
+                    font.pointSize: 9;
+                    anchors.leftMargin: 5;
+                    anchors.rightMargin: 5;
+                    text: qsTr(onOnOne)
+                    color:"black"
                 }
 
             }
@@ -379,14 +442,18 @@ Rectangle
                     width: parent.width-20
                     height: parent.height
                     border.color: "black"
-                    Text {
-                        id :postioningtext
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.verticalCenter: parent.verticalCenter
-                        font.pointSize: 9
-                        text: positioning
-                        color:"black"
-                    }
+                }
+                Text {
+                    id :postioningtext
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    fontSizeMode: Text.Fit;
+                    minimumPointSize: 7;
+                    font.pointSize: 9;
+                    anchors.leftMargin: 5;
+                    anchors.rightMargin: 5;
+                    text: qsTr(positioning)
+                    color:"black"
                 }
 
             }
@@ -408,14 +475,18 @@ Rectangle
                     width: parent.width-20
                     height: parent.height
                     border.color: "black"
-                    Text {
-                        id :reflexestext
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.verticalCenter: parent.verticalCenter
-                        font.pointSize: 9
-                        text: reflexes
-                        color:"black"
-                    }
+                }
+                Text {
+                    id :reflexestext
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    fontSizeMode: Text.Fit;
+                    minimumPointSize: 7;
+                    font.pointSize: 9;
+                    anchors.leftMargin: 5;
+                    anchors.rightMargin: 5;
+                    text: qsTr(reflexes)
+                    color:"black"
                 }
 
             }
@@ -436,14 +507,18 @@ Rectangle
                     width: parent.width-20
                     height: parent.height
                     border.color: "black"
-                    Text {
-                        id :kickingrecttext
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.verticalCenter: parent.verticalCenter
-                        font.pointSize: 9
-                        text: kicking
-                        color:"black"
-                    }
+                }
+                Text {
+                    id :kickingrecttext
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    fontSizeMode: Text.Fit;
+                    minimumPointSize: 7;
+                    font.pointSize: 9;
+                    anchors.leftMargin: 5;
+                    anchors.rightMargin: 5;
+                    text: qsTr(kicking)
+                    color:"black"
                 }
 
             }
@@ -464,26 +539,32 @@ Rectangle
                     width: parent.width-20
                     height: parent.height
                     border.color: "black"
-                    Text {
-                        id :rushingOuttext
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.verticalCenter: parent.verticalCenter
-                        font.pointSize: 9
-                        text: rushingOut
-                        color:"black"
-                    }
+                }
+                Text {
+                    id :rushingOuttext
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    fontSizeMode: Text.Fit;
+                    minimumPointSize: 7;
+                    font.pointSize: 9;
+                    anchors.leftMargin: 5;
+                    anchors.rightMargin: 5;
+                    text: qsTr(rushingOut)
+                    color:"black"
                 }
             }
         }
     }
-    Rectangle{
-        id: map
+    CommentBoard{
+        id: playerCommentBoard
         anchors.right: parent.right
         anchors.top : parent.top
         width: parent.width/3-10
         height: parent.height
-        border.color: "gray"
-        color: "black"
+        isUser: false
+        commmentModel:playerCommentmodel
+        //        border.color: "gray"
+        //        color: "black"
     }
     Rectangle{
         id: overveiw

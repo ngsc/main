@@ -3,8 +3,6 @@
 
 #include <QMainWindow>
 #include <QTranslator>
-
-//#include "user.h"
 #include "tournament.h"
 
 class MainWindow : public QMainWindow
@@ -14,39 +12,41 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
 
     ~MainWindow();
-    void StartConnection();
-    void loadSettings(const QString& ini_fname);
 
-    // loads a language by the given language shortcur (e.g. de, en)
+protected:
+
+    void readSettings();
+    void getLangFiles();
     void loadLanguage(const QString& rLanguage);
+    void writeSettings();
 
+signals:
+
+public slots:
+
+    bool getSkin();
+    bool getAbuse_Filter();
+    bool getMusicSwitch();
+    void setConfig(QString lan, bool skin, bool AbuseFilter, bool Music);
 
     QString getCurrLang() const;
     void setCurrLang(const QString &currLang);
 
-    QString getLangPath() const;
-    void setLangPath(const QString &langPath);
+    QStringList getLangList()const;
 
 private:
 
     bool g_language;
     bool g_skin;
-    int Abuse_Filter;
-    int MusicSwitch;
+    bool Abuse_Filter;
+    bool MusicSwitch;
 
+    QString m_currLang;
+    QString m_langPath;
+    QString m_ini_fname;
+    QStringList m_LangList;
     QTranslator m_translator;
-    QString m_currLang;// = "English"; // contains the currently loaded language
-    QString m_langPath; // Path of language files. This is always fixed to /languages.
-
-signals:
-
-public slots:
-    bool setLang();
-    bool setSkin();
-    int setAbuse_Filter();
-    int setMusicSwitch();
-    void saveSettings(const QString& ini_fname);
-    void getConfig(bool lan, bool skin, int AbuseFilter, int Music);
+    QTranslator m_translatorQt; // contains the translations for qt
 
 };
 

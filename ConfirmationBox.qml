@@ -52,6 +52,7 @@ Item {
                 font.family: "Comic Sans MS"//"Kristen ITC"
                 font.pointSize: 15
                 font.bold: false
+                fontSizeMode: Text.HorizontalFit
                 color: "white"
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 

@@ -95,6 +95,12 @@ public:
     int offerId() const;
     void setOfferId(int offerId);
 
+    int likeRate()const;
+    void setLikeRate(int LikeRate);
+
+    int dislikeRate()const;
+    void setDislikeRate(int DislikeRate);
+
 private:
     int m_id = 0;
     QString m_name;
@@ -117,7 +123,9 @@ private:
     QDate m_dob;
     QString m_foreground1Value;
     QString m_background1Value;
-    int m_offerId;
+    int m_offerId = 0;
+    int m_LikeRate = -2;
+    int m_DislikeRate = 0;
 };
 
 
@@ -157,6 +165,9 @@ public:
 
     QString joinedClub() const;
     void setJoinedClub(const QString &joinedClub);
+
+    QString contractType() const;
+    void setContractType(const QString &contracttype);
 
     QString contractEnd() const;
     void setContractEnd(const QString &contractEnd);
@@ -199,6 +210,7 @@ private:
     QString m_squad;
     int m_squadRep;
     QString m_joinedClub;
+    QString m_contractType;
     QString m_contractEnd;
     int m_leavingOnBosman;
     int m_minimumFee;
@@ -357,6 +369,8 @@ class Player : public QObject
     Q_PROPERTY(QString name READ name  CONSTANT/*WRITE setName NOTIFY nameChanged*/)
     Q_PROPERTY(int clubId READ clubId CONSTANT)
     Q_PROPERTY(int number READ number WRITE setNumber NOTIFY numberChanged)
+    Q_PROPERTY(int likeRate READ likeRate WRITE setLikeRate NOTIFY likeRateChanged)
+    Q_PROPERTY(int dislikeRate READ dislikeRate WRITE setDislikeRate NOTIFY dislikeRateChanged)
     Q_PROPERTY(QString clubName READ clubName CONSTANT)
     Q_PROPERTY(QString proposedPosition READ proposedPosition CONSTANT)
     Q_PROPERTY(QString assignedPosition READ assignedPosition WRITE setAssignedPosition NOTIFY assignedPositionChanged)
@@ -445,6 +459,7 @@ class Player : public QObject
     Q_PROPERTY(QString squad READ squad CONSTANT)
     Q_PROPERTY(int squadRep READ squadRep CONSTANT)
     Q_PROPERTY(QString joinedClub READ joinedClub CONSTANT)
+    Q_PROPERTY(QString contractType READ contractType CONSTANT)
     Q_PROPERTY(QString contractEnd READ contractEnd CONSTANT)
     Q_PROPERTY(int leavingOnBosman READ leavingOnBosman CONSTANT)
     Q_PROPERTY(int minimumFee READ minimumFee CONSTANT)
@@ -472,6 +487,8 @@ class Player : public QObject
     Q_PROPERTY(bool isDefender READ isDefender CONSTANT)
     Q_PROPERTY(bool isMidfielder READ isMidfielder CONSTANT)
     Q_PROPERTY(bool isAttacker READ isAttacker CONSTANT)
+    Q_PROPERTY(bool isPlayerFree READ isPlayerFree CONSTANT)
+    Q_PROPERTY(QString getPlayertype READ getPlayertype CONSTANT)
 
     Q_PROPERTY(int offerId READ offerId WRITE setOfferId NOTIFY offerIdChanged)
 
@@ -512,6 +529,13 @@ public:
     QString background1Value() const;
     int offerId() const;
     void setOfferId(int offerId);
+
+    int likeRate()const;
+    void setLikeRate(int LikeRate);
+
+    int dislikeRate()const;
+    void setDislikeRate(int DislikeRate);
+
     //----------------------------------------------
     // player attributes
     int acceleration() const;
@@ -584,6 +608,7 @@ public:
     QString squad() const;
     int squadRep() const;
     QString joinedClub() const;
+    QString contractType() const;
     QString contractEnd() const;
     int leavingOnBosman() const;
     int minimumFee() const;
@@ -601,6 +626,9 @@ public:
     bool isDefender() const;
     bool isMidfielder() const;
     bool isAttacker() const;
+    bool isPlayerFree() const;
+    QString getPlayertype() const;
+
 //signals:
 
 
@@ -621,12 +649,17 @@ signals:
     void assignedPositionChanged(QString position);
     void numberChanged(int number);
     void offerIdChanged(int offerId);
+    void likeRateChanged(int LikeRate);
+    void dislikeRateChanged(int DislikeRate);
+public slots:
+    void setGameClock(QDateTime date);
 
 private:
 
     PlayerInfo m_info;
     PlayerAttributes m_attributes;
     PlayerContracts m_contracts;
+    QDateTime m_GameClock;
 };
 
 #endif // PLAYER_H

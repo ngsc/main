@@ -206,6 +206,26 @@ void PlayerInfo::setOfferId(int offerId)
     m_offerId = offerId;
 }
 
+int PlayerInfo::likeRate() const
+{
+    return m_LikeRate;
+}
+
+void PlayerInfo::setLikeRate(int LikeRate)
+{
+    m_LikeRate = LikeRate;
+}
+
+int PlayerInfo::dislikeRate() const
+{
+    return m_DislikeRate;
+}
+
+void PlayerInfo::setDislikeRate(int DislikeRate)
+{
+    m_DislikeRate = DislikeRate;
+}
+
 int PlayerInfo::number() const
 {
     return m_number;
@@ -272,6 +292,16 @@ QString PlayerContracts::joinedClub() const
 void PlayerContracts::setJoinedClub(const QString &joinedClub)
 {
     m_joinedClub = joinedClub;
+}
+
+QString PlayerContracts::contractType() const
+{
+    return m_contractType;
+}
+
+void PlayerContracts::setContractType(const QString &contracttype)
+{
+    m_contractType = contracttype;
 }
 
 QString PlayerContracts::contractEnd() const
@@ -438,6 +468,11 @@ PlayerContracts &Player::contracts()
     return m_contracts;
 }
 
+void Player::setGameClock(QDateTime date)
+{
+    m_GameClock = date;
+}
+
 //Player info properties
 int Player::id() const
 {
@@ -558,6 +593,7 @@ QString Player::background1Value() const
 
 int Player::offerId() const
 {
+    qDebug()<<" m_info.offerId() "<<m_info.offerId();
     return m_info.offerId();
 }
 
@@ -565,6 +601,26 @@ void Player::setOfferId(int offerId)
 {
     m_info.setOfferId(offerId);
     emit offerIdChanged(m_info.offerId());
+}
+
+int Player::likeRate() const
+{
+    return m_info.likeRate();
+}
+
+void Player::setLikeRate(int LikeRate)
+{
+    m_info.setLikeRate(LikeRate);
+}
+
+int Player::dislikeRate() const
+{
+    return m_info.dislikeRate();
+}
+
+void Player::setDislikeRate(int DislikeRate)
+{
+    m_info.setLikeRate(DislikeRate);
 }
 
 //Player attributes properties
@@ -906,6 +962,11 @@ QString Player::joinedClub() const
     return m_contracts.joinedClub();
 }
 
+QString Player::contractType() const
+{
+    return m_contracts.contractType();
+}
+
 QString Player::contractEnd() const
 {
     return m_contracts.contractEnd();
@@ -996,6 +1057,35 @@ bool Player::isAttacker() const
     auto pos = proposedPosition().toUpper();
     return pos == "AM C" || pos == "AM R" || pos == "AM L" || pos == "AM RC" ||
             pos == "AM LC" || pos == "AM RLC" || pos == "AM RL" || pos == "ST";
+}
+
+bool Player::isPlayerFree() const
+{
+    if(m_contracts.contractType() == "N/A"){
+        return true;
+    }else if(m_contracts.contractType() == "Full Time"){
+        return false;
+    }
+}
+
+QString Player::getPlayertype() const
+{
+//    qDebug()<<m_contracts.contractType()<<" : m_contracts.contractType()";
+    if(isPlayerFree()|| (m_info.clubId()==0)){
+
+        qDebug()<<"Free Player";
+        return "Free Player";
+    }else {
+        QDate dob = QDate::fromString(m_contracts.contractEnd(), "yyyy-MM-dd");
+//        qDebug()<< dob.month() << " : dob month";
+//        qDebug()<< m_GameClock.date().month() << " : gameclock month";
+        if((dob.year() >= m_GameClock.date().year())&&
+                (dob.month() + 6 < m_GameClock.date().month() )){
+            return "Bosman";
+        }else {
+            return "Normal";
+        }
+    }
 }
 
 int Player::running() const

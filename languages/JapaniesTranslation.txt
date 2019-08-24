@@ -1,0 +1,19 @@
+value:値
+bid:入札
+negotiating:交渉
+have:帯びる
+decided:決定しました
+the offer:申し出
+to:に
+To:に
+every:すべての
+fans:ファン
+surprise:驚き
+statement:ステートメント
+rejects:拒否する
+invitation:招待
+today:今日
+from:から
+club.:クラブ.
+between:の間に
+the match:試合

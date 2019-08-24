@@ -37,7 +37,7 @@ Rectangle
         font.pointSize: 15
         font.bold: boldfont
         font.italic: italicfont
-        text: button_text
+        text: qsTr(button_text)
     }
     states: [
         State {

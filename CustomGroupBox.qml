@@ -50,7 +50,7 @@ Rectangle
         anchors.verticalCenter: group_box_content_background.top
         anchors.left: group_box_content_background.left
         anchors.leftMargin: 30
-        width: 90
+        width: group_box_title_text.width + 10
         height: 25
         opacity: 0.3
         color: "transparent"
@@ -63,6 +63,6 @@ Rectangle
         font.pointSize: 11
         color: "#e1e100"
         font.bold: true
-        text: title_text
+        text: qsTr(title_text)
     }
 }

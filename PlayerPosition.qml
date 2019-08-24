@@ -67,6 +67,7 @@ Rectangle {
                     }
                 }
             }
+
             Text {
                 id: player_id
                 text: id
@@ -80,7 +81,7 @@ Rectangle {
                 color: "white"
                 font.pointSize: 10
                 font.family: "Comic Sans MS"
-                text: name
+                text: qsTr(name)
                 anchors.verticalCenter: parent.verticalCenter
                 verticalAlignment: Text.AlignVCenter
             }
@@ -92,7 +93,7 @@ Rectangle {
                 color: "#ff0000"
                 font.pointSize: 10
                 font.family: "Comic Sans MS"
-                text: proposedPosition
+                text: qsTr(proposedPosition)
                 anchors.verticalCenter: parent.verticalCenter
                 verticalAlignment: Text.AlignVCenter
             }
@@ -168,7 +169,7 @@ Rectangle {
                 delegate: DragItem {
                     //width: drop.width
                     height: 20
-                    text: modelData
+                    text: qsTr(modelData)
                 }
             }
         }

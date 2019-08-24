@@ -154,7 +154,7 @@ Rectangle {
                         anchors.horizontalCenter: parent.horizontalCenter
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
-                        text: styleData.value
+                        text: qsTr(styleData.value)
                         elide: Text.ElideRight
                         color: "white"
                         renderType: Text.NativeRendering
@@ -209,12 +209,13 @@ Rectangle {
                         anchors.fill: parent
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
-                        text: styleData.value
+                        text: qsTr(styleData.value.toString())
                         elide: Text.ElideRight
                         color: clubsTable.model.get(styleData.row).foreground1Value ? clubsTable.model.get(styleData.row).foreground1Value : "black"
                         renderType: Text.NativeRendering
                         font.family: "Comic Sans MS"
                         font.pointSize: 10
+
                     }
                 }
 
@@ -269,7 +270,17 @@ Rectangle {
                     }
                 }*/
             }
+
+            onClicked: {
+                //overViewTable.enabled = false
+                app.busyIndicator.running = true;
+                app.clubDetailsforManager = false
+                APIConnection.getClubDetails(managerUser.token,filterModel.get(row).id)//(managerUser.token, filterModel.get(row).id)
+                clubPage.loadClubPlayers(filterModel.get(row).id)
+                callinsidepage2(clubPage)
+            }
         }
+
     }
 
     Club {
@@ -280,22 +291,24 @@ Rectangle {
         target: APIConnection
 
         onGetClubsFinished: {
-            app.busyIndicator.running = false
-            clubModel.setClubs(clubs);
-            if(clubModel.rowCount() > 0)
-            {
-                var lid = clubModel.get(0).leagueId
-                root.currentLeague = parseInt(lid)
-                app_title_bar.showselectedclubname = true
-                if(root.currentLeague === 0)
+            if(stackView.__currentItem === leaguePage){
+                app.busyIndicator.running = false
+                clubModel.setClubs(clubs);
+                if(clubModel.rowCount() > 0)
                 {
-                    app_title_bar.title = qsTr("League A");
-                    app_title_bar.selectedclubname = qsTr("League B");
-                }
-                else
-                {
-                    app_title_bar.title = qsTr("League B");
-                    app_title_bar.selectedclubname = qsTr("League A");
+                    var lid = clubModel.get(0).leagueId
+                    root.currentLeague = parseInt(lid)
+                    app_title_bar.showselectedclubname = true
+                    if(root.currentLeague === 0)
+                    {
+                        app_title_bar.title = qsTr("League A");
+                        app_title_bar.selectedclubname = qsTr("League B");
+                    }
+                    else
+                    {
+                        app_title_bar.title = qsTr("League B");
+                        app_title_bar.selectedclubname = qsTr("League A");
+                    }
                 }
             }
         }

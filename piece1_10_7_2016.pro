@@ -27,10 +27,14 @@ SOURCES += main.cpp \
     invitationmodel.cpp \
     newsmodel.cpp \
     news.cpp \
-    monitor/src/rcsslogplayer_cpp/gzfstream.cpp \
-    monitor/src/rcsslogplayer_cpp/parser.cpp \
-    monitor/src/rcsslogplayer_cpp/types.cpp \
-    monitor/src/rcsslogplayer_cpp/util.cpp \
+    announcement.cpp \
+    announcementmodel.cpp \
+    playercomment.cpp \
+    playercommentsmodel.cpp \
+    bullettext.cpp \
+    bullets.cpp \
+    historybrief.cpp \
+    usercommentsmodel.cpp \
     monitor/src/angle_deg.cpp \
     monitor/src/ball_painter.cpp \
     monitor/src/circle_2d.cpp \
@@ -51,9 +55,13 @@ SOURCES += main.cpp \
     monitor/src/team_graphic.cpp \
     monitor/src/team_graphic_painter.cpp \
     monitor/src/vector_2d.cpp \
-    PlayerController.cpp \
+    MonitorController.cpp \
     FieldController.cpp \
-    MonitorController.cpp
+    PlayerController.cpp \
+    monitor/src/rcsslogplayer_cpp/gzfstream.cpp \
+    monitor/src/rcsslogplayer_cpp/parser.cpp \
+    monitor/src/rcsslogplayer_cpp/types.cpp \
+    monitor/src/rcsslogplayer_cpp/util.cpp
 
 RESOURCES += \
     qml.qrc
@@ -62,11 +70,10 @@ RESOURCES += \
 #QML_IMPORT_PATH =
 
 # Default rules for deployment.
-include(deployment.pri)
+#include(deployment.pri)
 
 INCLUDEPATH += $$PWD\monitor\include\rcsslogplayer \
-                $$PWD\monitor\include \
-                $$PWD\icons
+                $$PWD\monitor\include
 
 HEADERS += \
     mainwindow.h \
@@ -90,11 +97,18 @@ HEADERS += \
     invitationmodel.h \
     newsmodel.h \
     news.h \
-    monitor/include/rcsslogplayer/gzfstream.h \
-    monitor/include/rcsslogplayer/handler.h \
-    monitor/include/rcsslogplayer/parser.h \
-    monitor/include/rcsslogplayer/types.h \
-    monitor/include/rcsslogplayer/util.h \
+    announcement.h \
+    announcementmodel.h \
+    playercomment.h \
+    playercommentsmodel.h \
+    bullettext.h \
+    bullets.h \
+    historybrief.h \
+    usercommentsmodel.h \
+    monitor/src/rcsslogplayer_cpp/gzfstream.cpp \
+    monitor/src/rcsslogplayer_cpp/parser.cpp \
+    monitor/src/rcsslogplayer_cpp/types.cpp \
+    monitor/src/rcsslogplayer_cpp/util.cpp \
     monitor/include/angle_deg.h \
     monitor/include/ball_painter.h \
     monitor/include/circle_2d.h \
@@ -117,9 +131,10 @@ HEADERS += \
     monitor/include/team_graphic.h \
     monitor/include/team_graphic_painter.h \
     monitor/include/vector_2d.h \
-    PlayerController.h \
+    MonitorController.h \
     FieldController.h \
-    MonitorController.h
+    PlayerController.h
 
 
-TRANSLATIONS = languages/snarky_en.ts languages/snarky_jp.ts languages/snarky_zh.ts
+TRANSLATIONS = languages/snarky_English.ts languages/snarky_Japanies.ts languages/snarky_Chinese_Simplified.ts
+

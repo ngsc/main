@@ -170,9 +170,16 @@ Item {
                     APIConnection.updateQuizPass(managerUser.token)
                     managerUser.quizPass = true
                     alerts.show(qsTr("Congratulations, you passed the knowledge quiz!"), "green");
-                    app_title_bar.popPage()
-                    app_title_bar.forwardlist.pop();
+                    app.callinsidepage2(clubSelection)//managerProfileGenerator)
+                    clubSelection.loadLeagueClubs(406);     //load league B (club id: 406 belongs to league B)
+//                    clubSelection.loadLeagueClubs(406);
+                    count_down.stop();
+                    //                    app_title_bar.popPage()
+                    //                    app_title_bar.forwardlist.pop();
                     app_title_bar.setforwordvisibility = false
+                }else{
+                    alerts.show(qsTr("Oops, try again to pass the knowledge quiz!"), "red");
+                    failedQuizBox.visible = true
                 }
             }
         }
@@ -183,7 +190,7 @@ Item {
             anchors.rightMargin: 20
             anchors.bottom: parent.bottom
             text: qsTr("Cancel")
-            onClicked: { app_title_bar.popPage() }
+            onClicked: { failedQuizBox.visible = true }
         }
 
         Countdown {
@@ -200,15 +207,21 @@ Item {
                 if(pass) {
                     APIConnection.updateQuizPass(managerUser.token)
                     managerUser.quizPass = true
+                    app.callinsidepage2(clubSelection)
                     alerts.show(qsTr("Congratulations, you passed the knowledge quiz!"), "green");
+
                 }
                 else {
                     alerts.show(qsTr("Oops, try again to pass the knowledge quiz!"), "red");
+                    failedQuizBox.visible = true
+
+                    //TODO
+                    //Add here confirmingbox to exit the App or restart the quiz
                 }
 
-                app_title_bar.popPage()
-                app_title_bar.forwardlist.pop();
-                app_title_bar.setforwordvisibility = false
+                //                app_title_bar.popPage()
+                //                app_title_bar.forwardlist.pop();
+                //                app_title_bar.setforwordvisibility = false
             }
         }
 
@@ -230,6 +243,28 @@ Item {
         listView.model = 0
         listView.model = myModel
         count_down.start();
+    }
+
+
+    ConfirmationBox {
+        id: failedQuizBox
+        title: qsTr("Withdraw Offer")
+        question: qsTr("Do you want to solve the Quiz again?!")
+
+        anchors.centerIn: parent
+        cancel_button_text: qsTr("Exit")
+        confirm_button_text: qsTr("Try Again")
+        property int offerId: 0
+        onCancel_clicked: {
+            failedQuizBox.visible = false
+            app.close();
+        }
+
+        onConfirm_clicked: {
+            failedQuizBox.visible = false
+            start_count_down();
+            //            APIConnection.withdrawOffer(managerUser.token, offerId)
+        }
     }
 }
 

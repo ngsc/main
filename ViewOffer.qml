@@ -22,6 +22,7 @@ Rectangle {
     //loan properties
     //int offer_id, Player* player, int oci, QString ocn, int bci, QString bcn, int fee,
     //int future_fee, int wages, QString duration, QString duration_type, bool can_play_in_cup, bool can_play_against, bool can_be_recalled);
+
     property int future_fee: 0
     property int wages: 0
     property string duration: ""
@@ -29,7 +30,6 @@ Rectangle {
     property bool can_play_in_cup: false
     property bool can_play_against: false
     property bool can_be_recalled: false
-
 
     property Player player : Player{ id: tmpPlayer }
     property News news
@@ -374,6 +374,7 @@ Rectangle {
             }
 
         }
+
         MyButtonNormal
         {
             id: confirm_button
@@ -409,7 +410,7 @@ Rectangle {
             anchors.top: confirm_button.top
             anchors.right: confirm_button.left
             anchors.rightMargin: 5
-            text: "Reject"
+            text: qsTr("Reject")
             onClicked: { reject.visible = true }
         }
 
@@ -578,7 +579,7 @@ Rectangle {
     ConfirmationBox {
         id: confirm
         anchors.centerIn: parent
-        confirm_button_text: confirm_button.text
+        confirm_button_text: qsTr(confirm_button.text)
         cancel_button_text: qsTr("Cancel")
         title: confirm_button.text
         question: qsTr("%1 of %2 to %3?").arg(confirm.title).arg(news.offerType === News.Transfer ? transfer_fees_combo_box.displayText: loan_fees_combo_box.displayText).arg(player.name)
@@ -681,6 +682,7 @@ Rectangle {
         onGetLoanOfferWithPlayerDetailsFinished: {
             //int offer_id, Player* player, int oci, QString ocn, int bci, QString bcn, int fee,
             //int future_fee, int wages, QString duration, QString duration_type, bool can_play_in_cup, bool can_play_against, bool can_be_recalled);
+
             app.busyIndicator.running = false
             root.offer_id = offer_id;
             root.player = player;
@@ -704,5 +706,6 @@ Rectangle {
             loan_wages_combo_box.displayText = root.wages + "%"
             loan_duration_combo_box.displayText = root.duration
         }
+
     }
 }

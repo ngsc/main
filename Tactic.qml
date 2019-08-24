@@ -160,9 +160,7 @@ Rectangle
                 circle10.x = point[0]
                 circle10.y = point[1]
             }
-
             currentPos++;
-
         }
 
     }

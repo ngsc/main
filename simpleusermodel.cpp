@@ -137,7 +137,7 @@ QHash<int, QByteArray> SimpleUserModel::roleNames() const
 
 void SimpleUserModel::setUsers(QList<SimpleUser *> users, QString currentUsername)
 {
-    qDebug() << "match users: " << users.count();
+//    qDebug() << "match users: " << users.count();
     if(users.isEmpty())
         return;
 

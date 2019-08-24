@@ -9,7 +9,7 @@ Rectangle
     id: button_1
     property string button_text: ""
     anchors.margins: 2
-    width: ((parent.width-24)/5)
+    width: ((parent.width-24)/6)
     height: 30
     color: "transparent"
     property bool button_bottom_line_visibility: false

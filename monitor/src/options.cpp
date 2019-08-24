@@ -50,6 +50,9 @@
 #include <cmath>
 #include <cstdio>
 
+#ifndef PACKAGE_NAME
+#define PACKAGE_NAME "rcssmonitor"
+#endif
 #ifndef VERSION
 #define VERSION "x.x.x"
 #endif

@@ -46,7 +46,13 @@ public slots:
     void clear();
     QList<Invitation *> invitations();
 
+    void setHomeClubId(int clubId);
+    bool areThereInvetationNews();
+    QList<int> cancelAllInvetation();
+
 private:
+    int m_HomeClubID;
+    QList<int> m_InvetationId;
     QList<Invitation *> m_invitations;
 };
 

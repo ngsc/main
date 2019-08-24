@@ -1,4 +1,5 @@
 #include "club.h"
+#include <QDebug>
 
 Club::Club(QObject *parent) : QObject(parent)
 {
@@ -476,5 +477,16 @@ int Club::leagueId() const
 void Club::setLeagueId(int leagueId)
 {
     m_leagueId = leagueId;
+}
+
+bool Club::targetClub() const
+{
+    return m_IsTargetClub;
+}
+
+void Club::settargetClub(bool value)
+{
+    qDebug()<<value;
+    m_IsTargetClub = value;
 }
 

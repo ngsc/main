@@ -12,6 +12,7 @@ public:
     Q_PROPERTY(int id READ id WRITE setClubId NOTIFY idChanged)
     Q_PROPERTY(QString token READ token WRITE setToken NOTIFY tokenChanged)
     Q_PROPERTY(QString username READ username WRITE setUsername)
+    Q_PROPERTY(QString userPortrait READ UserPortrait WRITE setUserPortrait)
     Q_PROPERTY(QString password READ password WRITE setPassword)
     Q_PROPERTY(bool quizPass READ quizPass WRITE setQuizPass NOTIFY quizPassChanged)
     Q_PROPERTY(QString firstName READ firstName WRITE setFirstName NOTIFY firstNameChanged)
@@ -63,6 +64,9 @@ public:
     QString clubName() const;
     void setClubName(const QString &clubName);
 
+    QString UserPortrait() const;
+    void setUserPortrait(const QString &userPortrait);
+
     Club *club() const;
     void setClub(Club *club);
 
@@ -77,12 +81,12 @@ signals:
     void clubNameChanged(QString clubName);
     void cityChanged(QString city);
     void favFormationChanged(QString formation);
-   void clubChanged(Club *club);
+    void clubChanged(Club *club);
 
 public slots:
 
    void setUser(User* user);
-    void printDetails();
+   void printDetails();
 
 private:
     int m_id;
@@ -101,6 +105,7 @@ private:
     QString m_city;
     QString m_favFormation;
 
+    QString m_UserPortrait;
     Club* m_club = nullptr;    //current club owned by the user
 };
 

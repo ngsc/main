@@ -24,7 +24,7 @@ Rectangle
         color: "#ffffff"
         font.pointSize: 10
         font.family: "Comic Sans MS"
-        text: "Button"
+        text: qsTr("Button")
     }
 
     MouseArea

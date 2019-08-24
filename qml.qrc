@@ -32,11 +32,9 @@
         <file>images/portrait/bald.jpg</file>
         <file>images/portrait/black.jpg</file>
         <file>images/portrait/kid.jpg</file>
-        <file>images/portrait/moustache.JPG</file>
         <file>images/portrait/old.jpg</file>
         <file>images/portrait/ordinary.jpg</file>
         <file>images/portrait/yellow hair.jpg</file>
-        <file>images/portrait/young.JPG</file>
         <file>ViewRectList.qml</file>
         <file>PlayerProfile.qml</file>
         <file>GoalkeeperProfile.qml</file>
@@ -69,11 +67,77 @@
         <file>NewsPage.qml</file>
         <file>ViewOffer.qml</file>
         <file>SubmitContract.qml</file>
+        <file>images/clubs/normal/1099.png</file>
+        <file>images/clubs/normal/1100.png</file>
+        <file>images/clubs/normal/1135.png</file>
+        <file>images/clubs/normal/1139.png</file>
+        <file>images/clubs/normal/1150.png</file>
+        <file>images/clubs/normal/115940.png</file>
+        <file>images/clubs/normal/116403.png</file>
+        <file>images/clubs/normal/128051.png</file>
+        <file>images/clubs/normal/131135.png</file>
+        <file>images/clubs/normal/131162.png</file>
+        <file>images/clubs/normal/131169.png</file>
+        <file>images/clubs/normal/1687.png</file>
+        <file>images/clubs/normal/1708.png</file>
+        <file>images/clubs/normal/1736.png</file>
+        <file>images/clubs/normal/1759.png</file>
+        <file>images/clubs/normal/1775.png</file>
+        <file>images/clubs/normal/23025593.png</file>
+        <file>images/clubs/normal/23147325.png</file>
+        <file>images/clubs/normal/23172080.png</file>
+        <file>images/clubs/normal/23292170.png</file>
+        <file>images/clubs/normal/23295502.png</file>
+        <file>images/clubs/normal/23325084.png</file>
+        <file>images/clubs/normal/23325085.png</file>
+        <file>images/clubs/normal/406.png</file>
+        <file>images/clubs/normal/409.png</file>
+        <file>images/clubs/normal/414.png</file>
+        <file>images/clubs/normal/416.png</file>
+        <file>images/clubs/normal/602.png</file>
+        <file>images/clubs/normal/630.png</file>
+        <file>images/clubs/normal/676.png</file>
+        <file>images/clubs/normal/679.png</file>
+        <file>images/clubs/normal/680.png</file>
+        <file>images/clubs/normal/728.png</file>
+        <file>images/clubs/normal/868.png</file>
+        <file>images/clubs/normal/907.png</file>
+        <file>images/clubs/normal/915.png</file>
+        <file>AnnouncementPart.qml</file>
+        <file>images/portrait/moustache.jpg</file>
+        <file>images/portrait/young.jpg</file>
+        <file>icons/dislike.png</file>
+        <file>icons/like.png</file>
+        <file>BravoThumbDown.qml</file>
+        <file>icons/Error.png</file>
+        <file>icons/Warning.png</file>
+        <file>icons/Checked.png</file>
+        <file>CommentBoard.qml</file>
+        <file>CommentRect.qml</file>
+        <file>UserHistoryBrief.qml</file>
+        <file>icons/offline.png</file>
+        <file>icons/online.png</file>
+        <file>images/background/1.jpg</file>
+        <file>images/background/2.jpg</file>
+        <file>images/background/3.jpg</file>
+        <file>images/background/4.jpg</file>
+        <file>images/background/5.jpg</file>
+        <file>images/background/6.jpg</file>
+        <file>images/background/7.jpg</file>
+        <file>images/background/8.jpg</file>
+        <file>images/background/9.jpg</file>
+        <file>images/background/0.jpg</file>
+        <file>images/background/10.jpg</file>
+        <file>images/background/11.jpg</file>
+        <file>images/background/12.jpg</file>
+        <file>languages/ChineseTranslation.txt</file>
+        <file>languages/JapaniesTranslation.txt</file>
+        <file>DirectSign.qml</file>
+        <file>OfferToClub.qml</file>
         <file>Monitor.qml</file>
         <file>StatisticsPageLeft.qml</file>
         <file>StatisticsPageRight.qml</file>
         <file>TacticPage.qml</file>
-        <file>CommentaryPage.qml</file>
         <file>icons/Pitch - Copy.png</file>
         <file>icons/Pitch.jpg</file>
         <file>icons/Pitch.png</file>

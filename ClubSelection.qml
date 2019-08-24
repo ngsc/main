@@ -63,13 +63,13 @@ Rectangle {
             MouseArea {
                 anchors.fill: parent
                 hoverEnabled: true
-                cursorShape: ownerId === 0 ? Qt.PointingHandCursor : Qt.ArrowCursor
+                cursorShape: Qt.PointingHandCursor//ownerId === 0 ? Qt.PointingHandCursor : Qt.ArrowCursor
                 acceptedButtons: Qt.LeftButton
                 onPressed: {
-                    if(ownerId !== 0)
-                    {
-                        return;
-                    }
+                    //                    if(ownerId !== 0)
+                    //                    {
+                    //                        return;
+                    //                    }
 
                     root.selectedclub = name_field.text
                     root.selectedid = rect.club_id
@@ -101,6 +101,7 @@ Rectangle {
                     }
                 }
             }
+
             Text {
                 id: idtxt
                 text: id
@@ -117,7 +118,7 @@ Rectangle {
                     id: img
                     anchors.fill: parent
                     fillMode: Image.PreserveAspectFit
-                    source: "file:///" + applicationPath + "images/clubs/normal/" + club_id + ".png"
+                    source: "images/clubs/normal/" + club_id + ".png"
                     smooth: true
                 }
             }
@@ -132,7 +133,7 @@ Rectangle {
                     //anchors.horizontalCenter: parent.horizontalCenter
                     anchors.centerIn: parent
                     color: "white"
-                    text: name
+                    text: qsTr(name)
                     font.pointSize: 10
                     font.family: "Comic Sans MS"
                     horizontalAlignment: Text.AlignHCenter
@@ -258,7 +259,42 @@ Rectangle {
                             confirmingbox.visible = false
                             managerProfileGenerator.selectedClubId = selectedid;
                             managerProfileGenerator.selectedClubName = selectedclub;
-                            app.callinsidepage2(managerProfileGenerator)
+
+                            if(managerUser.userPortrait === ""){
+                                managerUser.clubId = selectedid
+                                managerUser.clubName = selectedclub
+
+                                //                                APIConnection.updateUser(managerUser);
+
+                                app.callinsidepage2(managerProfileGenerator)
+
+                                app.clubDetailsforManager = false
+//                                if(app.takeControl && (managerUser.userPortrait != "")){
+//                                    APIConnection.getPublicNews(managerUser.token)
+//                                    app.takeControl = false
+//                                }
+
+                            }else{
+
+
+                                managerUser.clubId = selectedid;
+                                managerUser.clubName = selectedclub
+
+//                                APIConnection.getPublicNews(managerUser.token)
+                                app.takeControl = false
+
+                                app.clubDetailsforManager = false
+                                APIConnection.updateUser(managerUser);
+                                APIConnection.getClubDetails(managerUser.token, managerUser.clubId);
+                                clubPage.loadClubPlayers(managerUser.clubId)
+                                APIConnection.getUsers(managerUser.token)
+                                APIConnection.getNews(managerUser.token, managerUser.id)
+//                                getInvitationsTimer.running = true
+                                getNewsTimer.running = true
+                                app.callinsidepage2(clubPage)
+                                clubPage.titleBar = managerUser.clubName
+                            }
+
                         }
                     }
 

@@ -52,6 +52,7 @@ class Club : public QObject
     Q_PROPERTY(QString ownerName READ ownerName WRITE setOwnerName NOTIFY ownerNameChanged)
     Q_PROPERTY(QString nation READ nation CONSTANT)
     Q_PROPERTY(int leagueId READ leagueId CONSTANT)
+    Q_PROPERTY(bool targetClub READ targetClub WRITE settargetClub)
 
 
 
@@ -194,6 +195,9 @@ public:
     int leagueId() const;
     void setLeagueId(int leagueId);
 
+    bool targetClub()const;
+    void settargetClub(bool value);
+
 signals:
     void idChanged(int id);
     void nameChanged(QString name);
@@ -288,6 +292,7 @@ private:
     int m_ownerId;
     QString m_ownerName;
     int m_leagueId;
+    bool m_IsTargetClub = false;
 
 };
 

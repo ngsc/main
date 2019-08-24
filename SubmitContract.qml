@@ -23,7 +23,7 @@ Rectangle {
         app_title_bar.textColor = player.background1Value !== "" ? player.foreground1Value : app_title_bar.defaultTextColor;
         app_title_bar.selectedclubid = player.clubId        //app_title_bar.selectedplayer = "file:///" + applicationPath + "images/players/" + player.id + ".png"
         app_title_bar.setportrailVisible = false
-        console.log("Manager club: " + managerUser.club + ", player club: " + player.clubId)
+//        console.log("Manager club: " + managerUser.club + ", player club: " + player.clubId)
     }
 
     Rectangle {
@@ -363,7 +363,8 @@ Rectangle {
     Connections {
         target: APIConnection
 
-        onSubmitTransferOfferFinished: {
+//        onSubmitTransferOfferFinished: {
+        onGetTransferOfferFinished: {
             app.busyIndicator.running = false
             if(player.id !== player_id) {
                 alerts.show(qsTr("Wrong player id returned..."), "red");

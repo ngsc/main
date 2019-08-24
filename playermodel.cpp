@@ -62,6 +62,10 @@ QVariant PlayerModel::data(const QModelIndex &index, int role) const
         return QVariant(player->info().dob());
     case OfferId:
         return QVariant(player->info().offerId());
+    case LikeRate:
+        return QVariant(player->info().likeRate());
+    case DislikeRate:
+        return QVariant(player->info().dislikeRate());
     }
     return QVariant();
 }
@@ -127,6 +131,13 @@ bool PlayerModel::setData(const QModelIndex &index, const QVariant &value, int r
         break;
     case OfferId:
         player->info().setOfferId(value.toInt());
+        break;
+    case LikeRate:
+        player->info().setLikeRate(value.toInt());
+        break;
+    case DislikeRate:
+        player->info().setDislikeRate(value.toInt());
+        break;
     }
 
     emit dataChanged(index, index, { role } );
@@ -154,7 +165,9 @@ QHash<int, QByteArray> PlayerModel::roleNames() const
         {CurrentRepRole, "currentRep"},
         {WorldRepRole, "worldRep"},
         {DobRole, "dob"},
-        {OfferId, "offerId"}
+        {OfferId, "offerId"},
+        {LikeRate,"likeRate"},
+        {DislikeRate ,"dislikeRate"}
     };
 }
 

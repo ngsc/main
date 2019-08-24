@@ -1,0 +1,92 @@
+just test:just test
+%1 rejects the friendly invitation from %2:%1 拒绝来自 %2 的友谊赛邀请。
+%1 rejects contract:%1 拒绝合同
+%1 have rejected the loan offer from %2 for %3:%1 已经拒绝 %2 对 %3 的租借报价。
+%1 have rejected the offer from %2 for #%3:%1 已经拒绝 %2 对 %3 的报价
+%1 offer accepted:%1 报价被接受  
+%1 loan offer accepted :%1 租借报价被接受 
+The %1 have accepted the offer from %2  for %3: %1 已经接受 %2 对 %3 的报价。
+The %1 have accepted the loan offer from %2 for %3:%1 已经接受 %2 对 %3 的租借报价。
+Offer contract to %1:向 %1 提供合同
+%1 make new loan bid:%1 提出新租借报价
+%1 have made new loan bid.:%1 提出新租借报价。
+%1 negotiation over %2:%1 协商 %2 的租借交易
+%1 joins %2:%1 加盟 %2
+%1 becomes the manager:%1 成为经理
+%1 bid rejected:%1报价被拒绝
+%1 want %2 for %3:%1 对 %3 要价 %2
+%1 had made an offer of %2 for %3:%1 向 %3 提出价值 %2 的报价
+The %1 deal taking %2's %3 to %4 can now be completed.:从 %2 的 %3 到 %4 价值 %1 的交易现在可以被完成。
+%1 have decided to negotiating the offer.:%1 决定协商此报价。
+%1 negotiate over %2:%1 协商 %2 的交易
+%1 make %2 bid:%1 向 %2 提出报价
+%1 make new bid:%1 提出新报价
+%1 make new bid.:%1 提出新报价。
+%1 accept new bid:%1 接受新报价
+%1 accept new bid.:%1 接受新报价
+%1 set to sign for %2:%2 向 %1 提出报价
+%1 have confirmed the deal.:%1 已经确认了此交易。
+%1 set for %2 loan deal:%1 即将租界形式签约 %2
+%2 invites %1 as a friendly opponent:%2 邀请 %1 参加友谊赛
+%1 decide to negotiate loan offer:%1 决定对租界报价进行谈判
+%1 decide to negotiate the loan offer.:%1 决定对租界报价进行谈判。
+%1 move confirmed:%1的转会被确认
+%1 bid negotiating:%1 报价谈判中
+The friendly match invitation between %1 and %2 has been sent, the match will be held immediately after acceptance.:在 %1 和 %2 之间展开的友谊赛邀请已经被发出。一旦接受比赛会立即开始。
+%1 joins %2 on loan:%1 以租界形式加盟 %2
+%1 has agreed to join %2  on loan.:%1 已经同意以租界形式加入 %2。
+%1 set to move on loan to %2:%1 即将以租界形式加入 %2
+the loan move of %1 to %2 can now be completed. :%1 到 %2 的租借交易现在可以被完成。
+%1 loan move confirmed:%1’的租借转会被确定
+the loan move of %1 to %2 can now be completed.:%1 到 %2 的租借交易现在可以被完成。
+%1 loan bid rejected:%1的租界报价被拒绝
+%1 to sign %2:%1 即将签下 %2
+To every fans' surprise, %1, takes the charge of %2 from today. welcome to club.:令所有粉丝吃惊的是， %1 ,从今天起接管 %2 俱乐部，欢迎来到球会！
+From his spokesman's statement, %1, a manager leaves his post from %2 and quit, media guess it's due his personal health reason:从发言人的声明得知，%1 ，这位经理从 %2 俱乐部离任退出，媒体猜测是因为他个人健康原因。
+From his spokesman's statement, %1, a manager leaves his post from  and quit, media guess it's due his personal health reason
+On his very day, %1, a manager officially announces his retirement in football field, may be we can his shadow in auditorium place later soon.:在这个特别的日子，%1 ，这位经理正式宣布退出足坛，也许我们很快可以在球场观众席上看到他的身影。
+The friendly match invitation between %1 and %2 has been sent, the match will be held immediately after acceptance.:%1和%2之间的友谊赛邀请已被发出，一经同意比赛将立即开始。
+%1 has agreed terms with %2:%1已经同意%2的条款。
+The %1 deal taking %2 %3 to %4 can now be completed.:%2的%3转会至%4价值%1的交易现在可以完成。
+%1 agent has announced his client has rejected the contract offer from %2 However, he is willing to negotiate the terms.:%1的经纪人宣布他的客户已经拒绝来自%2俱乐部的合同方案。但是他愿意继续协商条款。
+%1 agent has announced his client has rejected the contract offer from %2:%1的经纪人已经宣布他的客户已经拒绝来自%2的合同。
+%1 wants %2 on loan:%1 试图租借 %2
+%1 had made an offer to loan for %2 %3 until the end of the season(for 3 months etc):%1 已经对%2的 %3提出为期直到赛季结束（三个月，等等）的租界。
+%1 want to negotiate %2 possible loan move to %3: %1 对 %2潜在以租界形式加盟 %3 提出谈判。
+%1 offer accepted:%1的报价被接受
+Offer contract to %1:向 %1 报价
+%1’s bid rejected:%1的报价被拒绝
+%1 make %2 bid:%1 对 %2 提出报价
+%1 set to sign for %2:%1 即将和%2签约
+%1 move confirmed:%1的转会即将敲定
+%1 bid negotiating:%1的报价协商中
+%1 negotiate over %2:%1 对%2展开协商
+%1 make new bid:%1提出新报价
+%1 accept new bid:%1 同意新报价
+%1 offer accepted:%1 的报价被接收
+%1 set to move on loan to %2:%1 即将被租借至 %2
+%1 loan move confirmed:%1的租借被确定
+%1 joins %2 on loan:%1 租借加盟至 %2
+%1 wants %2 on loan:%1 想租借%2
+%1 decide to negotiate loan offer:%1 决定协商租界报价
+%1 negotiation over %2:%1 对 %2 展开协商
+%1 make new loan bid:%1 提出新租界报价
+%1 offer %2:%1 提供 %2
+%1 decline offer:%1 决绝报价
+%1 make %2  bid:%1 对 %2 开价
+%1 accept offer:%1 同意报价
+Offer contract to %1:对 %1 提出合同
+%1 set for %2:%1 将加盟 %2
+%1 set to sign for %2:%1 即将和 %2 签约
+%1 to sign %2:%1 即将签约 %2
+%1 joins %2:%1 加盟 %2
+%1 rejects contract:%1 拒绝合同
+%1 signs new %2 deal:%1 和 %2 续约
+%1 rejects contract offer:%1 拒绝合同
+%1 becomes the manager:%1 成为经理
+Match time alerts:比赛时间提醒
+%1 declines:%1 拒绝
+%1 loan offer accepted:%1 租借报价被接受
+%1 resigns:%1 辞职
+%1 retires:%1 退休
+%1 have made an offer of %2 for %3:%1 已为 %3 提供 %2 的报价

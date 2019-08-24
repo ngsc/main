@@ -82,3 +82,30 @@ QList<Invitation *> InvitationModel::invitations()
 {
     return m_invitations;
 }
+
+void InvitationModel::setHomeClubId(int clubId)
+{
+    m_HomeClubID = clubId;
+}
+
+bool InvitationModel::areThereInvetationNews()
+{
+    for(int i = 0 ; i < m_invitations.count(); i++){
+        if(m_invitations.at(i)->active() && (m_HomeClubID == m_invitations.at(i)->awayClubId())){
+            return true;
+        }
+    }
+    return false;
+}
+
+QList<int> InvitationModel::cancelAllInvetation()
+{
+    m_InvetationId.clear();
+    for(int i = 0 ; i < m_invitations.count () ; i++){
+        if(m_invitations.at(i)->active() && (m_HomeClubID == m_invitations.at(i)->awayClubId())){
+            m_InvetationId.append(m_invitations.at(i)->id());
+            m_invitations.at(i)->setActive(false);
+        }
+    }
+    return m_InvetationId;
+}

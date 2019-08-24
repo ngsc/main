@@ -30,7 +30,7 @@ Item {
             color: "#ffffff"
             font.pointSize: 12
             font.family: "Comic Sans MS"
-            text: count_down.pad(Math.max(0,Math.floor(seconds/60)),2) + ":" + pad(Math.max(0,seconds% 60),2)
+            text: qsTr(count_down.pad(Math.max(0,Math.floor(seconds/60)),2) + ":" + pad(Math.max(0,seconds% 60),2))
         }
     }
 

@@ -7,6 +7,7 @@ import QtQuick 2.6
 import QtQuick.Controls 2.1
 
 Item {
+    id : customComboBox
     width: 200
     height: 30
 
@@ -22,6 +23,7 @@ Item {
         width: parent.width
         height: 30
         //currentIndex: setcurrentIndex
+        opacity: customComboBox.enabled ? 1 : 0.8
 
         property int newIndex: 0
         Keys.onUpPressed: combobox.decrementCurrentIndex()
@@ -79,7 +81,7 @@ Item {
             }
             contentItem: Text {
                 id : textdelegate
-                text: modelData
+                text: qsTr(modelData)
                 color:(combobox.highlightedIndex === index) ?"black" :  "white"
                 height: 30
                 font: combobox.font
@@ -93,7 +95,7 @@ Item {
             leftPadding: 10
             height: 30
             rightPadding: combobox.indicator.width + combobox.spacing
-            text: combobox.displayText
+            text: qsTr(combobox.displayText)
             font: combobox.font
             color:    "white"
             verticalAlignment: Text.AlignVCenter
@@ -105,8 +107,9 @@ Item {
             implicitWidth: 120
             implicitHeight: 30
             height: 30
-            color: "#3b76b1"
+            color: customComboBox.enabled ? "#3b76b1" : "#2e598f"
             radius: 30
+//            opacity: customComboBox.enabled ? 1 : 0.8
         }
 
         popup: Popup {
@@ -128,7 +131,7 @@ Item {
                 width: combobox.width
                 height : listview.contentHeight
                 border.color: "#3b76b1"
-                color: "#3b76b1"
+                color:  "#3b76b1"
                 radius: 10
             }
         }

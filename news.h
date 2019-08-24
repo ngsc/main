@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QDateTime>
-
+#include "club.h"
 /*
 offer_id => 55
 brief => Himanshu'Club make Messi bid
@@ -23,14 +23,17 @@ class News : public QObject
     Q_PROPERTY(QString brief READ brief NOTIFY briefChanged)
     Q_PROPERTY(QString message READ message NOTIFY messageChanged)
     Q_PROPERTY(int offerId READ offerId NOTIFY offerIdChanged)
+    Q_PROPERTY(int invitationId READ invitationId NOTIFY invitationIdChanged)
     Q_PROPERTY(int ownerClubId READ ownerClubId NOTIFY ownerClubIdChanged)
     Q_PROPERTY(int biddingClubId READ biddingClubId NOTIFY biddingClubIdChanged)
     Q_PROPERTY(bool read READ read WRITE setRead NOTIFY readChanged)
     Q_PROPERTY(bool active READ active NOTIFY activeChanged)
+    Q_PROPERTY(bool isPublicNews READ isPublicNews NOTIFY isPublicNewsChanged)
     Q_PROPERTY(Role role READ role NOTIFY roleChanged)
     Q_PROPERTY(Stage stage READ stage NOTIFY stageChanged)
     Q_PROPERTY(QDateTime dateTime READ dateTime NOTIFY dateTimeChanged)
     Q_PROPERTY(OfferType offerType READ offerType NOTIFY offerTypeChanged)
+    Q_PROPERTY(Club* club READ club WRITE setClub NOTIFY clubChanged)
 
 public:
 
@@ -67,8 +70,14 @@ public:
 
     explicit News(QObject *parent = nullptr);
 
+    Club* club() const;
+    void setClub(Club * club);
+
     int id() const;
     void setId(int id);
+
+    int invitationId()const;
+    void setInvitationId(int id);
 
     QString brief() const;
     void setBrief(const QString &brief);
@@ -110,6 +119,14 @@ public:
     void setNewsType(const NewsType &newsType);
     void setNewsType(const QString &newsType);
 
+    void checkNewsContent(News *n);
+
+    void setNewsAlive(bool live);
+    bool isStillAlive()const;
+
+    void setNewstypePublic(bool type);
+    bool isPublicNews()const;
+
 signals:
     void idChanged(int id);
     void briefChanged(QString brief);
@@ -123,6 +140,9 @@ signals:
     void stageChanged(Stage stage);
     void dateTimeChanged(QDateTime dt);
     void offerTypeChanged(OfferType type);
+    void clubChanged(Club*);
+    void invitationIdChanged(int id);
+    void isPublicNewsChanged(bool);
 
 public slots:
 
@@ -141,15 +161,19 @@ private:
     QString m_brief;
     QString m_message;
     int m_offerId;
+    int m_InvitationId;
     int m_ownerClubId;
     int m_biddingClubId;
     bool m_read;
     bool m_active;
+    bool m_live;
+    bool m_isPublicNews;
     Role m_role;
     Stage m_stage;
     OfferType m_offerType;
     QDateTime m_dateTime;
     NewsType m_newsType;
+    Club *m_SelectedClub = nullptr;
 };
 
 #endif // NEWS_H

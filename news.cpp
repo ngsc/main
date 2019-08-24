@@ -7,6 +7,17 @@ News::News(QObject *parent) : QObject(parent)
 
 }
 
+Club *News::club() const
+{
+    return m_SelectedClub;
+}
+
+void News::setClub(Club *club)
+{
+    m_SelectedClub = club;
+    emit clubChanged(club);
+}
+
 int News::id() const
 {
     return m_id;
@@ -15,6 +26,16 @@ int News::id() const
 void News::setId(int id)
 {
     m_id = id;
+}
+
+int News::invitationId() const
+{
+    return m_InvitationId;
+}
+
+void News::setInvitationId(int id)
+{
+    m_InvitationId = id ;
 }
 
 QString News::brief() const
@@ -181,4 +202,65 @@ void News::setRead(bool read)
 {
     m_read = read;
     emit readChanged(read);
+}
+
+void News::checkNewsContent(News *n)
+{
+    if(n->brief ()== m_brief ||
+            n->offerId () == m_offerId||
+            n->message () == m_message||
+            n->read ()== m_read||
+            n->active () == m_active||
+            n->role () == m_role||
+            n->dateTime () == m_dateTime||
+            n->ownerClubId () == m_ownerClubId||
+            n->biddingClubId () == m_biddingClubId||
+            n->offerType () == m_offerType||
+            n->newsType () == m_newsType||
+            n->stage () == m_stage||
+            n->invitationId () == m_InvitationId){
+
+                setNewsAlive(true);
+        //        setAnnouncementNew(false);
+        //        setAnnouncementChange (false);
+    }else{
+
+        m_brief  = n->brief ();
+        m_offerId = n->offerId ();
+        m_message = n->message ();
+        m_read = n->read ();
+        m_active = n->active ();
+        m_role = n->role ();
+        m_dateTime = n->dateTime ();
+        m_ownerClubId = n->ownerClubId ();
+        m_biddingClubId = n->biddingClubId ();
+        m_offerType = n->offerType ();
+        m_newsType = n->newsType ();
+        m_stage = n->stage ();
+        m_InvitationId = n->invitationId ();
+
+                setNewsAlive(true);
+        //        setAnnouncementNew(false);
+        //        setAnnouncementChange (true);
+    }
+}
+
+void News::setNewsAlive(bool live)
+{
+    m_live = live;
+}
+
+bool News::isStillAlive() const
+{
+    return m_live;
+}
+
+void News::setNewstypePublic(bool type)
+{
+    m_isPublicNews = type;
+}
+
+bool News::isPublicNews() const
+{
+    return m_isPublicNews;
 }
