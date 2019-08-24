@@ -550,28 +550,6 @@ ApplicationWindow
                 }
             }
 
-
-
-            MouseArea
-            {
-                anchors.fill: parent
-                hoverEnabled: true
-                onPressed:  {  }
-                onEntered:
-                {
-                    button_12.button_bottom_line_visibility=true
-                }
-                onExited:
-                {
-                    button_12.button_bottom_line_visibility=false
-                }
-                onClicked: {
-                    callinsidepage2(newsPage)
-                }
-            }
-
-
-
         }
 
         Rectangle
