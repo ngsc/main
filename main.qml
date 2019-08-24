@@ -536,9 +536,9 @@ ApplicationWindow {
                     }
                     onExited: {
                         button_11.button_bottom_line_visibility = false
-//                        if(menuBarStatus()){
-//                            button_11.visible = false;
-//                        }
+                        if(menuBarStatus()){
+                            button_11.visible = false;
+                        }
                     }
                 }
             }
@@ -579,9 +579,9 @@ ApplicationWindow {
                     onExited: {
                         button_12.button_bottom_line_visibility = false
 
-                        //if(!menuBarStatus()){
+                        if(!menuBarStatus()){
                             button_11.visible = false
-                        //}
+                        }
                     }
                 }
             }
