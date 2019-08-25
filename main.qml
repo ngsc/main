@@ -53,6 +53,8 @@ ApplicationWindow {
 
     property bool is_configEntered: true
 
+    property bool is_leavePostEntered: true
+
     property bool is_retireEntered: true
 
     property bool is_resignEntered: true
@@ -512,6 +514,50 @@ ApplicationWindow {
                 }
             }
             Panel5Button {
+                id: button_19
+                anchors.bottom: parent.top
+                anchors.left: button_18.right
+                width: 180
+                button_text: qsTr("Leave Post")
+                MouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onPressed: {
+
+                    }
+                    onClicked: {
+
+                    }
+                    onEntered: {
+                        if(menuBarStatus()){
+                            if(is_leavePostEntered){
+                                button_11.visible = true
+                                button_12.visible = true
+                                is_leavePostEntered = false
+                            }else{
+                                button_11.visible = false
+                                button_12.visible = false
+                                is_leavePostEntered = true
+                            }
+                        }
+                        else
+                        {
+                            button_11.visible = true
+                            button_12.visible = true
+                        }
+
+                        button_19.button_bottom_line_visibility = true
+                    }
+                    onExited: {
+                        if(!menuBarStatus()){
+                            button_11.visible = false
+                            button_12.visible = false
+                        }
+                        button_19.button_bottom_line_visibility = false
+                    }
+                }
+            }
+            Panel5Button {
                 id: button_11
                 anchors.bottom: button_12.top
                 anchors.left: button_18.right
@@ -532,21 +578,33 @@ ApplicationWindow {
                         }
                     }
                     onEntered: {
+                        //                        if(menuBarStatus()) {
+                        //                            is_retireEntered = true
+                        //                            button_12.visible = true
+                        //                        }
                         button_11.button_bottom_line_visibility = true
                     }
                     onExited: {
+                        //                        if(menuBarStatus()) {
+                        //                            is_retireEntered = false;
+                        //                            if(!is_resignEntered) {
+                        //                                button_11.visible = false
+                        //                                button_12.visible = false
+                        //                            }
+                        //                        }
                         button_11.button_bottom_line_visibility = false
-                        if(menuBarStatus()){
-                            button_11.visible = false;
-                        }
+                        //                        if(menuBarStatus()){
+                        //                            button_11.visible = false;
+                        //                        }
                     }
                 }
             }
             Panel5Button {
                 id: button_12
-                anchors.bottom: parent.top
+                anchors.bottom: button_19.top
                 anchors.left: button_18.right
                 button_text: qsTr("Resign")
+                visible: false
                 width: 180
                 MouseArea {
                     anchors.fill: parent
@@ -572,16 +630,19 @@ ApplicationWindow {
                     }
                     onEntered: {
                         //                        console.log(stackView.__currentItem.objectName.toString())
+                        //                        if(menuBarStatus()) {
+                        //                            is_resignEntered = true
+                        //                        }
                         button_12.button_bottom_line_visibility = true
-                        button_11.visible = true
-
                     }
                     onExited: {
+                        //                        if(menuBarStatus()) {
+                        //                            is_resignEntered = false;
+                        //                            if(!is_retireEntered) {
+                        //                                button_11.visible = false
+                        //                            }
+                        //                        }
                         button_12.button_bottom_line_visibility = false
-
-                        if(!menuBarStatus()){
-                            button_11.visible = false
-                        }
                     }
                 }
             }
@@ -909,16 +970,21 @@ ApplicationWindow {
 
                     }
                     onEntered: {
-                        is_additionalClicked = true
-                        if (is_additionalClicked) {
-                            is_additionalClicked = false
-                            button_13.visible = true
-                            button_14.visible = true
+
+                        if(menuBarStatus()){
+                            if(is_additionalClicked){
+                                button_13.visible = true
+                                button_14.visible = true
+                                is_additionalClicked = false
+                            }else{
+                                button_13.visible = false
+                                button_14.visible = false
+                                is_additionalClicked = true
+                            }
                         }
                         else{
-                            is_additionalClicked = true
-                            button_13.visible = false
-                            button_14.visible = false
+                            button_13.visible = true
+                            button_14.visible = true
                         }
 
                         button_18.button_bottom_line_visibility = true
@@ -953,21 +1019,21 @@ ApplicationWindow {
                         }
                     }
                     onEntered: {
-                        if (menuBarStatus()) {
-                            is_exitEntered = true
-                            button_13.visible = true
-                            button_14.visible = true
-                        }
+                        //                        if (menuBarStatus()) {
+                        //                            is_exitEntered = true
+                        //                            button_13.visible = true
+                        //                            button_14.visible = true
+                        //                        }
                         button_13.button_bottom_line_visibility = true
                     }
                     onExited: {
-                        if (menuBarStatus()) {
-                            is_exitEntered = false;
-                            if(!is_configEntered){
-                                button_13.visible = false
-                                button_14.visible = false
-                            }
-                        }
+                        //                        if (menuBarStatus()) {
+                        //                            is_exitEntered = false;
+                        //                            if(!is_configEntered){
+                        //                                button_13.visible = false
+                        //                                button_14.visible = false
+                        //                            }
+                        //                        }
                         button_13.button_bottom_line_visibility = false
                     }
                 }
@@ -993,21 +1059,21 @@ ApplicationWindow {
                         }
                     }
                     onEntered: {
-                        if (menuBarStatus()) {
-                            is_configEntered = true
-                            button_13.visible = true
-                            button_14.visible = true
-                        }
+                        //                        if (menuBarStatus()) {
+                        //                            is_configEntered = true
+                        //                            button_13.visible = true
+                        //                            button_14.visible = true
+                        //                        }
                         button_14.button_bottom_line_visibility = true
                     }
                     onExited: {
-                        if (menuBarStatus()) {
-                            is_configEntered = false;
-                            if(!is_exitEntered){
-                                button_13.visible = false
-                                button_14.visible = false
-                            }
-                        }
+                        //                        if (menuBarStatus()) {
+                        //                            is_configEntered = false;
+                        //                            if(!is_exitEntered){
+                        //                                button_13.visible = false
+                        //                                button_14.visible = false
+                        //                            }
+                        //                        }
                         button_14.button_bottom_line_visibility = false
                     }
                 }
