@@ -880,7 +880,7 @@ WWC</source>
     </message>
     <message>
         <location filename="../MainPage.qml" line="90"/>
-        <source>Exit</source>
+        <source>Monitor</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

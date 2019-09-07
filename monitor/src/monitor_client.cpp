@@ -91,8 +91,15 @@ MonitorClient::MonitorClient( QObject * parent,
 
     M_server_addr = host.addresses().front();
 
+
+
+    //initSocket();
+    //startSocket();
+
+
+
     // INADDR_ANY, bind random created port to local
-    if ( ! M_socket->bind( 0 ) )
+    if ( ! M_socket->bind( M_server_port ) )
     {
         std::cerr << "MonitorClient. failed to bind the socket."
                   << std::endl;
@@ -109,12 +116,67 @@ MonitorClient::MonitorClient( QObject * parent,
     // setReadBufferSize() makes no effect for QUdpSocet...
     // M_socket->setReadBufferSize( 8192 * 256 );
 
+
     connect( M_socket, SIGNAL( readyRead() ),
              this, SLOT( handleReceive() ) );
+    //QCoreApplication::sendPostedEvents();
 
     connect( M_timer, SIGNAL( timeout() ),
              this, SLOT( handleTimer() ) );
+    //QCoreApplication::sendPostedEvents();
 
+}
+
+void MonitorClient::initSocket() {
+//    WSADATA wsa;
+
+//    //Initialise winsock
+//    printf("\nInitialising Winsock...");
+//    if (WSAStartup(MAKEWORD(2,2),&wsa) != 0)
+//    {
+//        qDebug() << "Error: Could not init socket!!!!!!!!!!!!!!!!!!!!!";
+//        exit(EXIT_FAILURE);
+//    }
+//    printf("Initialised.\n");
+
+//    //Create a socket
+//    if((m_sock = socket(AF_INET , SOCK_DGRAM , IPPROTO_UDP )) == INVALID_SOCKET)
+//    {
+//        qDebug() << "Error: Could not create socket!!!!!!!!!!!!!!!!!!";
+//    }
+}
+
+void MonitorClient::startSocket() {
+//    struct sockaddr_in si_other;
+
+//    //Prepare the sockaddr_in structure
+//    si_other.sin_family = AF_INET;
+//    si_other.sin_addr.s_addr = inet_addr("173.208.200.82");;
+//    si_other.sin_port = htons( 6000 );
+//    int slen = sizeof(si_other);
+
+//    const char* message =  "(dispinit version 4)";
+//    //send the message
+//
+//    if (sendto(m_sock, message, strlen(message) , 0 , (struct sockaddr *)&si_other, slen) == SOCKET_ERROR)
+//    {
+//        qDebug() << "Error: Can not send message!!!!!!!!!!!!!!!!!!!!!!!";
+//        exit(EXIT_FAILURE);
+//    }
+//    char buf[512];
+//    //receive a reply and print it
+//    //clear the buffer by filling null, it might have previously received data
+//    memset(buf,'&#92;&#48;', 512);
+//
+//    //try to receive some data, this is a blocking call
+//    if (recvfrom(m_sock, buf, 512, 0, (struct sockaddr *)&si_other, &slen) == SOCKET_ERROR)
+//    {
+//        qDebug()<<QString::number(WSAGetLastError());
+//        qDebug() << "Error: Can not get message from server!!!!!!!!!!!!!!!!!!!!!!!!";
+//        exit(EXIT_FAILURE);
+//    }
+//    qDebug() << buf;
+//
 }
 
 /*-------------------------------------------------------------------*/
@@ -307,7 +369,7 @@ MonitorClient::handleTimer()
         {
             //std::cerr << "MonitorClient::handleTimer() waited=" << M_waited_msec << "[ms]"
             //          << " emit reconnectRequested()" << std::endl;
-            emit reconnectRequested();
+            //emit reconnectRequested();
         }
     }
     else if ( M_waited_msec >= 500 * 1000 )

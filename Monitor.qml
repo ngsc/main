@@ -29,7 +29,7 @@ Rectangle
     height: 800
     width: 600
     radius: 20
-    property string titleBar: "Monitor"
+    property string titleBar: qsTr("Monitor")
     color: fieldControl.q_field_color
     property double coeff: 1
 
@@ -437,9 +437,9 @@ Rectangle
             running: false
 
             onTriggered: {
-                score_card.left_team_color = getPlayerColor(0)
-                score_card.left_team_name = monitorControl.getLeftName()
-                score_card.left_team_score = monitorControl.getLeftScore()
+                //score_card.left_team_color = getPlayerColor(0)
+                //score_card.left_team_name = monitorControl.getLeftName()
+                //score_card.left_team_score = monitorControl.getLeftScore()
                 for(var i = 0; i < players_left.model; i++)
                     {
                         players_left.itemAt(i).color = getPlayerColor(i)
@@ -449,9 +449,9 @@ Rectangle
                         ball.x = getBallPoint()[0] + 263; //HACK
                         ball.y = getBallPoint()[1] + 4.5; //HACK
                     }
-                score_card.right_team_color = getPlayerColor(11)
-                score_card.right_team_name = monitorControl.getRightName()
-                score_card.right_team_score = monitorControl.getRightScore()
+                //score_card.right_team_color = getPlayerColor(11)
+                //score_card.right_team_name = monitorControl.getRightName()
+                //score_card.right_team_score = monitorControl.getRightScore()
                 for(var i = 0; i < players_right.model; i++)
                     {
                         players_right.itemAt(i).color = getPlayerColor(i+11)

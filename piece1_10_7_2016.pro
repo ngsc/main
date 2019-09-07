@@ -1,4 +1,4 @@
-QT += core gui qml quick
+QT += core gui qml quick opengl
 
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets quick quickwidgets location positioning network
@@ -74,6 +74,8 @@ RESOURCES += \
 
 INCLUDEPATH += $$PWD\monitor\include\rcsslogplayer \
                 $$PWD\monitor\include
+
+LIBS += -lwsock32 -lOle32
 
 HEADERS += \
     mainwindow.h \

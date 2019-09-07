@@ -146,7 +146,7 @@ void APIConnection::upDateUserStatus(const QString &token,const QString &userNam
 
 void APIConnection::sendRequest(const QString &url)
 {
-    qDebug() << "Sending: " << url;
+    //qDebug() << "Sending: " << url;
     auto request = QNetworkRequest(QUrl(url));
     request.setRawHeader("User-Agent", "APIConnectionAgent");
     m_manger.get(request);

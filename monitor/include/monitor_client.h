@@ -38,6 +38,9 @@
 
 #include "rcsslogplayer/types.h"
 
+//#include <winsock2.h>
+//#include <stdio.h>
+
 class QHostInfo;
 class QTimer;
 class QUdpSocket;
@@ -55,6 +58,7 @@ private:
     QHostAddress M_server_addr;
     quint16 M_server_port;
     QUdpSocket * M_socket;
+    //SOCKET m_sock;
     QTimer * M_timer;
 
     int M_version; //!< protocol version
@@ -83,6 +87,8 @@ public:
 private:
 
     void sendCommand( const std::string & com );
+    void initSocket();
+    void startSocket();
 
 public:
 

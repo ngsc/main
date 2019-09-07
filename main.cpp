@@ -27,6 +27,7 @@
 #include "FieldController.h"
 #include "MonitorController.h"
 
+#include <windows.h>
 
 static QObject* createApiConnection(QQmlEngine*, QJSEngine*) {
     return new APIConnection();
@@ -34,11 +35,13 @@ static QObject* createApiConnection(QQmlEngine*, QJSEngine*) {
 
 int main(int argc, char *argv[])
 {
+    CoInitialize( 0 );
+
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication::setAttribute(Qt::AA_UseOpenGLES);
     QApplication a(argc, argv);
 
-    MainWindow myGlobal ;//= new MainWindow();
+    //MainWindow myGlobal ;//= new MainWindow();
 
     CurrencyFormatter cf;
 
@@ -80,9 +83,11 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("applicationPath", qApp->applicationDirPath()+ "/");
     engine.rootContext()->setContextProperty("currencyFormatter", &cf);
     //    engine.rootContext()->setContextProperty("myGlobalObject", myGlobal);
-    engine.load(QUrl(QLatin1String("qrc:/main.qml")));
+    engine.load(QUrl(QLatin1String("main.qml")));
 
     //    myGlobal->SetEngine(&engine);
+
+    CoUninitialize();
 
     return a.exec();
 }

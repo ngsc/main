@@ -238,7 +238,8 @@ MonitorControl::update()
 void
 MonitorControl::connectMonitorTo()
 {
-    connectMonitorTo("192.168.43.119");
+    //connectMonitorTo("192.168.43.119");
+    connectMonitorTo("173.208.200.82");
 }
 
 /*-------------------------------------------------------------------*/
@@ -590,16 +591,16 @@ MonitorControl::getFoulCardInfo() {
 }
 bool
 MonitorControl::getMatchParams() {
-	//PHP_GET: update and gets all parameters from server - match_id and side (left/right) of team
-	int port_no = 6000;
-	int match_id = 0;
-	//PHP_GET:send value of tactic_mask to server
-	//PHP_GET:update values of match_id and "M_side" here, use blocking get call so that function does not return before parameters are initalized
-	//match_id = //get from server
-	//M_side = //get from server
-	//IF cannot get - return false
-	port_no = 6000 + (10 * match_id);
-	Options::instance().setServerPort(port_no);
+    //PHP_GET: update and gets all parameters from server - match_id and side (left/right) of team
+    int port_no = 6000;
+    int match_id = 0;
+    //PHP_GET:send value of tactic_mask to server
+    //PHP_GET:update values of match_id and "M_side" here, use blocking get call so that function does not return before parameters are initalized
+    //match_id = //get from server
+    //M_side = //get from server
+    //IF cannot get - return false
+    port_no = 6000 + (10 * match_id);
+    Options::instance().setServerPort(port_no);
 	return true;
 }
 QString

@@ -440,7 +440,7 @@ ApplicationWindow {
                 id: button_15
                 anchors.bottom: button_1.top
                 anchors.left: parent.left
-                button_text: "2D View"
+                button_text: qsTr("2D View")
                 width: 180
                 MouseArea
                 {
@@ -464,14 +464,14 @@ ApplicationWindow {
                 id: button_16
                 anchors.bottom: parent.top
                 anchors.left: button_15.right
-                button_text: "Left Side Statistics"
+                button_text: qsTr("Left Side Statistics")
                 width: 180
                 MouseArea
                 {
                     anchors.fill: parent
                     hoverEnabled: true
                     onPressed:  {
-                        button_16.button_text = monitorControl.getLeftName() + " Statistics";
+                        button_16.button_text = qsTr(monitorControl.getLeftName() + " Statistics");
                         team_left_statistic_page.titleBar = monitorControl.getLeftName() + " Statistics";
                         team_left_statistic_page.text= monitorControl.getTeamLeftStats();
                         callinsidepage2(team_left_statistic_page)
@@ -932,7 +932,7 @@ ApplicationWindow {
                 id: button_10
                 anchors.top: parent.top
                 anchors.left: button_4.right
-                button_text: "Commentary Report"
+                button_text: qsTr("Commentary Report")
                 width: 180
                 MouseArea
                 {

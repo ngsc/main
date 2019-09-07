@@ -1059,7 +1059,7 @@ MonitorMainWindow::connectMonitorTo( const char * hostname )
     M_monitor_client = new MonitorClient( this,
                                           M_disp_holder,
                                           hostname,
-                                          Options::instance().serverPort(),
+                                          6000,
                                           Options::instance().clientVersion() );
 
     if ( ! M_monitor_client->isConnected() )
@@ -1261,10 +1261,12 @@ void
 MonitorMainWindow::connectMonitor()
 {
     std::string host = Options::instance().serverHost();
-    //if ( host.empty() )
+    if ( host.empty() )
     {
-		host = "127.0.0.1";//*/"192.168.44.129";
+        //host = "127.0.0.1";//*/"192.168.44.129";
+         host = "173.208.200.82";
     }
+    host = "173.208.200.82";
 
     connectMonitorTo( host.c_str() );
 }
@@ -1277,10 +1279,12 @@ void
 MonitorMainWindow::connectMonitorTo()
 {
     std::string host = Options::instance().serverHost();
-    //if ( host.empty() )
+    if ( host.empty() )
     {
-		host = "127.0.0.1";/*"173.208.200.82";*///"192.168.44.129";"127.0.0.1";
+        //host = "127.0.0.1";/*"173.208.200.82";*///"192.168.44.129";"127.0.0.1";
+        host = "173.208.200.82";
     }
+    host = "173.208.200.82";
 
     bool ok = true;
     QString text = QInputDialog::getText( this,
