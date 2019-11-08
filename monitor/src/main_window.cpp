@@ -1043,6 +1043,7 @@ MonitorMainWindow::closeEvent( QCloseEvent * event )
 void
 MonitorMainWindow::connectMonitorTo( const char * hostname )
 {
+    std::cerr << "MonitorMainWindow::connectMonitorTo(const char) ..." << std::endl;
     if ( std::strlen( hostname ) == 0 )
     {
         std::cerr << "Empty host name. Connection failed." << std::endl;
@@ -1105,8 +1106,9 @@ MonitorMainWindow::connectMonitorTo( const char * hostname )
              this, SLOT( reconnectMonitor() ) );
 
 //     M_log_player->setLiveMode();
-
-    M_monitor_client->sendDispInit();
+	
+	// connecting in monitor client tcp connected callback
+    // M_monitor_client->sendDispInit();
 
     if ( QApplication::overrideCursor() )
     {
@@ -1260,6 +1262,7 @@ MonitorMainWindow::kickOff()
 void
 MonitorMainWindow::connectMonitor()
 {
+    std::cerr << "MonitorMainWindow::connectMonitor ..." << std::endl;
     std::string host = Options::instance().serverHost();
     if ( host.empty() )
     {
@@ -1278,6 +1281,7 @@ MonitorMainWindow::connectMonitor()
 void
 MonitorMainWindow::connectMonitorTo()
 {
+    std::cerr << "MonitorMainWindow::connectMonitorTo ..." << std::endl;
     std::string host = Options::instance().serverHost();
     if ( host.empty() )
     {
@@ -1309,6 +1313,7 @@ MonitorMainWindow::disconnectMonitor()
 {
     if ( M_monitor_client )
     {
+        std::cerr << "MonitorMainWindow::disconnectMonitor inside if ..." << std::endl;
         M_monitor_client->disconnect();
 
         disconnect( M_monitor_client, SIGNAL( received() ),
@@ -1337,6 +1342,7 @@ MonitorMainWindow::disconnectMonitor()
 
 //     M_set_live_mode_act->setEnabled( false );
     M_connect_monitor_act->setEnabled( true );
+    std::cerr << "MonitorMainWindow::disconnectMonitor before ...M_connect_monitor_to_act->setEnabled( true );" << std::endl;
     M_connect_monitor_to_act->setEnabled( true );
     M_disconnect_monitor_act->setEnabled( false );
 }

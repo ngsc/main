@@ -118,7 +118,7 @@ MonitorControl::connectMonitorTo( const char * hostname )
         // os << "Empty host name. Connection failed." << std::endl;
         return;
     }
-
+    std::cerr << "MonitorControl::connectMonitorTo before disconnectMonitor" << std::endl;
     disconnectMonitor();
 
     std::cerr << "Connect to [" << hostname << "] ..." << std::endl;
@@ -149,8 +149,9 @@ MonitorControl::connectMonitorTo( const char * hostname )
     Options::instance().setBufferRecoverMode( true );
 
     //     M_set_live_mode_act->setEnabled( true );
-
-    M_monitor_client->sendDispInit();
+	
+	// sent when TCP connnected callback called in monitor_client.cpp
+    // M_monitor_client->sendDispInit();
 }
 
 
@@ -165,6 +166,7 @@ MonitorControl::isConnected() const
 void
 MonitorControl::connectMonitor()
 {
+    std::cerr << "MonitorControl::connectMonitor() ..." << std::endl;
     connectMonitorTo();
 }
 /*-------------------------------------------------------------------*/
@@ -174,6 +176,7 @@ MonitorControl::connectMonitor()
 void 
 MonitorControl::monitorStart()
 {
+    std::cerr << "MonitorControl::monitorStart() ..." << std::endl;
     connectMonitor();
 }
 /*-------------------------------------------------------------------*/
@@ -239,6 +242,7 @@ void
 MonitorControl::connectMonitorTo()
 {
     //connectMonitorTo("192.168.43.119");
+    std::cerr << "MonitorControl::connectMonitorTo() ..." << std::endl;
     connectMonitorTo("173.208.200.82");
 }
 
@@ -251,6 +255,7 @@ MonitorControl::disconnectMonitor()
 {
     if ( M_monitor_client )
     {
+        std::cerr << "disconnectMonitor ..." << std::endl;
         M_monitor_client->disconnect();
 
         delete M_monitor_client;
@@ -600,7 +605,8 @@ MonitorControl::getMatchParams() {
     //M_side = //get from server
     //IF cannot get - return false
     port_no = 6000 + (10 * match_id);
-    Options::instance().setServerPort(port_no);
+    //PHP_GET get tcp port number form server
+    Options::instance().setServerPort(54002);
 	return true;
 }
 QString

@@ -399,7 +399,8 @@ Rectangle
             running: false
 
             onTriggered: {
-                monitorControl.monitorStart();
+//                console.log("Monitor.qml.start timer triggered");
+//                monitorControl.monitorStart();
             }
         }
         Timer {

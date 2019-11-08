@@ -63,13 +63,44 @@ MonitorClient::MonitorClient( QObject * parent,
     : QObject( parent )
     , M_disp_holder( disp_holder )
     , M_server_port( static_cast< quint16 >( port ) )
-    , M_socket( new QUdpSocket( this ) )
+    , M_socket( new QTcpSocket( this ) )
     , M_timer( new QTimer( this ) )
     , M_version( version )
     , M_waited_msec( 0 )
+    , M_recomposedPackage()
 {
     assert( parent );
-
+    connect(
+        M_socket, &QAbstractSocket::hostFound,
+        []() { std::cerr << "M_socket::hostFound" << std::endl;}
+    );
+    connect(
+        M_socket, &QAbstractSocket::stateChanged,
+        [this](QAbstractSocket::SocketState a_state)
+            {
+                std::cerr << "M_socket::stateChanged " << a_state << std::endl;
+            }
+    );
+    connect(
+        M_socket, &QAbstractSocket::connected,
+        [this]()
+        {
+            std::cerr << "M_socket::connected" << std::endl;
+            M_server_port = M_socket->peerPort();
+            M_tcp_connection = connect( M_socket, SIGNAL( readyRead() ),
+                     this, SLOT( handleTcpRecevied() ) );
+            sendDispInit();
+        }
+    );
+    connect(
+        M_socket, &QAbstractSocket::disconnected,
+        [this]()
+        {
+            std::cerr << "M_socket::disconnected" << std::endl;
+            QObject::disconnect(M_tcp_connection);
+            //M_socket->close();
+        }
+    );
     // check protocl versin range
     if ( version < 1 )
     {
@@ -91,40 +122,26 @@ MonitorClient::MonitorClient( QObject * parent,
 
     M_server_addr = host.addresses().front();
 
-
-
-    //initSocket();
-    //startSocket();
-
-
-
-    // INADDR_ANY, bind random created port to local
-    if ( ! M_socket->bind( M_server_port ) )
+    M_socket->connectToHost( "173.208.200.82", M_server_port );
+    if( M_socket->waitForConnected(1000) )
     {
-        std::cerr << "MonitorClient. failed to bind the socket."
-                  << std::endl;
-        return;
+        qInfo() << "TCP socket conneted";
     }
-
-    if ( ! isConnected() )
+    else
     {
-        std::cerr << "MonitorClient. failed to initialize the socket."
-                  << std::endl;
-        return;
+        qInfo() << "Did not connect in 1 second";
     }
-
-    // setReadBufferSize() makes no effect for QUdpSocet...
-    // M_socket->setReadBufferSize( 8192 * 256 );
-
-
-    connect( M_socket, SIGNAL( readyRead() ),
-             this, SLOT( handleReceive() ) );
-    //QCoreApplication::sendPostedEvents();
+    std::cerr << "MonitorClient serverPort " << M_server_port << std::endl;
 
     connect( M_timer, SIGNAL( timeout() ),
              this, SLOT( handleTimer() ) );
     //QCoreApplication::sendPostedEvents();
 
+}
+
+void MonitorClient::error(QAbstractSocket::SocketError aError)
+{
+    std::cerr << "aError" << aError << std::endl;
 }
 
 void MonitorClient::initSocket() {
@@ -204,6 +221,7 @@ MonitorClient::disconnect()
 
     if ( isConnected() )
     {
+        std::cerr << "MonitorClient::disconnectMonitor when connected ..." << std::endl;
         sendDispBye();
         M_socket->close();
     }
@@ -216,122 +234,84 @@ MonitorClient::disconnect()
 bool
 MonitorClient::isConnected() const
 {
+    //std::cerr << "MonitorClient::isConnected() " << M_socket->state() << (M_socket->socketDescriptor() != -1) << std::endl;
     return ( M_socket->socketDescriptor() != -1 );
 }
 
+
+std::string getCurrentTimestamp()
+{
+    using std::chrono::system_clock;
+    auto currentTime = std::chrono::system_clock::now();
+
+    auto transformed = currentTime.time_since_epoch().count() / 1000000;
+
+    auto millis = transformed % 1000;
+
+    std::time_t tt;
+    tt = system_clock::to_time_t ( currentTime );
+    auto timeinfo = gmtime (&tt);
+    char buf[40];
+    sprintf(buf, "%02ld:%02ld:%02ld.%03ld",
+    timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec, millis);
+    return buf;
+}
+
+void
 /*-------------------------------------------------------------------*/
 /*!
 
 */
-void
-MonitorClient::handleReceive()
+MonitorClient::handleTcpRecevied()
 {
-    int receive_count = 0;
 
-    if ( M_version >= 3 )
+    std::cerr << "[" << getCurrentTimestamp() << "]" << "MonitorClient::::handleTcpRecevied begin" << std::endl;
+    std::cerr << "MonitorClient::::handleTcpRecevied bytes available " <<  M_socket->bytesAvailable() << std::endl;
+    if( M_socket->peerPort() != M_server_port )
     {
-        char buf[8192];
-
-        while ( M_socket->hasPendingDatagrams() )
+        M_server_port = M_socket->peerPort();
+    }
+    QByteArray dataFragment = M_socket->readAll();
+    char endChar = '\0';
+    int index = 0;
+    while( dataFragment.indexOf(endChar) != -1 )
+    {
+        index = dataFragment.indexOf(endChar);
+        M_recomposedPackage += dataFragment.left(index+1); // including endChar
+        dataFragment = dataFragment.right( dataFragment.size() - (index + 1) );
+        std::cerr << "MonitorClient::::handleTcpRecevied endChar detected at " << index << " M_recomposedPackage " << M_recomposedPackage.length() << std::endl;
+        bool ok(false);
+        switch(M_version)
         {
-            quint16 from_port;
-            int n = M_socket->readDatagram( buf,
-                                            8192,
-                                            0, // QHostAddress*
-                                            &from_port );
-            if ( n > 0 )
-            {
-                buf[n] = '\0';
-                if ( ! M_disp_holder.addDispInfoV3( buf ) )
-                {
-                    std::cerr << "recv: " << buf << std::endl;
-                }
-
-                if ( from_port != M_server_port )
-                {
-                    std::cerr << "updated server port number = "
-                              << from_port
-                        //<< "  localPort = "
-                        //<< M_socket->localPort()
-                              << std::endl;
-
-                    M_server_port = from_port;
-                }
-            }
-            ++receive_count;
+            case 1:
+                //TODO: convert to dispinfo format
+                //ok = M_disp_holder.addDispInfoV1( M_recomposedPackage.data() );
+                break;
+            case 2:
+                //ok = M_disp_holder.addDispInfoV2( M_recomposedPackage.data() );
+                break;
+            case 3:
+            default:
+                ok = M_disp_holder.addDispInfoV3( M_recomposedPackage );
         }
-    }
-    else if ( M_version == 2 )
-    {
-        rcss::rcg::dispinfo_t2 disp2;
-        while ( M_socket->hasPendingDatagrams() )
+        if(ok)
         {
-            quint16 from_port;
-            int n = M_socket->readDatagram( reinterpret_cast< char * >( &disp2 ),
-                                            sizeof( disp2 ),
-                                            0, // QHostAddress*
-                                            &from_port );
-            if ( n > 0 )
-            {
-                if ( ! M_disp_holder.addDispInfoV2( disp2 ) )
-                {
-                    std::cerr << "recv: "
-                              << reinterpret_cast< char * >( &disp2 )
-                              << std::endl;
-                }
-
-                if ( from_port != M_server_port )
-                {
-                    std::cerr << "updated server port number = "
-                              << from_port
-                        //<< "  localPort = "
-                        //<< M_socket->localPort()
-                              << std::endl;
-
-                    M_server_port = from_port;
-                }
-            }
-            ++receive_count;
+            emit received();
         }
-    }
-    else if ( M_version == 1 )
-    {
-        rcss::rcg::dispinfo_t disp1;
-        while ( M_socket->hasPendingDatagrams() )
+        else
         {
-            quint16 from_port;
-            int n =  M_socket->readDatagram( reinterpret_cast< char * >( &disp1 ),
-                                             sizeof( disp1 ),
-                                             0, // QHostAddress*
-                                             &from_port );
-            if ( n > 0 )
-            {
-                if ( ! M_disp_holder.addDispInfoV1( disp1 ) )
-                {
-                    std::cerr << "recv: "
-                              << reinterpret_cast< char * >( &disp1 )
-                              << std::endl;
-                }
-
-                if ( from_port != M_server_port )
-                {
-                    std::cerr << "updated port number = "
-                              << from_port << std::endl;
-
-                    M_server_port = from_port;
-                }
-            }
-            ++receive_count;
+            std::cerr << " Error when proccessing message: " << M_recomposedPackage.data() << std::endl;
         }
-    }
+        M_recomposedPackage = QByteArray();
 
-    if ( receive_count > 0 )
+
+    }
+    if(dataFragment.length() > 0)
     {
-        M_waited_msec = 0;
-        M_timer->start( POLL_INTERVAL_MS );
-
-        emit received();
+        //dataFragment has not endChar, dataFragment is the beginning of unfinished message
+        M_recomposedPackage = dataFragment;
     }
+    std::cerr << "MonitorClient::::handleTcpRecevied end" << std::endl;
 }
 
 /*-------------------------------------------------------------------*/
@@ -343,7 +323,11 @@ MonitorClient::handleTimer()
 {
     M_waited_msec += POLL_INTERVAL_MS;
 
-    //std::cerr << "handleTimer waited = " << M_waited_msec << std::endl;
+     if (M_waited_msec % 5000 == 0)
+     {
+        std::cerr << "handleTimer waited = " << M_waited_msec << std::endl;
+     }
+    //sendDispInit();
 
     if ( Options::instance().bufferingMode() )
     {
@@ -374,6 +358,7 @@ MonitorClient::handleTimer()
     }
     else if ( M_waited_msec >= 500 * 1000 )
     {
+        std::cerr << "MonitorClient::handleTimer() waited=" << M_waited_msec << "[ms] and emmited disconnection";
         emit disconnectRequested();
     }
 }
@@ -389,11 +374,14 @@ MonitorClient::sendCommand( const std::string & com )
     {
         return;
     }
-
-    M_socket->writeDatagram( com.c_str(), com.length() + 1,
+    std::cerr << "MonitorClient::sendCommand "<< com << std::endl;
+    qint64 bytesWritten = M_socket->write( com.c_str(), com.length() + 1/*,
                              M_server_addr,
-                             M_server_port );
-    std::cerr << "send: " << com << std::endl;
+                             M_server_port*/ );
+//    qint64 bytesWritten = M_socket->writeDatagram( com.c_str(), com.length() + 1,
+//                             M_server_addr,
+//                             M_server_port );
+    std::cerr << "send: " << com << ", bytes written: " << bytesWritten << std::endl;
 }
 
 /*-------------------------------------------------------------------*/

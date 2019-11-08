@@ -40,10 +40,11 @@
 
 //#include <winsock2.h>
 //#include <stdio.h>
+#include <time.h>
 
 class QHostInfo;
 class QTimer;
-class QUdpSocket;
+class QTcpSocket;
 class DispHolder;
 
 class MonitorClient
@@ -57,7 +58,11 @@ private:
 
     QHostAddress M_server_addr;
     quint16 M_server_port;
-    QUdpSocket * M_socket;
+    QTcpSocket * M_socket;
+    QMetaObject::Connection M_tcp_connection;
+    QByteArray M_recomposedPackage;
+
+    void error(QAbstractSocket::SocketError aError);
     //SOCKET m_sock;
     QTimer * M_timer;
 
@@ -172,7 +177,7 @@ public:
 
 private slots:
 
-    void handleReceive();
+    void handleTcpRecevied();
     void handleTimer();
 
 signals:

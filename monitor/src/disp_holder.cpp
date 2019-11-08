@@ -663,7 +663,11 @@ DispHolder::handleCommentaries( const std::string & msg )
 		return;
 	}
 	prev_comment = M_commentary;
-	const int current_time = currentDisp()->show_.time_;
+    int current_time = 0;
+    if(currentDisp())
+    {
+        int current_time = currentDisp()->show_.time_;
+    }
 	M_commentary_log << '\n'
 		<< std::setw(2)
 		<< std::setfill('0')
