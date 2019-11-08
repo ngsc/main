@@ -342,7 +342,7 @@ Rectangle {
             //send offer to server
             app.busyIndicator.running = true
 
-//http://173.208.200.82/?action=create_transfer_offer_contract&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzI3XzE1NTI1ODQ1MTY=&offer_id=92&
+//http://106.54.22.63/?action=create_transfer_offer_contract&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzI3XzE1NTI1ODQ1MTY=&offer_id=92&
 //squad_status=Rotation&job=Player&wage=10000&contract_type=Full%20Time&contract_length=3&signing_on_fee=5000000
 
             var params = "action=create_transfer_offer_contract&token=%1&offer_id=%2&squad_status=%3&job=Player&wage=%4&contract_type=%5&contract_length=%6&signing_on_fee=%7"

@@ -165,7 +165,7 @@ Options::Options()
     // monitor client options
     M_connect( true ),
     M_server_host("127.0.0.1"/*"192.168.0.123"*/ ),
-    //M_server_host("173.208.200.82"),
+    //M_server_host("106.54.22.63"),
     M_server_port(6000),
     M_client_version( 4 ),
     M_buffering_mode( false ),

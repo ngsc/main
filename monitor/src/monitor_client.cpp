@@ -122,7 +122,7 @@ MonitorClient::MonitorClient( QObject * parent,
 
     M_server_addr = host.addresses().front();
 
-    M_socket->connectToHost( "173.208.200.82", M_server_port );
+    M_socket->connectToHost( "106.54.22.63", M_server_port );
     if( M_socket->waitForConnected(1000) )
     {
         qInfo() << "TCP socket conneted";
@@ -168,7 +168,7 @@ void MonitorClient::startSocket() {
 
 //    //Prepare the sockaddr_in structure
 //    si_other.sin_family = AF_INET;
-//    si_other.sin_addr.s_addr = inet_addr("173.208.200.82");;
+//    si_other.sin_addr.s_addr = inet_addr("106.54.22.63");;
 //    si_other.sin_port = htons( 6000 );
 //    int slen = sizeof(si_other);
 

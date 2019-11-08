@@ -1267,9 +1267,9 @@ MonitorMainWindow::connectMonitor()
     if ( host.empty() )
     {
         //host = "127.0.0.1";//*/"192.168.44.129";
-         host = "173.208.200.82";
+         host = "106.54.22.63";
     }
-    host = "173.208.200.82";
+    host = "106.54.22.63";
 
     connectMonitorTo( host.c_str() );
 }
@@ -1285,10 +1285,10 @@ MonitorMainWindow::connectMonitorTo()
     std::string host = Options::instance().serverHost();
     if ( host.empty() )
     {
-        //host = "127.0.0.1";/*"173.208.200.82";*///"192.168.44.129";"127.0.0.1";
-        host = "173.208.200.82";
+        //host = "127.0.0.1";/*"106.54.22.63";*///"192.168.44.129";"127.0.0.1";
+        host = "106.54.22.63";
     }
-    host = "173.208.200.82";
+    host = "106.54.22.63";
 
     bool ok = true;
     QString text = QInputDialog::getText( this,

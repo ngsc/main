@@ -243,7 +243,7 @@ MonitorControl::connectMonitorTo()
 {
     //connectMonitorTo("192.168.43.119");
     std::cerr << "MonitorControl::connectMonitorTo() ..." << std::endl;
-    connectMonitorTo("173.208.200.82");
+    connectMonitorTo("106.54.22.63");
 }
 
 /*-------------------------------------------------------------------*/

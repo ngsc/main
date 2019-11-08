@@ -2,7 +2,7 @@
 
 
 QString APIConnection::s_token = "";
-const QString APIConnection::s_apiUrl = "http://173.208.200.82";
+const QString APIConnection::s_apiUrl = "http://106.54.22.63";
 
 APIConnection::APIConnection(QObject *parent) : QObject(parent)
 {
@@ -26,7 +26,7 @@ void APIConnection::setToken(QString &token)
 void APIConnection::signIn(const QString& username, const QString& password)
 {
     //auto passwordBase64 = QByteArray().append(password).toBase64();
-    //http://173.208.200.82/?action=signin&email=himanshunagpal25061992@gmail.com&password=xxxxx
+    //http://106.54.22.63/?action=signin&email=himanshunagpal25061992@gmail.com&password=xxxxx
     m_operationName["signin"] = Operation::SIGN_IN;
     auto passwordBase64 =password;
     auto url = QString("%1/?action=signin&email=%2&password=%3").arg(s_apiUrl).arg(username).arg(QString(passwordBase64));
@@ -78,7 +78,7 @@ void APIConnection::getClubPlayers(const QString &token, int club_id)
 {
     //    m_operationName["get_club_players"] = Operation::GET_CLUB_PLAYERS;
     //    auto url = QString("%1/?action=get_club_players&token=%2&club_id=%3").arg(s_apiUrl).arg(token).arg(club_id);
-    //http://173.208.200.82/?action=get_club_players_by_sort&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&club_id=23172080
+    //http://106.54.22.63/?action=get_club_players_by_sort&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&club_id=23172080
     m_operationName["get_club_players_by_sort"] = Operation::GET_CLUB_PLAYERS;
     auto url = QString("%1/?action=get_club_players_by_sort&token=%2&club_id=%3").arg(s_apiUrl).arg(token).arg(club_id);
     sendRequest(url);
@@ -121,7 +121,7 @@ void APIConnection::getLeagueClubs(const QString &token, int club_id)
 
 void APIConnection::getClubsByLeague(const QString &token, int league_id)
 {
-    //http://173.208.200.82/?action=get_clubs_by_league&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&league=0
+    //http://106.54.22.63/?action=get_clubs_by_league&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&league=0
     m_operationName["get_clubs_by_league"] = Operation::GET_CLUBS_BY_LEAGUE;
     auto url = QString("%1/?action=get_clubs_by_league&token=%2&league=%3").arg(s_apiUrl).arg(token).arg(league_id);
     sendRequest(url);
@@ -232,7 +232,7 @@ void APIConnection::changeOffer(const QString &params)
 
 void APIConnection::getOffer(const QString &token, int offer_id)
 {
-    //http://173.208.200.82/?action=get_offer&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&offer_id=5
+    //http://106.54.22.63/?action=get_offer&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&offer_id=5
     m_operationName["get_offer"] = Operation::GET_OFFER;
     auto url = QString("%1?action=get_offer&offer_id=%2&token=%3")
             .arg(s_apiUrl)
@@ -253,7 +253,7 @@ void APIConnection::getOfferWithPlayerDetails(const QString &token, int offer_id
 
 void APIConnection::withdrawOffer(const QString &token, int offer_id)
 {
-    //http://173.208.200.82/?action=withdrawn_offer&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&offer_id=1
+    //http://106.54.22.63/?action=withdrawn_offer&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&offer_id=1
     m_operationName["withdrawn_offer"] = Operation::WITHDRAW_OFFER;
     auto url = QString("%1?action=withdrawn_offer&offer_id=%2&token=%3")
             .arg(s_apiUrl)
@@ -267,7 +267,7 @@ void APIConnection::withdrawOffer(const QString &token, int offer_id)
 void APIConnection::acceptOffer(const QString &token, int offer_id, const QString &message)
 {
     m_operationName["accept_offer"] = Operation::ACCEPT_OFFER;
-    //http://173.208.200.82/?action=accept_offer&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&offer_id=1
+    //http://106.54.22.63/?action=accept_offer&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&offer_id=1
     auto url = QString("%1?action=accept_offer&offer_id=%2&token=%3")
             .arg(s_apiUrl)
             .arg(offer_id)
@@ -277,7 +277,7 @@ void APIConnection::acceptOffer(const QString &token, int offer_id, const QStrin
 
 void APIConnection::rejectOffer(const QString &token, int offer_id, QString message)
 {
-    //http://173.208.200.82/?action=reject_offer&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&offer_id=1&reason=None
+    //http://106.54.22.63/?action=reject_offer&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&offer_id=1&reason=None
     m_operationName["reject_offer"] = Operation::REJECT_OFFER;
     auto url = QString("%1?action=reject_offer&offer_id=%2&token=%3")
             .arg(s_apiUrl)
@@ -288,7 +288,7 @@ void APIConnection::rejectOffer(const QString &token, int offer_id, QString mess
 
 void APIConnection::negotiateOffer(const QString &token, int offer_id)
 {
-    //http://173.208.200.82/?action=negotiate_offer&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&offer_id=1
+    //http://106.54.22.63/?action=negotiate_offer&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&offer_id=1
     m_operationName["negotiate_offer"] = Operation::NEGOTIATE_OFFER;
     auto url = QString("%1/?action=negotiate_offer&token=%2&offer_id=%3").arg(s_apiUrl).arg(token).arg(offer_id);
     sendRequest(url);
@@ -296,7 +296,7 @@ void APIConnection::negotiateOffer(const QString &token, int offer_id)
 
 void APIConnection::changeTransferOffer(const QString &token, int offer_id, int fee, int minimum_fee)
 {
-    //http://173.208.200.82/?action=change_transfer_details&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&offer_id=5&minimum_fee=70000&fee=95000
+    //http://106.54.22.63/?action=change_transfer_details&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&offer_id=5&minimum_fee=70000&fee=95000
     m_operationName["change_transfer_details"] = Operation::CHANGE_OFFER_DETAILS;
     auto url = QString("%1/?action=change_transfer_details&token=%2&offer_id=%3&fee=%4&minimum_fee=%5").arg(s_apiUrl).arg(token).arg(offer_id).arg(fee).arg(minimum_fee);
     sendRequest(url);
@@ -305,7 +305,7 @@ void APIConnection::changeTransferOffer(const QString &token, int offer_id, int 
 void APIConnection::getNotifications(const QString &token, int club_id)
 {
     m_operationName["get_notifications"] = Operation::GET_NOTIFICATIONS;
-    //http://173.208.200.82/?action=get_notifications&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&club_id=1736
+    //http://106.54.22.63/?action=get_notifications&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&club_id=1736
     auto url = QString("%1/?action=get_notifications&token=%2&club_id=%3").arg(s_apiUrl).arg(token).arg(club_id);
     sendRequest(url);
 }
@@ -313,7 +313,7 @@ void APIConnection::getNotifications(const QString &token, int club_id)
 void APIConnection::getNews(const QString &token, int user_id)
 {
     m_operationName["get_news_by_user"] = Operation::GET_NEWS;
-    //http://173.208.200.82/?action=get_news_by_user&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&club_id=1736
+    //http://106.54.22.63/?action=get_news_by_user&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&club_id=1736
     auto url = QString("%1/?action=get_news_by_user&token=%2&user_id=%3").arg(s_apiUrl).arg(token).arg(user_id);
     sendRequest(url);
 }
@@ -321,7 +321,7 @@ void APIConnection::getNews(const QString &token, int user_id)
 void APIConnection::updateNewsReadStatus(const QString &token, int message_id)
 {
     m_operationName["update_news_read"] = Operation::GET_NEWS;
-    //http://173.208.200.82/?action=update_message_status&news_id=84&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzEzXzE1NTA4MjE3MTk=
+    //http://106.54.22.63/?action=update_message_status&news_id=84&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzEzXzE1NTA4MjE3MTk=
     auto url = QString("%1/?action=update_message_status&token=%2&news_id=%3").arg(s_apiUrl).arg(token).arg(message_id);
     sendRequest(url);
 }
@@ -349,7 +349,7 @@ void APIConnection::sendInvitation(const QString &token, int userId, int invited
 
 void APIConnection::getInvitations(const QString &token, int userId)
 {
-    //http://173.208.200.82/?action=get_invites&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&user_id=16
+    //http://106.54.22.63/?action=get_invites&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&user_id=16
     m_operationName["get_invites"] = Operation::GET_INVITATIONS;
     auto url = QString("%1/?action=get_invites&token=%2&user_id=%3").arg(s_apiUrl).arg(token).arg(userId);
     sendRequest(url);
@@ -357,7 +357,7 @@ void APIConnection::getInvitations(const QString &token, int userId)
 
 void APIConnection::acceptInvitation(const QString &token, int invitation_id)
 {
-    //http://173.208.200.82/?action=accept_invite&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzEzXzE1NTE5ODkxODE=&invitation_id=39
+    //http://106.54.22.63/?action=accept_invite&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzEzXzE1NTE5ODkxODE=&invitation_id=39
     m_operationName["accept_invite"] = Operation::ACCEPT_INVITATION;
     auto url = QString("%1/?action=accept_invite&token=%2&invitation_id=%3").arg(s_apiUrl).arg(token).arg(invitation_id);
     sendRequest(url);
@@ -365,7 +365,7 @@ void APIConnection::acceptInvitation(const QString &token, int invitation_id)
 
 void APIConnection::declineInvitation(const QString &token, int invitation_id)
 {
-    //http://173.208.200.82/?action=accept_invite&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzEzXzE1NTE5ODkxODE=&invitation_id=39
+    //http://106.54.22.63/?action=accept_invite&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzEzXzE1NTE5ODkxODE=&invitation_id=39
     m_operationName["decline_invite"] = Operation::DECLINE_INVITATION;
     auto url = QString("%1/?action=decline_invite&token=%2&invitation_id=%3").arg(s_apiUrl).arg(token).arg(invitation_id);
     sendRequest(url);
@@ -373,7 +373,7 @@ void APIConnection::declineInvitation(const QString &token, int invitation_id)
 
 void APIConnection::createOfferContract(const QString &params)
 {
-    //http://173.208.200.82/?action=create_transfer_offer_contract&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzI3XzE1NTI1ODQ1MTY=&offer_id=92&
+    //http://106.54.22.63/?action=create_transfer_offer_contract&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzI3XzE1NTI1ODQ1MTY=&offer_id=92&
     //squad_status=Rotation&job=Player&wage=10000&contract_type=Full%20Time&contract_length=3&signing_on_fee=5000000
     m_operationName["create_transfer_offer_contract"] = Operation::CREATE_OFFER_CONTRACT;
     auto url = QString("%1/?%2")
@@ -384,7 +384,7 @@ void APIConnection::createOfferContract(const QString &params)
 
 void APIConnection::acceptOfferContract(const QString &token, int offer_id)
 {
-    //http://173.208.200.82/?action=accept_transfer_contract_offer&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzI4XzE1NTI1ODU5NTI=&offer_id=92
+    //http://106.54.22.63/?action=accept_transfer_contract_offer&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzI4XzE1NTI1ODU5NTI=&offer_id=92
     m_operationName["accept_transfer_contract_offer"] = Operation::ACCEPT_OFFER_CONTRACT;
     auto url = QString("%1/?action=accept_transfer_contract_offer&token=%2&offer_id=%3").arg(s_apiUrl).arg(token).arg(offer_id);
     sendRequest(url);
@@ -392,7 +392,7 @@ void APIConnection::acceptOfferContract(const QString &token, int offer_id)
 
 void APIConnection::terminateOfferContract(const QString &token, int offer_id)
 {
-    //http://173.208.200.82/?action=terminate_transfer_contract_offer&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzI4XzE1NTI1ODU5NTI=&offer_id=92
+    //http://106.54.22.63/?action=terminate_transfer_contract_offer&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzI4XzE1NTI1ODU5NTI=&offer_id=92
     m_operationName["terminate_transfer_contract_offer"] = Operation::TERMINATE_OFFER_CONTRACT;
     auto url = QString("%1/?action=terminate_transfer_contract_offer&token=%2&offer_id=%3").arg(s_apiUrl).arg(token).arg(offer_id);
     sendRequest(url);
@@ -400,7 +400,7 @@ void APIConnection::terminateOfferContract(const QString &token, int offer_id)
 /////////////
 void APIConnection::getAnnouncement(const QString &token)
 {
-    //http://173.208.200.82/?action=get_announcements&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf
+    //http://106.54.22.63/?action=get_announcements&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf
     m_operationName["get_announcements"] = Operation::Get_Announcement;
     auto url = QString("%1/?action=get_announcements&token=%2").arg(s_apiUrl).arg(token);
     sendRequest(url);
@@ -416,7 +416,7 @@ void APIConnection::sendResign(const QString &token, int user_id)
 void APIConnection::getPublicNews(const QString &token)
 {
     m_operationName["get_public_news"] = Operation::Get_Public_News;
-    //http://173.208.200.82/?action=get_notifications&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&club_id=1736
+    //http://106.54.22.63/?action=get_notifications&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&club_id=1736
     auto url = QString("%1/?action=get_public_news&token=%2").arg(s_apiUrl).arg(token);
     sendRequest(url);
 }
@@ -431,15 +431,15 @@ void APIConnection::sendRetire(const QString &token, int user_id)
 void APIConnection::updatePublicNewsReadStatus(const QString &token, int news_id)
 {
     m_operationName["update_pubic_news_read"] = Operation::Send_Message;
-    //http://173.208.200.82/?action=update_message_status&news_id=84&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzEzXzE1NTA4MjE3MTk=
+    //http://106.54.22.63/?action=update_message_status&news_id=84&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzEzXzE1NTA4MjE3MTk=
     auto url = QString("%1/?action=update_pubic_news_read&token=%2&news_id=%3").arg(s_apiUrl).arg(token).arg(news_id);
     sendRequest(url);
 }
 
 void APIConnection::increasePlayerRate(const QString &token, int player_id)
 {
-    m_operationName["increase_player_rate"] = Operation::Send_Message;//http://173.208.200.82/?action=increase_player_like_rate
-    //http://173.208.200.82/?action=update_message_status&news_id=84&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzEzXzE1NTA4MjE3MTk=
+    m_operationName["increase_player_rate"] = Operation::Send_Message;//http://106.54.22.63/?action=increase_player_like_rate
+    //http://106.54.22.63/?action=update_message_status&news_id=84&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzEzXzE1NTA4MjE3MTk=
     auto url = QString("%1/?action=increase_player_like_rate&token=%2&player_id=%3").arg(s_apiUrl).arg(token).arg(player_id);
     sendRequest(url);
 }
@@ -447,7 +447,7 @@ void APIConnection::increasePlayerRate(const QString &token, int player_id)
 void APIConnection::decreasePlayerRate(const QString &token, int player_id)
 {
     m_operationName["decrease_player_rate"] = Operation::Send_Message;//increase_player_dislike_rate
-    //http://173.208.200.82/?action=update_message_status&news_id=84&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzEzXzE1NTA4MjE3MTk=
+    //http://106.54.22.63/?action=update_message_status&news_id=84&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzEzXzE1NTA4MjE3MTk=
     auto url = QString("%1/?action=increase_player_dislike_rate&token=%2&player_id=%3").arg(s_apiUrl).arg(token).arg(player_id);
     sendRequest(url);
 }
@@ -456,7 +456,7 @@ void APIConnection::likeplayerComment(const QString &token, int player_id, int c
 {
     qDebug()<<"like player comment";
     m_operationName["like_player_announcement"] = Operation::Send_Message;
-    //http://173.208.200.82/?action=increase_comment_rate&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&comment_id=8
+    //http://106.54.22.63/?action=increase_comment_rate&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&comment_id=8
     auto url = QString("%1/?action=increase_comment_rate&token=%2&&comment_id=%3").arg(s_apiUrl)
             .arg(token).arg(commentID);//.arg(player_id)
     sendRequest(url);
@@ -465,7 +465,7 @@ void APIConnection::likeplayerComment(const QString &token, int player_id, int c
 void APIConnection::setPlayerComment(const QString &token, int player_id, const QString &comment)
 {
     m_operationName["create_player_comment"] = Operation::Send_Message;
-    //http://173.208.200.82/?action=create_player_comment&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&player_id=11252&player_comment=comment2
+    //http://106.54.22.63/?action=create_player_comment&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&player_id=11252&player_comment=comment2
     auto url = QString("%1/?action=create_player_comment&token=%2&player_id=%3&player_comment=%4").arg(s_apiUrl)
             .arg(token).arg(player_id).arg(comment);
     sendRequest(url);
@@ -475,7 +475,7 @@ void APIConnection::getPlayerComment(const QString &token, int player_id)
 {
     qDebug()<<"get player comment";
     m_operationName["get_player_comment"] = Operation::Get_Player_Comment;
-    //http://173.208.200.82/?action=update_message_status&news_id=84&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzEzXzE1NTA4MjE3MTk=
+    //http://106.54.22.63/?action=update_message_status&news_id=84&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzEzXzE1NTA4MjE3MTk=
     auto url = QString("%1/?action=get_player_comment&token=%2&player_id=%3").arg(s_apiUrl)
             .arg(token).arg(player_id);
     sendRequest(url);
@@ -484,7 +484,7 @@ void APIConnection::getPlayerComment(const QString &token, int player_id)
 void APIConnection::getBulletText(const QString &token)
 {
     m_operationName["get_bullet"] = Operation::Get_Bullet;
-    //http://173.208.200.82/?action=update_message_status&news_id=84&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzEzXzE1NTA4MjE3MTk=
+    //http://106.54.22.63/?action=update_message_status&news_id=84&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzEzXzE1NTA4MjE3MTk=
     auto url = QString("%1/?action=get_bullet&token=%2").arg(s_apiUrl).arg(token);
     sendRequest(url);
 }
@@ -492,7 +492,7 @@ void APIConnection::getBulletText(const QString &token)
 void APIConnection::createBullet(const QString &token, int user_id, const QString &comment)
 {
     m_operationName["create_bullet"] = Operation::Send_Message;
-    //http://173.208.200.82/?action=update_message_status&news_id=84&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzEzXzE1NTA4MjE3MTk=
+    //http://106.54.22.63/?action=update_message_status&news_id=84&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzEzXzE1NTA4MjE3MTk=
     auto url = QString("%1/?action=create_bullet&token=%2&user_id=%3&comment=%4").arg(s_apiUrl)
             .arg(token).arg(user_id).arg(comment);
     sendRequest(url);
@@ -500,7 +500,7 @@ void APIConnection::createBullet(const QString &token, int user_id, const QStrin
 
 void APIConnection::getGameClock(const QString &token)
 {
-    //http://173.208.200.82/?action=get_game_clock&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf
+    //http://106.54.22.63/?action=get_game_clock&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf
     m_operationName["get_game_clock"] = Operation::Get_Game_Clock;
     auto url = QString("%1/?action=get_game_clock&token=%2").arg(s_apiUrl).arg(token);
     sendRequest(url);
@@ -510,7 +510,7 @@ void APIConnection::likeUserComment(const QString &token, int user_id, int comme
 {
     qDebug()<<"like user comment";
     m_operationName["like_user_announcement"] = Operation::Send_Message;
-    //http://173.208.200.82/?action=increase_comment_rate&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&comment_id=8
+    //http://106.54.22.63/?action=increase_comment_rate&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&comment_id=8
     auto url = QString("%1/?action=increase_user_comment_rate&token=%2&&comment_id=%3").arg(s_apiUrl)
             .arg(token).arg(commentID);//.arg(player_id)
     sendRequest(url);
@@ -519,7 +519,7 @@ void APIConnection::likeUserComment(const QString &token, int user_id, int comme
 void APIConnection::setUserComment(const QString &token, int user_id, const QString &comment)
 {
     m_operationName["create_user_comment"] = Operation::Send_Message;
-    //http://173.208.200.82/?action=create_player_comment&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&player_id=11252&player_comment=comment2
+    //http://106.54.22.63/?action=create_player_comment&token=DpYfshD2Ck49YrGkB5EkVCpYctG7dSmf&player_id=11252&player_comment=comment2
     auto url = QString("%1/?action=create_user_comment&token=%2&user_id=%3&comment=%4").arg(s_apiUrl)
             .arg(token).arg(user_id).arg(comment);
     sendRequest(url);
@@ -529,7 +529,7 @@ void APIConnection::getUserComment(const QString &token, int user_id)
 {
     qDebug()<<"get user comment";
     m_operationName["get_user_comment"] = Operation::Get_User_Comment;
-    //http://173.208.200.82/?action=update_message_status&news_id=84&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzEzXzE1NTA4MjE3MTk=
+    //http://106.54.22.63/?action=update_message_status&news_id=84&token=Z2s1NDU0NTQ1ZnNkZlVFc2Rmc2JEc2RoXzEzXzE1NTA4MjE3MTk=
     auto url = QString("%1/?action=get_user_comment&token=%2&user_id=%3").arg(s_apiUrl).arg(token).arg(user_id);
     sendRequest(url);
 }
