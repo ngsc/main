@@ -3,6 +3,8 @@
 #include <mainwindow.h>
 #include <QApplication>
 #include <QQmlContext>
+#include <QQuickItem>
+#include <QQuickWindow>
 #include <QLoggingCategory>
 #include <QQmlApplicationEngine>
 #include "apiconnection.h"
@@ -40,8 +42,6 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication::setAttribute(Qt::AA_UseOpenGLES);
     QApplication a(argc, argv);
-
-    //MainWindow myGlobal ;//= new MainWindow();
 
     CurrencyFormatter cf;
 
@@ -82,10 +82,9 @@ int main(int argc, char *argv[])
     engine.clearComponentCache();
     engine.rootContext()->setContextProperty("applicationPath", qApp->applicationDirPath()+ "/");
     engine.rootContext()->setContextProperty("currencyFormatter", &cf);
-    //    engine.rootContext()->setContextProperty("myGlobalObject", myGlobal);
-    engine.load(QUrl("qrc:///main.qml"));
-
-    //    myGlobal->SetEngine(&engine);
+    MainWindow* pMainWindow = new MainWindow();
+    engine.rootContext()->setContextProperty("mainwindow", pMainWindow);
+    engine.load(QUrl("qrc:/main.qml"));
 
     CoUninitialize();
 

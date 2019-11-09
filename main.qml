@@ -1,6 +1,6 @@
 import QtQuick 2.7
-import QtQuick.Controls 2.0
 import QtQuick.Controls 1.4
+////import QtQuick.Controls 2.0
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.0
 import QtGraphicalEffects 1.0
@@ -14,20 +14,10 @@ ApplicationWindow {
     id: app
     width: 1466
     height: 780
+
+    property var mainwindow
     property alias main_window: main_window
-    property alias mainwindow: mainwindow
     property alias user: managerUser
-
-
-
-    MainWindow{
-        id: mainwindow
-        //        Component.onCompleted: {
-        //            mainwindow.getLangFiles();
-        //            mainwindow.loadSettings("GameSetting.ini");
-        //        }
-    }
-
     visible: true
 
     //flags: Qt.FramelessWindowHint
