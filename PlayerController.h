@@ -31,15 +31,15 @@ public slots:
 
 	//color
     static QColor getPlayerColor(int player_id);
-    static void setPlayerColor(int player_id, int team_id, const QColor & color);
+    static void setPlayerColor(int player_id, const QColor & color );
 
     //position
     static QVector<double> getPlayerPoint(int player_id);
-    static void setPlayerPoint(int player_id, int team_id, double x, double y);
+    static void setPlayerPoint(int player_id, double x, double y);
 
     //neck angle
     static int getPlayerNeckAngle(int player_id);
-    static void setPlayerNeckAngle(int player_id, int team_id, int neck_angle);
+    static void setPlayerNeckAngle(int player_id, int neck_angle);
 
     //ball position
     static QVector<double> getBallPoint();

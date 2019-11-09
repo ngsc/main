@@ -207,8 +207,7 @@ MonitorControl::update()
         return;
     }
 
-    const rcss::rcg::BallT & ball = disp->show_.ball_;
-
+    const rcss::rcg::BallT & ball = disp->show_.ball_;;
     for ( int i = 0; i < rcss::rcg::MAX_PLAYER*2; ++i )
     {
         //drawAll( painter, disp->show_.player_[i], ball );
@@ -220,19 +219,18 @@ MonitorControl::update()
 		PlayerControl::setBallPoint(Options::instance().screenX(param.ball_.x_), 
                                     Options::instance().screenY(param.ball_.y_));
         //PlayerControl::setBallColor(param.ball.color_);
-        PlayerControl::setPlayerPoint(param.player_type_.id_, i < rcss::rcg::MAX_PLAYER, param.x_, param.y_);
+        PlayerControl::setPlayerPoint( i, param.x_, param.y_);
         // PlayerControl::setPlayerColor(param.player_type_.id_, i < rcss::rcg::MAX_PLAYER, QColor(Qt::blue) /*painter.brush().color()*/);
         QColor color = MonitorControl::getPLayerColor(param);
-        PlayerControl::setPlayerColor(param.player_type_.id_, i < rcss::rcg::MAX_PLAYER, color);
-        PlayerControl::setPlayerNeckAngle(param.player_type_.id_, i < rcss::rcg::MAX_PLAYER, param.player_.neck_);
+        PlayerControl::setPlayerColor( i, color);
+        qDebug() << "player id: " << param.player_type_.id_;
+        PlayerControl::setPlayerNeckAngle( i, param.player_.neck_);
 
         QString pitch_info = getPitchInfo();
         PlayerControl::setPitchInfo(pitch_info);
 		QString foul_card_info = getFoulCardInfo();
 		PlayerControl::setFoulCardInfo(foul_card_info);
-
     }
-    
 }
 /*-------------------------------------------------------------------*/
 /*!

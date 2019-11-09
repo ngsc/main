@@ -15,11 +15,11 @@ QColor PlayerControl::getPlayerColor(int player_id)
     return m_players[player_id].m_color;
 }
 
-void PlayerControl::setPlayerColor(int player_id, int team_id, const QColor & color)
+void PlayerControl::setPlayerColor(int player_id, const QColor & color)
 {
     //std::ofstream os("C:/Users/Martun/Desktop/monitor_log.txt", std::ofstream::out | std::ofstream::app);
     //os << "File: " << __FILE__ << ":" << __LINE__ << "\n";
-    m_players[player_id + team_id*11].m_color = color;
+    m_players[player_id].m_color = color;
 }
 
 QVector<double> PlayerControl::getPlayerPoint(int player_id)
@@ -29,11 +29,11 @@ QVector<double> PlayerControl::getPlayerPoint(int player_id)
     return m_players[player_id].m_point;
 }
 
-void PlayerControl::setPlayerPoint(int player_id, int team_id, double x, double y)
+void PlayerControl::setPlayerPoint(int player_id, double x, double y)
 {
     //std::ofstream os("C:/Users/Martun/Desktop/monitor_log.txt", std::ofstream::out | std::ofstream::app);
     //os << "File: " << __FILE__ << ":" << __LINE__ << "\n";
-    m_players[player_id + team_id*11].m_point = {x, y};
+    m_players[player_id].m_point = {x, y};
 }
 
 int PlayerControl::getPlayerNeckAngle(int player_id)
@@ -43,11 +43,11 @@ int PlayerControl::getPlayerNeckAngle(int player_id)
     return m_players[player_id].m_neck_angle;
 }
 
-void PlayerControl::setPlayerNeckAngle(int player_id, int team_id, int neck_angle)
+void PlayerControl::setPlayerNeckAngle(int player_id, int neck_angle)
 {
     //std::ofstream os("C:/Users/Martun/Desktop/monitor_log.txt", std::ofstream::out | std::ofstream::app);
     //os << "File: " << __FILE__ << ":" << __LINE__ << "\n";
-    m_players[player_id + team_id*11].m_neck_angle = neck_angle;
+    m_players[player_id].m_neck_angle = neck_angle;
 }
 
 QVector<double> PlayerControl::getBallPoint()
