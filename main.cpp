@@ -3,8 +3,6 @@
 #include <mainwindow.h>
 #include <QApplication>
 #include <QQmlContext>
-#include <QQuickItem>
-#include <QQuickWindow>
 #include <QLoggingCategory>
 #include <QQmlApplicationEngine>
 #include "apiconnection.h"
@@ -82,8 +80,6 @@ int main(int argc, char *argv[])
     engine.clearComponentCache();
     engine.rootContext()->setContextProperty("applicationPath", qApp->applicationDirPath()+ "/");
     engine.rootContext()->setContextProperty("currencyFormatter", &cf);
-    MainWindow* pMainWindow = new MainWindow();
-    engine.rootContext()->setContextProperty("mainwindow", pMainWindow);
     engine.load(QUrl("qrc:/main.qml"));
 
     CoUninitialize();

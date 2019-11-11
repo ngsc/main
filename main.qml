@@ -15,7 +15,7 @@ ApplicationWindow {
     width: 1466
     height: 780
 
-    property var mainwindow
+    property MainWindow mainwindow: MainWindow{}
     property alias main_window: main_window
     property alias user: managerUser
     visible: true
