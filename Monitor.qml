@@ -395,12 +395,16 @@ Rectangle
 
         Timer {
             id: start
-            repeat: false
+            repeat: true
             running: false
+            interval: 2000
 
             onTriggered: {
-//                console.log("Monitor.qml.start timer triggered");
-//                monitorControl.monitorStart();
+                console.log("Monitor.qml.start timer triggered");
+                if( !monitorControl.isConnected() )
+                {
+                    monitorControl.monitorStart();
+                }
             }
         }
         Timer {

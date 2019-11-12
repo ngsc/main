@@ -188,7 +188,8 @@ MonitorControl::update()
 {
     if(!isConnected())
     {
-        monitorStart();
+        //monitorStart();
+        return;
     }
     // if(!M_field_canvas)
     // {
