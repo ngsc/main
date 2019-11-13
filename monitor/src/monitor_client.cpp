@@ -111,25 +111,14 @@ MonitorClient::MonitorClient( QObject * parent,
     {
         M_version = 4;
     }
-
-    QHostInfo host = QHostInfo::fromName( QString::fromLatin1( hostname ) );
-
-    if ( host.error() != QHostInfo::NoError )
-    {
-        qDebug() << "Error " << host.errorString();
-        return;
-    }
-
-    M_server_addr = host.addresses().front();
-
     M_socket->connectToHost( "106.54.22.63", M_server_port );
-    if( M_socket->waitForConnected(1000) )
+    if( M_socket->waitForConnected(300) )
     {
         qInfo() << "TCP socket conneted";
     }
     else
     {
-        qInfo() << "Did not connect in 1 second";
+        qInfo() << "Did not connect in 300ms second";
     }
     std::cerr << "MonitorClient serverPort " << M_server_port << std::endl;
 
