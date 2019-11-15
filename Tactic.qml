@@ -2324,7 +2324,7 @@ Rectangle
                 padding: 20
                 CheckBox {
                     text: qsTr("Gets forward in corner kick")
-                    checked: false
+                    checked: false; enabled: false
                     z:parent.z+1
                     MouseArea{
                         anchors.fill: parent
@@ -2338,7 +2338,7 @@ Rectangle
                 }
                 CheckBox {
                     text: qsTr("Rush out")
-                    checked: false
+                    checked: false; enabled: false
                     z:parent.z+1
                     MouseArea{
                         anchors.fill: parent
@@ -2352,7 +2352,7 @@ Rectangle
                 }
                 CheckBox {
                     text: qsTr("Deliver the ball to the defender")
-                    checked: false
+                    checked: false; enabled: false
                     z:parent.z+1
                     MouseArea{
                         anchors.fill: parent
@@ -2412,7 +2412,7 @@ Rectangle
                 padding: 20
                 CheckBox {
                     text: qsTr("Shoots from distance")
-                    checked: false
+                    checked: false; enabled: false
                     z:parent.z+1
                     MouseArea{
                         anchors.fill: parent
@@ -2426,7 +2426,7 @@ Rectangle
                 }
                 CheckBox {
                     text: qsTr("Gets further forward")
-                    checked: false
+                    checked: false; enabled: false
                     z:parent.z+1
                     MouseArea{
                         anchors.fill: parent
@@ -2440,7 +2440,7 @@ Rectangle
                 }
                 CheckBox {
                     text: qsTr("Tries killes ball often")
-                    checked: false
+                    checked: false; enabled: false
                     z:parent.z+1
                     MouseArea{
                         anchors.fill: parent
@@ -2454,7 +2454,7 @@ Rectangle
                 }
                 CheckBox {
                     text: qsTr("Stay back all the time")
-                    checked: false
+                    checked: false; enabled: false
                     z:parent.z+1
                     MouseArea{
                         anchors.fill: parent
@@ -2468,7 +2468,7 @@ Rectangle
                 }
                 CheckBox {
                     text: qsTr("Run with ball rarely")
-                    checked: false
+                    checked: false; enabled: false
                     z:parent.z+1
                     MouseArea{
                         anchors.fill: parent
@@ -2527,7 +2527,7 @@ Rectangle
                 padding: 20
                 CheckBox {
                     text: qsTr("Tries to play way out of trouble")
-                    checked: false
+                    checked: false; enabled: false
                     z:parent.z+1
                     MouseArea{
                         anchors.fill: parent
@@ -2541,7 +2541,7 @@ Rectangle
                 }
                 CheckBox {
                     text: qsTr("Stay back all the times")
-                    checked: false
+                    checked: false; enabled: false
                     z:parent.z+1
                     MouseArea{
                         anchors.fill: parent
@@ -2555,7 +2555,7 @@ Rectangle
                 }
                 CheckBox {
                     text: qsTr("Shoot from distance")
-                    checked: false
+                    checked: false; enabled: false
                     z:parent.z+1
                     MouseArea{
                         anchors.fill: parent
@@ -2624,7 +2624,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Cut inside")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -2638,7 +2638,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Plays no through balls")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -2652,7 +2652,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Plays one-two")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -2666,7 +2666,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Knock the ball past opponent")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -2680,7 +2680,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Curls ball")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -2694,7 +2694,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Cross th ball more often ")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -2708,7 +2708,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Hug the Line")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -2722,7 +2722,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Switch ball to the other flank")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -2736,7 +2736,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Gets forward whenever possible")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -2750,7 +2750,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Cross from deep")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -2764,7 +2764,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Cross from byline")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {                 z:parent.z+1
                     MouseArea{
@@ -2777,7 +2777,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Shoot from distance")
-                    checked: false
+                    checked: false; enabled: false
                 }
             }
 
@@ -2827,7 +2827,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Cut inside")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -2841,7 +2841,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Plays no through balls")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -2855,7 +2855,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Plays one-two")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -2869,7 +2869,7 @@ Rectangle
                         }
                     }
                     text: qsTr("knock the ball past opponent")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -2883,7 +2883,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Curls ball")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -2897,7 +2897,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Cross th ball more often ")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -2911,7 +2911,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Hug the Line")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -2925,7 +2925,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Switch ball to the other flank")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -2939,7 +2939,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Gets forward whenever possible")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -2953,7 +2953,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Cross from deep")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -2967,7 +2967,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Cross from byline")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -2981,7 +2981,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Shoot from distance")
-                    checked: false
+                    checked: false; enabled: false
                 }
             }
 
@@ -3036,7 +3036,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Box to box")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3050,7 +3050,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Gets forward whenever")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3064,7 +3064,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Dictates tempo")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3078,7 +3078,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Does not dive into tackles")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3092,7 +3092,7 @@ Rectangle
                         }
                     }
                     text: qsTr("comes deep to get the ball")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3106,7 +3106,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Likes switch ball to the other flanks")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3120,7 +3120,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Looks for pass rather \nthan attempting to score")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3134,7 +3134,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Shoot from distance")
-                    checked: false
+                    checked: false; enabled: false
                 }
             }
 
@@ -3184,7 +3184,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Stops play")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3198,7 +3198,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Run with ball through center")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3212,7 +3212,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Gets forward whenever possible")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3226,7 +3226,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Tries tricks")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3240,7 +3240,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Dictates Tempo")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3254,7 +3254,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Does not ddive into tackles")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3268,7 +3268,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Shoot from distance")
-                    checked: false
+                    checked: false; enabled: false
                 }
             }
 
@@ -3318,7 +3318,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Stops play")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3332,7 +3332,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Run with ball through center")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3346,7 +3346,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Gets forward whenever possible")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3360,7 +3360,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Tries tricks")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3374,7 +3374,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Shoot from distance")
-                    checked: false
+                    checked: false; enabled: false
                 }
             }
 
@@ -3424,7 +3424,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Likes to beat man repeatedly")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3438,7 +3438,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Likes to lab the keeper")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3452,7 +3452,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Knocks  the ball past the opponent")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3466,7 +3466,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Tries tricks")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3480,7 +3480,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Runs with ball down left")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3494,7 +3494,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Looks for pass rather \nthan attempting to score")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3508,7 +3508,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Move into channels")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3522,7 +3522,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Shoot from distance")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3536,7 +3536,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Cross from deep")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3550,7 +3550,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Cross from touchline")
-                    checked: false
+                    checked: false; enabled: false
                 }
             }
 
@@ -3600,7 +3600,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Likes to beat man repeatedly")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3614,7 +3614,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Likes to lab the keeper")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3628,7 +3628,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Knocks the ball past the opponent")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3642,7 +3642,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Tries tricks")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3656,7 +3656,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Runs with ball down left")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3670,7 +3670,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Looks for pass rather than attempting to score")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3684,7 +3684,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Move into channels")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3698,7 +3698,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Shoot from distance")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3712,7 +3712,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Cross from deep")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3726,7 +3726,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Cross from touchline")
-                    checked: false
+                    checked: false; enabled: false
                 }
             }
 
@@ -3776,7 +3776,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Gets into oppostion area")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3790,7 +3790,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Likes to round the keeper")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3804,7 +3804,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Likes to beat the offside")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3818,7 +3818,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Attempts overhead kicks")
-                    checked: false
+                    checked: false; enabled: false
                 }
             }
 
@@ -3876,7 +3876,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Zonel Mark")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3890,7 +3890,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Free Role")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3904,7 +3904,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Challenge The Referee")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3918,7 +3918,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Shoots From Distance")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3932,7 +3932,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Shoots With Power")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3946,7 +3946,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Uses Outside Of Foot")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3960,7 +3960,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Tries Long Range Freekick")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3974,7 +3974,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Hits FreeKick With Power")
-                    checked: false
+                    checked: false; enabled: false
                 }
                 CheckBox {
                     z:parent.z+1
@@ -3988,7 +3988,7 @@ Rectangle
                         }
                     }
                     text: qsTr("Plays One-Two")
-                    checked: false
+                    checked: false; enabled: false
                 }
 
 
