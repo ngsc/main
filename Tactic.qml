@@ -3998,7 +3998,7 @@ Rectangle
 
         Rectangle{
             id : antiOpponentTacticRect
-            width: parent.width/2
+            width: parent.width/2 - 20
             anchors.bottom: parent.bottom
             anchors.right: parent.right
             height: 30
@@ -4034,6 +4034,50 @@ Rectangle
                 }
                 onClicked: {
                     app.callinsidepage2(antiOpponentTactic)
+                }
+            }
+        }
+
+        Rectangle{
+            id : editPlayerPositionRect
+            width: parent.width/2 - 20
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            height: 30
+            border.color: "gray"
+            color: "light gray"
+            z:parent.z+1
+            property bool hoveredornot : false
+            Text {
+                id : editPlayerPositionRectText
+                color: "black"
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                font.family:"Times"
+                font.bold: true
+                font.italic: true
+                font.pointSize: 10
+                text: qsTr("Edit Player Position")
+            }
+            MouseArea
+            {
+                id:mouseAreaEditPlayerPosition
+                anchors.fill:parent
+                cursorShape: Qt.PointingHandCursor
+                hoverEnabled:true
+                onHoveredChanged: {
+                    if(editPlayerPositionRect.hoveredornot){
+                        editPlayerPositionRect.color = "light gray"
+                        editPlayerPositionRect.hoveredornot = false
+                    }else{
+                        editPlayerPositionRect.color = "gray"
+                        editPlayerPositionRect.hoveredornot = true
+                    }
+                }
+                onClicked: {
+                    app.callinsidepage2(positionPage)
+                    //TODO: selecte the right club
+                    positionPage.setClub()
                 }
             }
         }
