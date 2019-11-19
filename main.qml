@@ -1365,6 +1365,16 @@ ApplicationWindow {
                             id : offerToClubPage
                             visible: false
                         }
+                        StatisticsPageLeft
+                        {
+                            id: team_left_statistic_page
+                            visible: false
+                        }
+                        StatisticsPageRight
+                        {
+                            id: team_right_statistic_page
+                            visible: false
+                        }
                     }
                 }
             }
