@@ -2,7 +2,7 @@
 #include <QDebug>
 
 
-UserHistory::UserHistory(QObject *parent) : QObject (parent)
+UserHistory::UserHistory(QObject *parent): QObject (parent)
 {
 
 }
@@ -101,7 +101,9 @@ void UserHistory::setLastName(const QString &lastName)
     m_lastName = lastName;
 }
 
-HistoryBrief::HistoryBrief(QObject *parent) : QAbstractListModel(parent)
+HistoryBrief::HistoryBrief(QObject *parent)
+    : QAbstractListModel(parent)
+//    , m_count(0)
 {
 
 }
@@ -111,7 +113,8 @@ int HistoryBrief::rowCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    return this->count();//m_users.size ();
+    // return this->count();
+    return m_users.size();
 }
 
 QVariant HistoryBrief::data(const QModelIndex &index, int role) const
@@ -207,7 +210,7 @@ QList<UserHistory *> HistoryBrief::userHistory() const
 }
 
 void HistoryBrief::setUserHistory(QList<UserHistory *> userHistory, QString currentUsername)
-{        
+{
     beginResetModel();
     clear();
     beginInsertRows(QModelIndex(), 0, 0);
