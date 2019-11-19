@@ -47,6 +47,7 @@ Rectangle
                 cursorShape: Qt.PointingHandCursor
             }
         }
+
     //Start button
     ButtonMainPage
         {
@@ -134,6 +135,44 @@ Rectangle
             text: "Press Start"
         }
     }
+    Rectangle
+    {
+        id: firstTeamScoreFigure
+        anchors.right: parent.horizontalCenter
+        anchors.rightMargin: 10
+        anchors.top: parent.top
+        height: 35
+        radius: 10
+        width: 150
+        visible: false
+        Text
+        {
+            id:firstTeamScoreFigureText
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+            //color: "white"
+            font.pointSize: 8; font.bold: true
+            //text: "First team"
+        }
+    }
+    Rectangle
+    {
+        id: secondTeamScoreFigure
+        anchors.left: parent.horizontalCenter
+        anchors.leftMargin: 10
+        anchors.top: parent.top
+        height: 35
+        radius: 10
+        width: 150
+        visible: false
+        Text
+        {
+            id: secondTeamScoreFigureText
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+            font.pointSize: 8; font.bold: true
+        }
+    }
     //game_info
     Rectangle {
         id: game_info
@@ -157,7 +196,7 @@ Rectangle
     //foul_cards
     Rectangle{
         id:foul_card_box
-        width:300
+        width:150
         height:20
         radius: 10
         anchors.bottom:	pitch.top
@@ -445,6 +484,44 @@ Rectangle
                 //score_card.left_team_color = getPlayerColor(0)
                 //score_card.left_team_name = monitorControl.getLeftName()
                 //score_card.left_team_score = monitorControl.getLeftScore()
+                firstTeamScoreFigure.color = playerControl.getPlayerColor(1) !== null ? playerControl.getPlayerColor(1) : "transparent";
+                secondTeamScoreFigure.color = playerControl.getPlayerColor(13) !== null ? playerControl.getPlayerColor(13) : "transparent";
+                var firstText = "";
+                firstTeamScoreFigure.visible = false;
+                if( monitorControl.getLeftName().trim().length > 0 )
+                {
+                    firstTeamScoreFigure.visible = true
+                    firstText += monitorControl.getLeftName();
+                    if( monitorControl.getLeftScore().trim().length > 0 )
+                    {
+                      firstText += ": ";
+                      firstText +=  monitorControl.getLeftScore();
+                    }
+                    else
+                    {
+                        firstText += ": 0";
+                    }
+                }
+                firstTeamScoreFigureText.text = firstText;
+
+                secondTeamScoreFigure.visible = false;
+                var secondText = "";
+                if( monitorControl.getRightName().trim().length > 0 )
+                {
+                    secondTeamScoreFigure.visible = true;
+                    secondText += monitorControl.getRightName();
+                    if( monitorControl.getRightScore().trim().length > 0 )
+                    {
+                      secondText += ": ";
+                      secondText +=  monitorControl.getRightScore();
+                    }
+                    else
+                    {
+                        secondText += ": 0";
+                    }
+                }
+                secondTeamScoreFigureText.text = secondText;
+
                 for(var i = 0; i < players_left.model; i++)
                     {
                         players_left.itemAt(i).color = getPlayerColor(i)
