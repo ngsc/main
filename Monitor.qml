@@ -413,7 +413,7 @@ Rectangle
         //Tactics
         function sendTacticCommand()
         {
-            monitorControl.sendTactics();
+            monitorControl.sendTactics(managerUser.clubName);
         }
         Timer {
             id: timer

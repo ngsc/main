@@ -619,9 +619,12 @@ MonitorControl::getCommentaryLog() {
 }
 
 void
-MonitorControl::sendTactics()
+MonitorControl::sendTactics(QString teamName)
 {
-	M_monitor_client->sendTactic(M_side, tactic_mask);
+    if( isConnected() )
+    {
+        M_monitor_client->sendTactic(teamName.toUtf8().data(), tactic_mask);
+    }
 }
 QString MonitorControl::getTeamLeftStats()
 {
@@ -769,127 +772,155 @@ QString MonitorControl::getRightRedCard()
 }
 
 void
-MonitorControl::UpdateOffsideTrap()
+MonitorControl::updateOffsideTrap(bool value)
 {
-	tactic_mask ^= MonitorControl::TacticType::OFFSIDETRAP;
+    if( value )
+    {
+        tactic_mask |= MonitorControl::TacticType::OFFSIDETRAP;
+    }
+    else
+    {
+        tactic_mask &= ~MonitorControl::TacticType::OFFSIDETRAP;
+    }
 }
 void
-MonitorControl::UpdateHardTackle()
+MonitorControl::updateHardTackle(bool value)
 {
-	tactic_mask ^= MonitorControl::TacticType::HARDTACKLE;
+    if( value )
+    {
+        tactic_mask |= MonitorControl::TacticType::HARDTACKLE;
+    }
+    else
+    {
+        tactic_mask &= ~MonitorControl::TacticType::HARDTACKLE;
+    }
 }
 void
-MonitorControl::UpdateHighLineClosingDown()
+MonitorControl::updateHighLineClosingDown( bool value )
 {
-	tactic_mask ^= MonitorControl::TacticType::HIGHLINECLOSINGDOWN;
+    if( value )
+    {
+        tactic_mask |= MonitorControl::TacticType::HIGHLINECLOSINGDOWN;
+    }
+    else
+    {
+        tactic_mask &= ~MonitorControl::TacticType::HIGHLINECLOSINGDOWN;
+    }
 }
 void
-MonitorControl::UpdateOffsideLine()
+MonitorControl::updateOffsideLine(bool value)
 {
-	tactic_mask ^= MonitorControl::TacticType::OFFSIDELINE;
+    if( value )
+    {
+        tactic_mask |= MonitorControl::TacticType::OFFSIDELINE;
+    }
+    else
+    {
+        tactic_mask &= ~MonitorControl::TacticType::OFFSIDELINE;
+    }
 }
 void
-MonitorControl::UpdatePreventPass()
+MonitorControl::updatePreventPass()
 {
 	tactic_mask ^= MonitorControl::TacticType::PREVENTPASS;
 }
 void
-MonitorControl::UpdatePreventingCutInside()
+MonitorControl::updatePreventingCutInside()
 {
 	tactic_mask ^= MonitorControl::TacticType::PREVENTINGCUTINSIDE;
 }
 void
-MonitorControl::UpdateTightMarking()
+MonitorControl::updateTightMarking()
 {
 	tactic_mask ^= MonitorControl::TacticType::TIGHTMARKING;
 }
 void
-MonitorControl::UpdateStopsPlay()
+MonitorControl::updateStopsPlay()
 {
 	tactic_mask ^= MonitorControl::TacticType::STOPSPLAY;
 }
 void
-MonitorControl::UpdateGetsForward()
+MonitorControl::updateGetsForward()
 {
 	tactic_mask ^= MonitorControl::TacticType::GETSFORWARD;
 }
 void
-MonitorControl::UpdateShootFromDistance()
+MonitorControl::updateShootFromDistance()
 {
 	tactic_mask ^= MonitorControl::TacticType::SHOOTFROMDISTANCE;
 }
 void
-MonitorControl::UpdateStayBack()
+MonitorControl::updateStayBack()
 {
 	tactic_mask ^= MonitorControl::TacticType::STAYBACK;
 }
 void
-MonitorControl::UpdateRunDownTheLine()
+MonitorControl::updateRunDownTheLine()
 {
 	tactic_mask ^= MonitorControl::TacticType::RUNDOWNTHELINE;
 }
 void
-MonitorControl::UpdateMovesIntoChannels()
+MonitorControl::updateMovesIntoChannels()
 {
 	tactic_mask ^= MonitorControl::TacticType::MOVESINTOCHANNELS;
 }
 void
-MonitorControl::UpdatePreferDribbleOverPass()
+MonitorControl::updatePreferDribbleOverPass()
 {
 	tactic_mask ^= MonitorControl::TacticType::PREFERDRIBBLEOVERPASS;
 }
 void
-MonitorControl::UpdateDictatesTempo()
+MonitorControl::updateDictatesTempo()
 {
 	tactic_mask ^= MonitorControl::TacticType::DICTATESTEMPO;
 }
 void
-MonitorControl::UpdateComesDeepToGetBall()
+MonitorControl::updateComesDeepToGetBall()
 {
 	tactic_mask ^= MonitorControl::TacticType::COMESDEEPTOGETBALL;
 }
 void
-MonitorControl::UpdateLongPasses()
+MonitorControl::updateLongPasses()
 {
 	tactic_mask ^= MonitorControl::TacticType::LONGPASSES;
 }
 void
-MonitorControl::UpdateRoundToKeeper()
+MonitorControl::updateRoundToKeeper()
 {
 	tactic_mask ^= MonitorControl::TacticType::ROUNDTOKEEPER;
 }
 void
-MonitorControl::UpdateBeatOffsideTrap()
+MonitorControl::updateBeatOffsideTrap()
 {
 	tactic_mask ^= MonitorControl::TacticType::BEATOFFSIDETRAP;
 }
 void
-MonitorControl::UpdateCutInside()
+MonitorControl::updateCutInside()
 {
 	tactic_mask ^= MonitorControl::TacticType::CUTINSIDE;
 }
 void
-MonitorControl::UpdateCrossTheBallMoreOften()
+MonitorControl::updateCrossTheBallMoreOften()
 {
 	tactic_mask ^= MonitorControl::TacticType::CROSSTHEBALLMOREOFTEN;
 }
 void
-MonitorControl::UpdateRushOut()
+MonitorControl::updateRushOut()
 {
 	tactic_mask ^= MonitorControl::TacticType::RUSHOUT;
 }
 void
-MonitorControl::UpdateForwardInCornerKick()
+MonitorControl::updateForwardInCornerKick()
 {
 	tactic_mask ^= MonitorControl::TacticType::FORWARDINCORNERKICK;
 }
 void
-MonitorControl::UpdatePassBallToDefender()
+MonitorControl::updatePassBallToDefender()
 {
 	tactic_mask ^= MonitorControl::TacticType::PASSBALLTODEFENDER;
 }
 void
-MonitorControl::UpdateTriesKillerBallOften()
+MonitorControl::updateTriesKillerBallOften()
 {
 	tactic_mask ^= MonitorControl::TacticType::TRIESKILLERBALLOFTEN;
 }

@@ -134,7 +134,7 @@ public:
                          const int unum );
     void sendRedCard( const rcss::rcg::Side side,
                       const int unum );
-	void sendTactic(const rcss::rcg::Side side,
+    void sendTactic(const std::string& teamName,
 		const int tactic);
 
     // trainer command

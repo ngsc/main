@@ -558,20 +558,12 @@ MonitorClient::sendRedCard( const rcss::rcg::Side side,
     sendCommand( ostr.str() );
 }
 void
-MonitorClient::sendTactic(const rcss::rcg::Side side,
+MonitorClient::sendTactic(const std::string& teamName,
 	const int tactic)
 {
-	if (side == rcss::rcg::NEUTRAL)
-	{
-		std::cerr << __FILE__ << ":" << __LINE__
-			<< " disptactic invalid side" << std::endl;
-		return;
-	}
-
-
 	std::ostringstream ostr;
-	ostr << "(disptactic "
-		<< side << " "
+    ostr << "(disptactic "
+        << teamName << " "
 		<< tactic << ")";
 
 	sendCommand(ostr.str());
