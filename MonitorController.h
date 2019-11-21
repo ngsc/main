@@ -91,33 +91,6 @@ public:
     ~MonitorControl();
 
     void init();
-	enum TacticType {
-		OFFSIDETRAP = 1 << 0,
-		HARDTACKLE = 1 << 1,
-		HIGHLINECLOSINGDOWN = 1 << 2,
-		OFFSIDELINE = 1 << 3,
-		PREVENTPASS = 1 << 4,
-		PREVENTINGCUTINSIDE = 1 << 5,
-		TIGHTMARKING = 1 << 6,
-		STOPSPLAY = 1 << 7,
-		GETSFORWARD = 1 << 8,
-		SHOOTFROMDISTANCE = 1 << 9,
-		STAYBACK = 1 << 10,
-		RUNDOWNTHELINE = 1 << 11,
-		MOVESINTOCHANNELS = 1 << 12,
-		PREFERDRIBBLEOVERPASS = 1 << 13,
-		DICTATESTEMPO = 1 << 14,
-		COMESDEEPTOGETBALL = 1 << 15,
-		LONGPASSES = 1 << 16,
-		ROUNDTOKEEPER = 1 << 17,
-		BEATOFFSIDETRAP = 1 << 18,
-		CUTINSIDE = 1 << 19,
-		CROSSTHEBALLMOREOFTEN = 1 << 20,
-		RUSHOUT = 1 << 21,
-		FORWARDINCORNERKICK = 1 << 22,
-		PASSBALLTODEFENDER = 1 << 23,
-		TRIESKILLERBALLOFTEN = 1 << 24
-	};
 private:
 
     void connectMonitorTo( const char * hostname );
@@ -165,31 +138,7 @@ public slots:
 	void sendPlayerMove(int player_id, double x, double y, int ang);
 	void sendPlayerSubstitute(int player1_id, int player2_id);
     void sendTactics(QString teamName);
-    void updateOffsideTrap(bool value);
-    void updateHardTackle(bool value);
-    void updateHighLineClosingDown(bool value);
-    void updateOffsideLine(bool value);
-    void updatePreventPass();
-    void updatePreventingCutInside();
-    void updateTightMarking();
-    void updateStopsPlay();
-    void updateGetsForward();
-    void updateShootFromDistance();
-    void updateStayBack();
-    void updateRunDownTheLine();
-    void updateMovesIntoChannels();
-    void updatePreferDribbleOverPass();
-    void updateDictatesTempo();
-    void updateComesDeepToGetBall();
-    void updateLongPasses();
-    void updateRoundToKeeper();
-    void updateBeatOffsideTrap();
-    void updateCutInside();
-    void updateCrossTheBallMoreOften();
-    void updateRushOut();
-    void updateForwardInCornerKick();
-    void updatePassBallToDefender();
-    void updateTriesKillerBallOften();
+    void updateTeamTacticMask( int tactType, bool value );
 };
 
 #endif

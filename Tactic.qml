@@ -10,12 +10,14 @@ import QtQuick.Layouts 1.0
 
 import com.Game.APIConnection 1.0
 import com.Game.Player 1.0
+import com.Game.Tactic 1.0
 
 Rectangle
 {
     id: tactic
     color: "transparent"
     property string titleBar: qsTr("Tactics Page")
+    property TeamTacticModel teamTacticModel: TeamTacticModel{}
 
 /*
     "GK",       //GoalKeeper
@@ -2209,109 +2211,68 @@ Rectangle
             }
         }
 
-        Rectangle{
+        GridView{
             id : teaminstructionrect
-            width: parent.width/2-20
-            height: parent.height
+            width: parent.width
             anchors.left: parent.left
+            anchors.right: parent.right
             anchors.top: teaminstruction.bottom
-            color: "transparent"
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: teaminstruction.height * 3
 
-            Column {
-                spacing: 15
-                padding: 20
-                CheckBox {
-                    text: qsTr("Offside Trap")
-                    checked: false
-                    z:parent.z+1
-                    MouseArea{
-                        anchors.fill: parent
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: {
-                            parent.checked = !parent.checked;
-                            monitorControl.updateOffsideTrap(parent.checked);
-                        }
-                    }
-                }
-                CheckBox {
-                    text: qsTr("Hard Tackle")
-                    checked: false
-                    z:parent.z+1
-                    MouseArea{
-                        anchors.fill: parent
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: {
-                            if(parent.checked === false){
-                                parent.checked = true
-                            }else{parent.checked = false}
-                            monitorControl.updateHardTackle(parent.checked);
-                        }
-                    }
-                }
-                CheckBox {
-                    text: qsTr("High line Closing Down")
-                    checked: false
-                    z:parent.z+1
-                    MouseArea{
-                        anchors.fill: parent
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: {
-                            if(parent.checked === false){
-                                parent.checked = true
-                            }else{parent.checked = false}
-                            monitorControl.updateHighLineClosingDown(parent.checked);
-                        }
-                    }
-                }
-                CheckBox {
-                    text: qsTr("Offside Line")
-                    checked: false
-                    z:parent.z+1
-                    MouseArea{
-                        anchors.fill: parent
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: {
-                            if(parent.checked === false){
-                                parent.checked = true
-                            }else{parent.checked = false}
-                            monitorControl.updateOffsideLine(parent.checked);
-                        }
-                    }
-                }
 
-                Rectangle{
-                    id : sendTeamInstructionButton
-                    border.color: "gray"
-                    color: "light gray"
-                    height: 30
-                    width: 200
-                    Text {
-                        id : sendTeamInstructionButtonText
-                        color: "black"
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.verticalCenter: parent.verticalCenter
-                        font.family:"Times"
-                        //font.family: "Comic Sans MS"
-                        font.bold: true
-                        font.italic: true
-                        font.pointSize: 10
-                        text: qsTr("Send T.I. to live match")
+            cellWidth: parent.width/2
+            cellHeight: height/15
+            //layoutDirection: GridView.LeftToRight
+            flow: GridView.FlowTopToBottom
+            verticalLayoutDirection: GridView.TopToBottom
+            model: teamTacticModel
+            delegate:
+            CheckBox {
+                text: name
+                width: parent.width
+                checked: selected
+                onCheckedStateChanged:
+                {
+                    selected = checked;
+                    monitorControl.updateTeamTacticMask(type, checked);
+                }
+            }
+
+            Rectangle{
+                id : sendTeamInstructionButton
+                border.color: "gray"
+                color: "light gray"
+                anchors.top: teaminstructionrect.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
+                height: 30
+                width: 200
+                Text {
+                    id : sendTeamInstructionButtonText
+                    color: "black"
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    font.family:"Times"
+                    //font.family: "Comic Sans MS"
+                    font.bold: true
+                    font.italic: true
+                    font.pointSize: 10
+                    text: qsTr("Send T.I. to live match")
+                }
+                MouseArea{
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.PointingHandCursor
+                    onEntered: {
+                        sendTeamInstructionButton.color = "gray"
                     }
-                    MouseArea{
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        onEntered: {
-                            sendTeamInstructionButton.color = "gray"
-                        }
-                        onExited: {
-                            sendTeamInstructionButton.color = "light gray"
-                        }
-                        onClicked: {
-                            if( monitorControl.isConnected() )
-                            {
-                                monitorControl.sendTactics(managerUser.clubName);
-                            }
+                    onExited: {
+                        sendTeamInstructionButton.color = "light gray"
+                    }
+                    onClicked: {
+                        if( monitorControl.isConnected() )
+                        {
+                            monitorControl.sendTactics(managerUser.clubName);
                         }
                     }
                 }

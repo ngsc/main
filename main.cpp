@@ -26,6 +26,8 @@
 #include "PlayerController.h"
 #include "FieldController.h"
 #include "MonitorController.h"
+#include "teamtactic.h"
+#include "teamtacticmodel.h"
 
 #include <windows.h>
 
@@ -75,6 +77,8 @@ int main(int argc, char *argv[])
     qmlRegisterType<Bullets>("com.Game.User", 1, 0, "Bullets");
     qmlRegisterType<MainWindow>("com.Game.User", 1, 0, "MainWindow");
     qmlRegisterType<UserCommentsModel>("com.Game.User", 1, 0, "UserCommentsModel");
+    qmlRegisterType<TeamTactic>("com.Game.Tactic", 1, 0, "TeamTactic");
+    qmlRegisterType<TeamTacticModel>("com.Game.Tactic", 1, 0, "TeamTacticModel");
 
     QQmlApplicationEngine engine;
     engine.clearComponentCache();

@@ -8,6 +8,8 @@ CONFIG += c++11
 SOURCES += main.cpp \
     mainwindow.cpp \
     apiconnection.cpp \
+    teamtactic.cpp \
+    teamtacticmodel.cpp \
     user.cpp \
     tournament.cpp \
     player.cpp \
@@ -80,6 +82,8 @@ LIBS += -lwsock32 -lOle32
 HEADERS += \
     mainwindow.h \
     apiconnection.h \
+    teamtactic.h \
+    teamtacticmodel.h \
     user.h \
     tournament.h \
     player.h \
