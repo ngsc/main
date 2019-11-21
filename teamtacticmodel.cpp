@@ -66,7 +66,7 @@ TeamTacticModel::TeamTacticModel(QObject *parent)
         TeamTactic* pTeamTactic = new TeamTactic(this);
         pTeamTactic->setType(e);
         pTeamTactic->setName(all_teamTacticName[i++].c_str());
-        pTeamTactic->setSelected(true);
+        pTeamTactic->setSelected(false);
         m_teamTactics.push_back( pTeamTactic );
     }
 }
@@ -139,40 +139,4 @@ void TeamTacticModel::setCount(int count)
 {
     m_count = count;
     emit countChanged(count);
-}
-
-QList<TeamTactic *> TeamTacticModel::teamTactics() const
-{
-    return m_teamTactics;
-}
-
-void TeamTacticModel::setTeamTactics( QList<TeamTactic *> teamTactics)
-{
-    beginResetModel();
-    clear();
-    beginInsertRows(QModelIndex(), 0, 0);
-
-    m_teamTactics = teamTactics;
-    for(auto& p : m_teamTactics) p->setParent(this);
-
-    endInsertRows();
-    endResetModel();
-    setCount(m_teamTactics.count());
-}
-
-void TeamTacticModel::clear()
-{
-    if(m_teamTactics.isEmpty())
-        return;
-
-    beginRemoveRows(QModelIndex(), 0, m_teamTactics.count()-1);
-    m_teamTactics.clear();
-    endRemoveRows();
-}
-
-TeamTactic *TeamTacticModel::at(int index)
-{
-    if(index <0 || index > m_teamTactics.size())
-        return nullptr;
-    return m_teamTactics.at(index);
 }

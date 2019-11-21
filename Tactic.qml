@@ -2232,7 +2232,7 @@ Rectangle
                 text: name
                 width: parent.width
                 checked: selected
-                onCheckedStateChanged:
+                onCheckedChanged:
                 {
                     selected = checked;
                     monitorControl.updateTeamTacticMask(type, checked);

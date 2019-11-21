@@ -58,12 +58,6 @@ public:
     void setCount(int count);
 
 public slots:
-    QList<TeamTactic *> teamTactics() const;
-    void setTeamTactics(QList<TeamTactic *> teamTactics);
-    void clear();
-
-    TeamTactic *at(int index);
-
 
 signals:
     void countChanged(int);
