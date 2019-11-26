@@ -15,6 +15,8 @@ Rectangle {
     property alias simpleUserModelPtr: onlineUsersModel
     property alias invitationModel: invitationModel
     property alias getUsersTimer: getUsersTimer
+    property var lastInvitationDate
+    property int lastInviteeId: -1
 
 
     MatchModel {
@@ -476,7 +478,10 @@ Rectangle {
                     onlineUsersTable.selection.forEach(function(rowIndex) {
                         var row = onlineUsersTable.model.get(rowIndex)
                         console.log(row.username + ", " + row.userId + ", " + row.clubId + ", " + row.clubName + ", " + row.online)
+                        root.lastInvitationDate = new Date();
+                        root.lastInviteeId = row.userId;
                         APIConnection.sendInvitation(managerUser.token, managerUser.id, row.userId);
+                        APIConnection.getInvitations(managerUser.token, row.userId);
                     })
                     onlineUsersTable.selection.clear();
                 }
@@ -691,11 +696,10 @@ Rectangle {
                 anchors.bottom: parent.bottom
                 anchors.rightMargin: 10
                 text: qsTr("Invite")
-                enabled: invitationFilterModel.get(invitationTable.currentRow).awayUserId === managerUser.clubId && invitationFilterModel.get(invitationTable.currentRow).active === true
+                enabled: invitationFilterModel.get(invitationTable.currentRow).awayUserId === managerUser.clubId && invitationFilterModel.get(invitationTable.currentRow).status === "active"
                 visible: enabled
                 onClicked: {
                     APIConnection.acceptInvitation(managerUser.token, invitationFilterModel.get(invitationTable.currentRow).id)
-                    invitationFilterModel.get(invitationTable.currentRow).active = false
                 }
             }
             MyButtonNormal
@@ -709,7 +713,7 @@ Rectangle {
                 visible: true//enabled
                 onClicked: {
                     APIConnection.declineInvitation(managerUser.token, invitationFilterModel.get(invitationTable.currentRow).id)
-                    invitationFilterModel.get(invitationTable.currentRow).active = false
+                    // invitationFilterModel.get(invitationTable.currentRow).active = false
                 }
 
             }
@@ -743,8 +747,13 @@ Rectangle {
         }
 
         onGetInvitationsFinished: {
-            invitationModel.setInvitations(invitations);
 
+            invitationModel.setInvitations(invitations);
+            if (invitationModel.isLastInvitationAccepted(root.lastInvitationDate, root.lastInviteeId))
+            {
+                root.lastInviteeId = -1;
+                callinsidepage2(monitor);
+            }
             app.canResign = !invitationModel.areThereInvetationNews()
         }
     }

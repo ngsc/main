@@ -65,15 +65,15 @@ void Invitation::setDate(const QDateTime &date)
     m_date = date;
 }
 
-bool Invitation::active() const
+QString Invitation::status() const
 {
-    return m_active;
+    return m_status;
 }
 
-void Invitation::setActive(bool active)
+void Invitation::setStatus(QString status)
 {
-    m_active = active;
-    emit activeChanged(active);
+    m_status = status;
+    emit statusChanged();
 }
 
 int Invitation::homeUserId() const

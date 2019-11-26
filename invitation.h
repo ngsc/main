@@ -20,7 +20,7 @@ class Invitation : public QObject
     Q_PROPERTY(QString awayClubName READ awayClubName CONSTANT)
     Q_PROPERTY(int homeClubId READ homeClubId CONSTANT)
     Q_PROPERTY(int awayClubId READ awayClubId CONSTANT)
-    Q_PROPERTY(bool active READ active WRITE setActive NOTIFY activeChanged)
+    Q_PROPERTY(QString status READ status WRITE setStatus NOTIFY statusChanged)
     Q_PROPERTY(QDateTime date READ date)
 
 public:
@@ -50,12 +50,12 @@ public:
     QDateTime date() const;
     void setDate(const QDateTime &date);
 
-    bool active() const;
-    void setActive(bool active);
+    QString status() const;
+    void setStatus(QString status);
 
 signals:
 
-    void activeChanged(bool active);
+    void statusChanged();
 
 private:
     int m_id;
@@ -65,7 +65,7 @@ private:
     QString m_awayClubName;
     int m_homeClubId;
     int m_awayClubId;
-    bool m_active;
+    QString m_status;
     QDateTime m_date;
 };
 

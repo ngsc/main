@@ -91,7 +91,20 @@ void InvitationModel::setHomeClubId(int clubId)
 bool InvitationModel::areThereInvetationNews()
 {
     for(int i = 0 ; i < m_invitations.count(); i++){
-        if(m_invitations.at(i)->active() && (m_HomeClubID == m_invitations.at(i)->awayClubId())){
+        if(m_invitations.at(i)->status().compare("active") == 0 && (m_HomeClubID == m_invitations.at(i)->awayClubId())){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool InvitationModel::isLastInvitationAccepted(QDateTime date, int lastInviteeId)
+{
+    for(int i = 0 ; i < m_invitations.count(); i++){
+        if(m_invitations.at(i)->status().compare("accepted",Qt::CaseInsensitive) == 0
+                && m_HomeClubID == m_invitations.at(i)->homeClubId()
+                && lastInviteeId == m_invitations.at(i)->awayUserId()
+             &&  ( date.isValid() &&  date.toUTC() <= m_invitations.at(i)->date().toUTC().addSecs(-6 * 3600 + 10) )) { //Bejing offset to UTC, ugly, i know..
             return true;
         }
     }
@@ -102,9 +115,9 @@ QList<int> InvitationModel::cancelAllInvetation()
 {
     m_InvetationId.clear();
     for(int i = 0 ; i < m_invitations.count () ; i++){
-        if(m_invitations.at(i)->active() && (m_HomeClubID == m_invitations.at(i)->awayClubId())){
+        if(m_invitations.at(i)->status().compare("active", Qt::CaseInsensitive) == 0 && (m_HomeClubID == m_invitations.at(i)->awayClubId())){
             m_InvetationId.append(m_invitations.at(i)->id());
-            m_invitations.at(i)->setActive(false);
+            m_invitations.at(i)->setStatus("Rejected");
         }
     }
     return m_InvetationId;

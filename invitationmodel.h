@@ -48,6 +48,7 @@ public slots:
 
     void setHomeClubId(int clubId);
     bool areThereInvetationNews();
+    bool isLastInvitationAccepted(QDateTime lastInvitationDate, int lastInviteeId);
     QList<int> cancelAllInvetation();
 
 private:

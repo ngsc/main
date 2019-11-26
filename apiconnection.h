@@ -820,7 +820,7 @@ __forceinline void APIConnection::parseJson(const QString &json)
             auto awayUserId = invitation["away_user_id"].toString().toInt();
             auto homeClubId = invitation["home_user_club_id"].toString().toInt();
             auto awayClubId = invitation["away_user_club_id"].toString().toInt();
-            auto active     = invitation["status"].toString().toLower() == "active";
+            auto status     = invitation["status"].toString().toLower();
             auto date = QDateTime::fromString(invitation["created_time"].toString(), "yyyy-MM-dd hh:mm:ss");
 
             auto homeClub = obj["HomeClub"].toObject();
@@ -838,7 +838,7 @@ __forceinline void APIConnection::parseJson(const QString &json)
             i->setAwayClubName(awayName);
             i->setHomeClubId(homeClubId);
             i->setHomeClubName(homeName);
-            i->setActive(active);
+            i->setStatus(status);
             is.append(i);
         }
         emit getInvitationsFinished(is);

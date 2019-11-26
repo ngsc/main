@@ -237,6 +237,7 @@ Rectangle {
                     if (!currentNews.isPublicNews) {
                         if (currentNews.newsType === News.Invitation) {
                             APIConnection.acceptInvitation(managerUser.token,currentNews.invitationId)
+                            callinsidepage2(monitor);
                         } else if (currentNews.stage === News.OfferContract) {
                             console.log("submit")
                             submitContract.news = currentNews
