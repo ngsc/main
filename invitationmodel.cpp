@@ -108,7 +108,7 @@ bool InvitationModel::isLastInvitationAccepted(QDateTime date, int lastInviteeId
         {
             QString chinaServerTimeString = m_invitations.at(i)->date().toString() + " GMT+8";
             QDateTime invitationCreationDateChina = QDateTime::fromString( chinaServerTimeString );
-            if( date.toUTC() <= invitationCreationDateChina.toUTC() )
+            if( date.toUTC() <= invitationCreationDateChina.addSecs(30).toUTC() )
             {
                 return true;
             }
