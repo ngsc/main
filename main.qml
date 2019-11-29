@@ -454,7 +454,7 @@ ApplicationWindow {
                 id: button_16
                 anchors.bottom: parent.top
                 anchors.left: button_15.right
-                button_text: qsTr("Left Side Statistics")
+                button_text: qsTr("Home Team Statistics")
                 width: 180
                 MouseArea
                 {
@@ -462,9 +462,9 @@ ApplicationWindow {
                     hoverEnabled: true
                     onPressed:  {
                         button_16.button_text = qsTr(monitorControl.getLeftName() + " Statistics");
-                        team_left_statistic_page.titleBar = monitorControl.getLeftName() + " Statistics";
-                        team_left_statistic_page.text= monitorControl.getTeamLeftStats();
-                        callinsidepage2(team_left_statistic_page)
+                        team_home_statistic_page.titleBar = monitorControl.getLeftName() + " Statistics";
+                        team_home_statistic_page.text = monitorControl.getTeamRightStats();
+                        callinsidepage2(team_home_statistic_page)
                     }
                     onEntered:
                     {
@@ -481,7 +481,7 @@ ApplicationWindow {
                 id: button_17
                 anchors.bottom: parent.top
                 anchors.left: button_16.right
-                button_text: "Right Side Statistics"
+                button_text: "Away Team Statistics"
                 width: 180
                 MouseArea
                 {
@@ -489,9 +489,9 @@ ApplicationWindow {
                     hoverEnabled: true
                     onPressed:  {
                         button_17.button_text = monitorControl.getRightName() + " Statistics";
-                        team_right_statistic_page.titleBar = monitorControl.getRightName() + " Statistics";
-                        team_right_statistic_page.text= monitorControl.getTeamRightStats();
-                        callinsidepage2(team_right_statistic_page)
+                        team_away_statistic_page.titleBar = monitorControl.getRightName() + " Statistics";
+                        team_away_statistic_page.text= monitorControl.getTeamLeftStats();
+                        callinsidepage2(team_away_statistic_page)
                     }
                     onEntered:
                     {
@@ -1367,12 +1367,12 @@ ApplicationWindow {
                         }
                         StatisticsPageLeft
                         {
-                            id: team_left_statistic_page
+                            id: team_home_statistic_page
                             visible: false
                         }
                         StatisticsPageRight
                         {
-                            id: team_right_statistic_page
+                            id: team_away_statistic_page
                             visible: false
                         }
                     }

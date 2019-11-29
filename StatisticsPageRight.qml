@@ -8,18 +8,18 @@ import com.Game.Player 1.0
 
 
 Rectangle {
-    id: team_right_statistic_page
+    id: team_away_statistic_page
 	anchors.right: parent.right
 	radius: 20
     property string titleBar: "Team Right Statistics"
-	property alias text: team_right_statistic_page_text.text
+	property alias text: team_away_statistic_page_text.text
 	color: "transparent"
 	TextArea{
 		anchors.top: parent.top
 		anchors.left: parent.left
 		anchors.right: parent.right
 		height: 300
-		id:team_right_statistic_page_text
+		id:team_away_statistic_page_text
         font.pointSize: 10
         font.family: "Comic Sans MS"
 		textColor: "white"
@@ -32,7 +32,7 @@ Rectangle {
 	}
 	Panel5Button{
         id: overview_button
-        anchors.top: team_right_statistic_page_text.bottom
+        anchors.top: team_away_statistic_page_text.bottom
         anchors.left: parent.left
         button_text: "Team Overview"
         MouseArea
@@ -40,7 +40,7 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             onPressed:  {//console.log(stackView.__currentItem.objectName.toString())
-				team_right_statistic_page.text= monitorControl.getTeamRightStats();
+                team_away_statistic_page.text = monitorControl.getTeamLeftStats();
             }
             onEntered:
             {
@@ -55,7 +55,7 @@ Rectangle {
     }
 	Panel5Button{
         id: player_stats_button
-        anchors.top: team_right_statistic_page_text.bottom
+        anchors.top: team_away_statistic_page_text.bottom
         anchors.left: overview_button.right
         button_text: "Player Stamina"
         MouseArea
@@ -63,7 +63,7 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             onPressed:  {//console.log(stackView.__currentItem.objectName.toString())
-				team_right_statistic_page.text= monitorControl.getPlayerRightStats();
+				team_away_statistic_page.text= monitorControl.getPlayerRightStats();
             }
             onEntered:
             {
@@ -78,7 +78,7 @@ Rectangle {
     }	
 	Panel5Button{
         id: interception_button
-        anchors.top: team_right_statistic_page_text.bottom
+        anchors.top: team_away_statistic_page_text.bottom
         anchors.left: player_stats_button.right
         button_text: "Interceptions"
         MouseArea
@@ -86,7 +86,7 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             onPressed:  {//console.log(stackView.__currentItem.objectName.toString())
-				team_right_statistic_page.text= monitorControl.getRightInterception();
+				team_away_statistic_page.text= monitorControl.getRightInterception();
             }
             onEntered:
             {
@@ -101,7 +101,7 @@ Rectangle {
     }	
 	Panel5Button{
         id: foul_button
-        anchors.top: team_right_statistic_page_text.bottom
+        anchors.top: team_away_statistic_page_text.bottom
         anchors.left: interception_button.right
         button_text: "Fouls"
         MouseArea
@@ -109,7 +109,7 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             onPressed:  {//console.log(stackView.__currentItem.objectName.toString())
-				team_right_statistic_page.text= monitorControl.getRightFoul();
+				team_away_statistic_page.text= monitorControl.getRightFoul();
             }
             onEntered:
             {
@@ -132,7 +132,7 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             onPressed:  {//console.log(stackView.__currentItem.objectName.toString())
-				team_right_statistic_page.text= monitorControl.getRightTackle();
+				team_away_statistic_page.text= monitorControl.getRightTackle();
             }
             onEntered:
             {
@@ -155,7 +155,7 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             onPressed:  {//console.log(stackView.__currentItem.objectName.toString())
-				team_right_statistic_page.text= monitorControl.getRightGoal();
+				team_away_statistic_page.text= monitorControl.getRightGoal();
             }
             onEntered:
             {
@@ -178,7 +178,7 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             onPressed:  {//console.log(stackView.__currentItem.objectName.toString())
-				team_right_statistic_page.text= monitorControl.getRightYellowCard();
+				team_away_statistic_page.text= monitorControl.getRightYellowCard();
             }
             onEntered:
             {
@@ -201,7 +201,7 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             onPressed:  {//console.log(stackView.__currentItem.objectName.toString())
-				team_right_statistic_page.text= monitorControl.getRightRedCard();
+				team_away_statistic_page.text= monitorControl.getRightRedCard();
             }
             onEntered:
             {
