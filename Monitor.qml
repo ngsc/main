@@ -488,14 +488,14 @@ Rectangle
                 secondTeamScoreFigure.color = playerControl.getPlayerColor(13) !== null ? playerControl.getPlayerColor(13) : "transparent";
                 var firstText = "";
                 firstTeamScoreFigure.visible = false;
-                if( monitorControl.getLeftName().trim().length > 0 )
+                if( monitorControl.getRightName().trim().length > 0 )
                 {
                     firstTeamScoreFigure.visible = true
-                    firstText += monitorControl.getLeftName();
-                    if( monitorControl.getLeftScore().trim().length > 0 )
+                    firstText += monitorControl.getRightName();
+                    if( monitorControl.getRightScore().trim().length > 0 )
                     {
                       firstText += ": ";
-                      firstText +=  monitorControl.getLeftScore();
+                      firstText +=  monitorControl.getRightScore();
                     }
                     else
                     {
@@ -506,14 +506,14 @@ Rectangle
 
                 secondTeamScoreFigure.visible = false;
                 var secondText = "";
-                if( monitorControl.getRightName().trim().length > 0 )
+                if( monitorControl.getLeftName().trim().length > 0 )
                 {
                     secondTeamScoreFigure.visible = true;
-                    secondText += monitorControl.getRightName();
-                    if( monitorControl.getRightScore().trim().length > 0 )
+                    secondText += monitorControl.getLeftName();
+                    if( monitorControl.getLeftScore().trim().length > 0 )
                     {
                       secondText += ": ";
-                      secondText +=  monitorControl.getRightScore();
+                      secondText +=  monitorControl.getLeftScore();
                     }
                     else
                     {

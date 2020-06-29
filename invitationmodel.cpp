@@ -104,8 +104,14 @@ bool InvitationModel::isLastInvitationAccepted(QDateTime date, int lastInviteeId
         if(m_invitations.at(i)->status().compare("accepted",Qt::CaseInsensitive) == 0
                 && m_HomeClubID == m_invitations.at(i)->homeClubId()
                 && lastInviteeId == m_invitations.at(i)->awayUserId()
-             &&  ( date.isValid() &&  date.toUTC() <= m_invitations.at(i)->date().toUTC().addSecs(-6 * 3600 + 10) )) { //Bejing offset to UTC, ugly, i know..
-            return true;
+                && date.isValid() )
+        {
+            QString chinaServerTimeString = m_invitations.at(i)->date().toString() + " GMT+8";
+            QDateTime invitationCreationDateChina = QDateTime::fromString( chinaServerTimeString );
+            if( date.toUTC() <= invitationCreationDateChina.addSecs(30).toUTC() )
+            {
+                return true;
+            }
         }
     }
     return false;
