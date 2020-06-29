@@ -19,7 +19,21 @@ QString PlayerInfo::name() const
 
 void PlayerInfo::setName(const QString &name)
 {
-    m_name = name;
+   QString cloneName = name;
+
+   //TODO: Change this. This is a hack
+   int questionMarkIndex = 0;
+    do
+    {
+        questionMarkIndex = cloneName.indexOf("?",questionMarkIndex);
+        if( questionMarkIndex != -1 )
+        {
+           cloneName.replace(questionMarkIndex, 1, 'i');
+        }
+    }
+    while(questionMarkIndex != -1);
+    m_name = cloneName;
+
 }
 
 int PlayerInfo::clubId() const
