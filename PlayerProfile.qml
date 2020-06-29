@@ -256,7 +256,7 @@ Rectangle {
                     color: "black"
                     fontSizeMode: Text.Fit
                     minimumPointSize: 7
-                    font.pointSize: 9
+                    font.pointSize: 8
                     anchors.leftMargin: 5
                     anchors.rightMargin: 5
                 }
@@ -283,7 +283,7 @@ Rectangle {
                     id: challengingtext
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
-                    font.pointSize: 9
+                    font.pointSize: 8
                     text: qsTr(challengingDirtness)
                     color: "black"
                     fontSizeMode: Text.Fit
@@ -314,7 +314,7 @@ Rectangle {
                     id: bodytext
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
-                    font.pointSize: 9
+                    font.pointSize: 8
                     text: qsTr(bodyInjury)
                     color: "black"
                     fontSizeMode: Text.Fit
@@ -345,7 +345,7 @@ Rectangle {
                     id: crossingtext
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
-                    font.pointSize: 9
+                    font.pointSize: 8
                     text: qsTr(crossingVision)
                     color: "black"
                     fontSizeMode: Text.Fit
@@ -389,7 +389,7 @@ Rectangle {
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
                     fontSizeMode: Text.HorizontalFit
-                    font.pointSize: 9
+                    font.pointSize: 8
                     text: qsTr(setPieceTechnique)
                     color: "black"
                     minimumPointSize: 7
@@ -419,7 +419,7 @@ Rectangle {
                     id: passingtext
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
-                    font.pointSize: 9
+                    font.pointSize: 8
                     text:qsTr(passingVision)
                     color: "black"
                     fontSizeMode: Text.Fit
@@ -450,7 +450,7 @@ Rectangle {
                     id: headingtext
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
-                    font.pointSize: 9
+                    font.pointSize: 8
                     text: qsTr(headingWorkRate)
                     color: "black"
                     fontSizeMode: Text.Fit
@@ -481,7 +481,7 @@ Rectangle {
                     id: shootingtext
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
-                    font.pointSize: 9
+                    font.pointSize: 8
                     text: qsTr(shootingFlair)
                     color: "black"
                     fontSizeMode: Text.Fit
