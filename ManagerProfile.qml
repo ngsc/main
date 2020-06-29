@@ -23,8 +23,8 @@ Rectangle
     function setUser() {
         console.log(managerUser.clubId)
 
-        app_title_bar.selectedplayer = "file:///" + applicationPath + "../images/portrait/" + managerUser.userPortrait + ".jpg"
-        app_title_bar.selectedclubportrait = "file:///" + applicationPath + "../images/clubs/normal/" + managerUser.clubId + ".png"
+        app_title_bar.selectedplayer = "qrc:/images/portrait/" + managerUser.userPortrait + ".jpg"
+        app_title_bar.selectedclubportrait = "qrc:/images/clubs/normal/" + managerUser.clubId + ".png"
         app_title_bar.title = managerUser.firstName + " " + managerUser.lastName//titleBar
         app_title_bar.titleFontSize = 20
         app_title_bar.setportrailVisible = true

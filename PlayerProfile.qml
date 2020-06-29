@@ -38,8 +38,8 @@ Rectangle {
         player = p
         player.setGameClock(gameClockDate)
 
-        app_title_bar.selectedplayer = "file:///" + applicationPath + "../images/players/" + player.id + ".png"
-        app_title_bar.selectedclubportrait = "file:///" + applicationPath + "../images/clubs/normal/" + player.clubId + ".png"
+        app_title_bar.selectedplayer = "qrc:/images/players/" + player.id + ".png"
+        app_title_bar.selectedclubportrait = "qrc:/images/clubs/normal/" + player.clubId + ".png"
         app_title_bar.title = titleBar
         app_title_bar.titleFontSize = 20
         app_title_bar.setportrailVisible = true

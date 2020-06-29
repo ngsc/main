@@ -4,6 +4,7 @@ QT += core gui qml quick opengl
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets quick quickwidgets location positioning network
 
 CONFIG += c++11
+CONFIG += resources_big
 
 SOURCES += main.cpp \
     mainwindow.cpp \
