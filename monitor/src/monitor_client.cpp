@@ -40,6 +40,7 @@
 
 #include "disp_holder.h"
 #include "options.h"
+#include "Constants.h"
 
 #include <sstream>
 #include <iostream>
@@ -111,7 +112,7 @@ MonitorClient::MonitorClient( QObject * parent,
     {
         M_version = 4;
     }
-    M_socket->connectToHost( "106.54.22.63", M_server_port );
+    M_socket->connectToHost( ClientConstants::serverHost, M_server_port );
     if( M_socket->waitForConnected(300) )
     {
         qInfo() << "TCP socket conneted";
@@ -157,7 +158,7 @@ void MonitorClient::startSocket() {
 
 //    //Prepare the sockaddr_in structure
 //    si_other.sin_family = AF_INET;
-//    si_other.sin_addr.s_addr = inet_addr("106.54.22.63");;
+//    si_other.sin_addr.s_addr = inet_addr(ClientConstants::serverHost.toUtf8().constData());;
 //    si_other.sin_port = htons( 6000 );
 //    int slen = sizeof(si_other);
 

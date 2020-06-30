@@ -169,7 +169,7 @@ void MonitorControl::startServerAsynch()
 
     // TODO: start server with different parameters;
     QString startServerCmd = "./startserver.sh";
-    QString myCmd = "plink -ssh -no-antispoof " + user + "@" + chinaServerHost +  " -pw " + pw +  " \"cd " + matchServerSrcPath + " ; "  + startServerCmd + "\"";
+    QString myCmd = "plink -ssh -no-antispoof " + user + "@" + serverHost +  " -pw " + pw +  " \"cd " + matchServerSrcPath + " ; "  + startServerCmd + "\"";
     M_backgroundProcess->start(myCmd);
 }
 bool 
@@ -257,9 +257,8 @@ MonitorControl::update()
 void
 MonitorControl::connectMonitorTo()
 {
-    //connectMonitorTo("192.168.43.119");
     std::cerr << "MonitorControl::connectMonitorTo() ..." << std::endl;
-    connectMonitorTo("106.54.22.63");
+    connectMonitorTo(ClientConstants::serverHost.toUtf8().constData());
 }
 
 /*-------------------------------------------------------------------*/

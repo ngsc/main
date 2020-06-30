@@ -60,6 +60,7 @@
 #include "monitor_client.h"
 #include "player_type_dialog.h"
 #include "options.h"
+#include "Constants.h"
 
 #include <string>
 #include <iostream>
@@ -1266,10 +1267,8 @@ MonitorMainWindow::connectMonitor()
     std::string host = Options::instance().serverHost();
     if ( host.empty() )
     {
-        //host = "127.0.0.1";//*/"192.168.44.129";
-         host = "106.54.22.63";
+         host = ClientConstants::serverHost.toUtf8().constData();
     }
-    host = "106.54.22.63";
 
     connectMonitorTo( host.c_str() );
 }
@@ -1285,10 +1284,8 @@ MonitorMainWindow::connectMonitorTo()
     std::string host = Options::instance().serverHost();
     if ( host.empty() )
     {
-        //host = "127.0.0.1";/*"106.54.22.63";*///"192.168.44.129";"127.0.0.1";
-        host = "106.54.22.63";
+        host = ClientConstants::serverHost.toUtf8().constData();
     }
-    host = "106.54.22.63";
 
     bool ok = true;
     QString text = QInputDialog::getText( this,
