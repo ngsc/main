@@ -45,6 +45,7 @@
 #include <cstdio>
 #include "field_canvas.h"
 #include "config_dialog.h"
+#include "constants.h"
 
 #include<sstream>
 #include<iomanip>
@@ -80,6 +81,8 @@ MonitorControl::MonitorControl()
     : M_monitor_client( nullptr )
     , M_config_dialog( static_cast< ConfigDialog * >( 0 ) )
     , M_field_canvas( static_cast< FieldCanvas * >( 0 ) )
+    , M_backgroundProcess( new QProcess( this ) )
+    , m_failedConnectionsCount(0)
 {
 }
 
@@ -133,6 +136,11 @@ MonitorControl::connectMonitorTo( const char * hostname )
     if ( ! M_monitor_client->isConnected() )
     {
         std::cerr << "Conenction failed." << std::endl;
+        m_failedConnectionsCount++;
+        if(m_failedConnectionsCount == 2)
+        {
+            startServerAsynch();
+        }
         // os << "Conenction failed." << std::endl;
         delete M_monitor_client;
         M_monitor_client = static_cast< MonitorClient * >( 0 );
@@ -155,6 +163,15 @@ MonitorControl::connectMonitorTo( const char * hostname )
 }
 
 
+void MonitorControl::startServerAsynch()
+{
+    using namespace ClientConstants;
+
+    // TODO: start server with different parameters;
+    QString startServerCmd = "./startserver.sh";
+    QString myCmd = "plink -ssh -no-antispoof " + user + "@" + chinaServerHost +  " -pw " + pw +  " \"cd " + matchServerSrcPath + " ; "  + startServerCmd + "\"";
+    M_backgroundProcess->start(myCmd);
+}
 bool 
 MonitorControl::isConnected() const
 {

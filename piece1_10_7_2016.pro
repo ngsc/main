@@ -81,6 +81,7 @@ INCLUDEPATH += $$PWD\monitor\include\rcsslogplayer \
 LIBS += -lwsock32 -lOle32
 
 HEADERS += \
+    Constants.h \
     mainwindow.h \
     apiconnection.h \
     teamtactic.h \
