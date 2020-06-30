@@ -45,7 +45,9 @@
 #include <cstdio>
 #include "field_canvas.h"
 #include "config_dialog.h"
-#include "constants.h"
+#include "Constants.h"
+#include "simplecrypt.h"
+#include "qresource.h"
 
 #include<sstream>
 #include<iomanip>
@@ -167,10 +169,17 @@ void MonitorControl::startServerAsynch()
 {
     using namespace ClientConstants;
 
+    SimpleCrypt crypto(key); //some random number
+    QResource r( ":/textres/polo" );
+    QByteArray b( reinterpret_cast< const char* >( r.data() ), r.size() );
+    QString encrypted(b);
+
+    QString decrypted = crypto.decryptToString(encrypted);
+
     // TODO: start server with different parameters;
     QString startServerCmd = "./startserver.sh";
-    QString myCmd = "plink -ssh -no-antispoof " + user + "@" + serverHost +  " -pw " + pw +  " \"cd " + matchServerSrcPath + " ; "  + startServerCmd + "\"";
-    M_backgroundProcess->start(myCmd);
+    QString cmd = "plink -ssh -no-antispoof " + user + "@" + serverHost +  " -pw " + decrypted +  " \"cd " + matchServerSrcPath + " ; "  + startServerCmd + "\"";
+    M_backgroundProcess->start(cmd);
 }
 bool 
 MonitorControl::isConnected() const

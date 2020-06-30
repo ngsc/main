@@ -2,6 +2,7 @@
 #define CONSTANTS_H
 
 #include "qstring.h"
+#include "qglobal.h"
 namespace ClientConstants {
     // old kansas server IP 192.168.43.119
     // other IPs used in the past 192.168.44.129
@@ -10,6 +11,6 @@ namespace ClientConstants {
     const QString serverHost = "106.54.22.63";
     const QString matchServerSrcPath = "football/customserver/server/src";
     const QString user = "root";
-    const QString pw = "Chestnut99";
+    const quint64 key = 0x0c2ad4b4acb9f023;
 }
 #endif // CONSTANTS_H

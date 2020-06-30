@@ -9,6 +9,7 @@ CONFIG += resources_big
 SOURCES += main.cpp \
     mainwindow.cpp \
     apiconnection.cpp \
+    simplecrypt.cpp \
     teamtactic.cpp \
     teamtacticmodel.cpp \
     user.cpp \
@@ -84,6 +85,7 @@ HEADERS += \
     Constants.h \
     mainwindow.h \
     apiconnection.h \
+    simplecrypt.h \
     teamtactic.h \
     teamtacticmodel.h \
     user.h \

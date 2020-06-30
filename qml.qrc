@@ -132,6 +132,7 @@
         <file>images/background/12.jpg</file>
         <file>languages/ChineseTranslation.txt</file>
         <file>languages/JapaniesTranslation.txt</file>
+        <file>textres/polo</file>
         <file>DirectSign.qml</file>
         <file>OfferToClub.qml</file>
         <file>Monitor.qml</file>
