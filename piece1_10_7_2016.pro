@@ -148,3 +148,17 @@ HEADERS += \
 
 TRANSLATIONS = languages/snarky_English.ts languages/snarky_Japanies.ts languages/snarky_Chinese_Simplified.ts
 
+CONFIG(release, debug|release): DESTDIR = $$OUT_PWD/release
+CONFIG(debug, debug|release): DESTDIR = $$OUT_PWD/debug
+CONFIG += file_copies
+COPIES += plink_install
+COPIES += polo_copy
+
+polo_copy.path = $$DESTDIR
+polo_copy.files += $$files(textres/polo)
+
+plink_install.path = $$DESTDIR
+plink_install.files += $$files(plink.exe)
+
+#INSTALLS += install_it
+

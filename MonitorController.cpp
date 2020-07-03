@@ -48,6 +48,7 @@
 #include "Constants.h"
 #include "simplecrypt.h"
 #include "qresource.h"
+#include <QFile>
 
 #include<sstream>
 #include<iomanip>
@@ -137,7 +138,7 @@ MonitorControl::connectMonitorTo( const char * hostname )
 
     if ( ! M_monitor_client->isConnected() )
     {
-        std::cerr << "Conenction failed." << std::endl;
+        std::cerr << "Conenction failed, connections count: " <<  m_failedConnectionsCount << std::endl;
         m_failedConnectionsCount++;
         if(m_failedConnectionsCount == 2)
         {
@@ -170,15 +171,19 @@ void MonitorControl::startServerAsynch()
     using namespace ClientConstants;
 
     SimpleCrypt crypto(key); //some random number
-    QResource r( ":/textres/polo" );
-    QByteArray b( reinterpret_cast< const char* >( r.data() ), r.size() );
-    QString encrypted(b);
+    QFile file( "polo" );
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+    //QByteArray b( reinterpret_cast< const char* >( r.data() ), r.size() );
+    QString encrypted = file.readLine();
 
     QString decrypted = crypto.decryptToString(encrypted);
+    std::cerr << "decripted " << encrypted.toUtf8().data() << endl;
 
     // TODO: start server with different parameters;
     QString startServerCmd = "./startserver.sh";
     QString cmd = "plink -ssh -no-antispoof " + user + "@" + serverHost +  " -pw " + decrypted +  " \"cd " + matchServerSrcPath + " ; "  + startServerCmd + "\"";
+    std::cerr << "The command send server: " << cmd.toUtf8().data() << endl;
     M_backgroundProcess->start(cmd);
 }
 bool 
