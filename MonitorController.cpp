@@ -174,16 +174,13 @@ void MonitorControl::startServerAsynch()
     QFile file( "polo" );
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
-    //QByteArray b( reinterpret_cast< const char* >( r.data() ), r.size() );
     QString encrypted = file.readLine();
 
     QString decrypted = crypto.decryptToString(encrypted);
-    std::cerr << "decripted " << encrypted.toUtf8().data() << endl;
 
     // TODO: start server with different parameters;
     QString startServerCmd = "./startserver.sh";
     QString cmd = "plink -ssh -no-antispoof " + user + "@" + serverHost +  " -pw " + decrypted +  " \"cd " + matchServerSrcPath + " ; "  + startServerCmd + "\"";
-    std::cerr << "The command send server: " << cmd.toUtf8().data() << endl;
     M_backgroundProcess->start(cmd);
 }
 bool 
