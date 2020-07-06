@@ -84,8 +84,7 @@ MonitorControl::MonitorControl()
     : M_monitor_client( nullptr )
     , M_config_dialog( static_cast< ConfigDialog * >( 0 ) )
     , M_field_canvas( static_cast< FieldCanvas * >( 0 ) )
-    , M_backgroundProcess( new QProcess( this ) )
-    , m_failedConnectionsCount(0)
+//    , M_backgroundProcess( new QProcess( this ) )
 {
 }
 
@@ -138,15 +137,10 @@ MonitorControl::connectMonitorTo( const char * hostname )
 
     if ( ! M_monitor_client->isConnected() )
     {
-        std::cerr << "Conenction failed, connections count: " <<  m_failedConnectionsCount << std::endl;
-        m_failedConnectionsCount++;
-        if(m_failedConnectionsCount == 2)
-        {
-            startServerAsynch();
-        }
-        // os << "Conenction failed." << std::endl;
-        delete M_monitor_client;
-        M_monitor_client = static_cast< MonitorClient * >( 0 );
+        M_monitor_client->startServerAsynch();
+//        // os << "Conenction failed." << std::endl;
+//        delete M_monitor_client;
+//        M_monitor_client = static_cast< MonitorClient * >( 0 );
         return;
     }
     // os << "Connected!" << std::endl;
@@ -166,23 +160,23 @@ MonitorControl::connectMonitorTo( const char * hostname )
 }
 
 
-void MonitorControl::startServerAsynch()
-{
-    using namespace ClientConstants;
+//void MonitorControl::startServerAsynch()
+//{
+//    using namespace ClientConstants;
 
-    SimpleCrypt crypto(key); //some random number
-    QFile file( "polo" );
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        return;
-    QString encrypted = file.readLine();
+//    SimpleCrypt crypto(key); //some random number
+//    QFile file( "polo" );
+//    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+//        return;
+//    QString encrypted = file.readLine();
 
-    QString decrypted = crypto.decryptToString(encrypted);
+//    QString decrypted = crypto.decryptToString(encrypted);
 
-    // TODO: start server with different parameters;
-    QString startServerCmd = "./startserver.sh";
-    QString cmd = "plink -ssh -no-antispoof " + user + "@" + serverHost +  " -pw " + decrypted +  " \"cd " + matchServerSrcPath + " ; "  + startServerCmd + "\"";
-    M_backgroundProcess->start(cmd);
-}
+//    // TODO: start server with different parameters;
+//    QString startServerCmd = "./startserver.sh";
+//    QString cmd = "plink -ssh -no-antispoof " + user + "@" + serverHost +  " -pw " + decrypted +  " \"cd " + matchServerSrcPath + " ; "  + startServerCmd + "\"";
+//    M_backgroundProcess->start(cmd);
+//}
 bool 
 MonitorControl::isConnected() const
 {
@@ -284,8 +278,8 @@ MonitorControl::disconnectMonitor()
         std::cerr << "disconnectMonitor ..." << std::endl;
         M_monitor_client->disconnect();
 
-        delete M_monitor_client;
-        M_monitor_client = static_cast< MonitorClient * >( 0 );
+//        delete M_monitor_client;
+//        M_monitor_client = static_cast< MonitorClient * >( 0 );
 
         //
         // quit application if auto_quit_mode is on

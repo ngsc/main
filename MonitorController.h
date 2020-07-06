@@ -82,10 +82,9 @@ private:
     DispHolder M_disp_holder;
 
     MonitorClient * M_monitor_client;
-    QProcess* M_backgroundProcess;
+//    QProcess* M_backgroundProcess;
     ConfigDialog * M_config_dialog;
     FieldCanvas * M_field_canvas;
-    int m_failedConnectionsCount;
 
 public:
 
@@ -141,7 +140,7 @@ public slots:
 	void sendPlayerSubstitute(int player1_id, int player2_id);
     void sendTactics(QString teamName);
     void updateTeamTacticMask( int tactType, bool value );
-    void startServerAsynch();
+    //void startServerAsynch();
 };
 
 #endif

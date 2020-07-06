@@ -41,6 +41,8 @@
 #include "disp_holder.h"
 #include "options.h"
 #include "Constants.h"
+#include "simplecrypt.h"
+#include "QProcess"
 
 #include <sstream>
 #include <iostream>
@@ -69,6 +71,9 @@ MonitorClient::MonitorClient( QObject * parent,
     , M_version( version )
     , M_waited_msec( 0 )
     , M_recomposedPackage()
+    , M_backgroundProcess( new QProcess(this) )
+    , M_isServerStarted( false )
+
 {
     assert( parent );
     connect(
@@ -346,10 +351,34 @@ MonitorClient::handleTimer()
             //emit reconnectRequested();
         }
     }
-    else if ( M_waited_msec >= 500 * 1000 )
+    else if ( M_waited_msec >= 2 * 1000 )
     {
-        std::cerr << "MonitorClient::handleTimer() waited=" << M_waited_msec << "[ms] and emmited disconnection";
-        emit disconnectRequested();
+        std::cerr << "MonitorClient::handleTimer() waited=" << M_waited_msec << " [ms] and started matchserver" << std::endl; // << "[ms] and emmited disconnection";
+        startServerAsynch();
+        //emit disconnectRequested();
+    }
+}
+
+void
+MonitorClient::startServerAsynch()
+{
+    if( !M_isServerStarted )
+    {
+        M_isServerStarted = true;
+        using namespace ClientConstants;
+
+        SimpleCrypt crypto(key); //some random number
+        QFile file( "polo" );
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+            return;
+        QString encrypted = file.readLine();
+
+        QString decrypted = crypto.decryptToString(encrypted);
+
+        // TODO: start server with different parameters;
+        QString startServerCmd = "./startserver.sh";
+        QString cmd = "plink -ssh -no-antispoof " + user + "@" + serverHost +  " -pw " + decrypted +  " \"cd " + matchServerSrcPath + " ; "  + startServerCmd + "\"";
+        M_backgroundProcess->start(cmd);
     }
 }
 

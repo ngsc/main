@@ -41,6 +41,7 @@
 //#include <winsock2.h>
 //#include <stdio.h>
 #include <time.h>
+#include <qprocess.h>
 
 class QHostInfo;
 class QTimer;
@@ -61,6 +62,8 @@ private:
     QTcpSocket * M_socket;
     QMetaObject::Connection M_tcp_connection;
     QByteArray M_recomposedPackage;
+    QProcess* M_backgroundProcess;
+    bool M_isServerStarted;
 
     void error(QAbstractSocket::SocketError aError);
     //SOCKET m_sock;
@@ -174,6 +177,8 @@ public:
                                const int type );
 
     void sendCheckBal();
+
+    void startServerAsynch();
 
 private slots:
 
