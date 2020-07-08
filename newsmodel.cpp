@@ -453,7 +453,7 @@ void NewsModel::laodChineseFile()
 
     if (file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        QByteArray encodedString =file.readAll();
+        QByteArray encodedString = file.readAll();
         QTextCodec *codec = QTextCodec::codecForName("GB2312");
         QString string = codec->toUnicode(encodedString);
 //        qDebug()<<string;
@@ -479,7 +479,7 @@ void NewsModel::laodJapaniesFile()
 
     if (file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        QByteArray encodedString =file.readAll();
+        QByteArray encodedString = file.readAll();
         QTextCodec *codec = QTextCodec::codecForName("Shift-JIS");
         QString string = codec->toUnicode(encodedString);
 //        qDebug()<<string;

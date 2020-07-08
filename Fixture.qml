@@ -17,6 +17,7 @@ Rectangle {
     property alias getUsersTimer: getUsersTimer
     property var lastInvitationDate
     property int lastInviteeId: -1
+    property int lastInvitedClubId: -1
 
 
     MatchModel {
@@ -480,6 +481,7 @@ Rectangle {
                         console.log(row.username + ", " + row.userId + ", " + row.clubId + ", " + row.clubName + ", " + row.online)
                         root.lastInvitationDate = new Date();
                         root.lastInviteeId = row.userId;
+                        root.lastInvitedClubId = row.clubId;
                         APIConnection.sendInvitation(managerUser.token, managerUser.id, row.userId);
                         APIConnection.getInvitations(managerUser.token, row.userId);
                     })
@@ -751,8 +753,10 @@ Rectangle {
             invitationModel.setInvitations(invitations);
             if (invitationModel.isLastInvitationAccepted(root.lastInvitationDate, root.lastInviteeId))
             {
-                root.lastInviteeId = -1;
                 callinsidepage2(monitor);
+                monitor.hideButtonsStartMatchOnClicked();
+                APIConnection.startMatchServerCmd(managerUser.clubId, root.lastInvitedClubId);
+                root.lastInviteeId = -1;
             }
             app.canResign = !invitationModel.areThereInvetationNews()
         }

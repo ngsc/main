@@ -6,6 +6,7 @@
 namespace ClientConstants {
     // old kansas server IP 192.168.43.119
     // other IPs used in the past 192.168.44.129
+    // China server 106.54.22.63
     //host = "127.0.0.1";/*"106.54.22.63";*///"192.168.44.129";"127.0.0.1";
 
     const QString serverHost = "106.54.22.63";

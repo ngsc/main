@@ -16,6 +16,52 @@ import com.Game.SortFilterProxyModel 1.0
 
 Rectangle
 {
+    function hideButtonsStartMatchOnClicked()
+    {
+        if(game_start.startTime == 0){
+            game_start.startTime = new Date().getTime()
+            game_start.currTime = new Date().getTime()
+            innerTimer.start()
+            game_start.button_text = "Prepared?";	//User can set tactics on the tactics center meanwhile
+
+        }
+        else if(game_start.currTime - game_start.startTime > 100){
+            innerTimer.stop()
+            game_start.startTime = 0
+            game_start.currTime = 0
+            if(!monitorControl.isConnected()){
+                game_start.button_text = "Waiting for other team...";
+                monitorControl.getMatchParams();
+            }
+        hideButtonsStartMatch();
+        }
+    }
+
+    function hideButtonsStartMatchOnTimer()
+    {
+    game_start.currTime = new Date().getTime()
+    game_start_timer.text = (0|(5000 - game_start.currTime + game_start.startTime)/1000) + " seconds to go..."
+    if(game_start.currTime - game_start.startTime >= 5000){
+        innerTimer.stop();
+        if(!monitorControl.isConnected()){
+            game_start.button_text = "Waiting for other team...";
+            monitorControl.getMatchParams();
+            }
+        hideButtonsStartMatch();
+        }
+    }
+
+    function hideButtonsStartMatch()
+    {
+        game_start_timer.visible = false;
+        game_start.visible = false;
+        start.start();
+        timer.start();
+        monitor_timer.start();
+        game_info_timer.start();
+        foul_card_timer.start();
+    }
+
     FieldControl{
             id: fieldControl
         }
@@ -63,29 +109,7 @@ Rectangle
                 cursorShape: Qt.PointingHandCursor
                 acceptedButtons: Qt.LeftButton
                 onClicked: {
-                    if(game_start.startTime == 0){
-                        game_start.startTime = new Date().getTime()
-                        game_start.currTime = new Date().getTime()
-                        innerTimer.start()
-                        game_start.button_text = "Prepared?";	//User can set tactics on the tactics center meanwhile
-
-                    }
-                    else if(game_start.currTime -game_start.startTime > 100){
-                        innerTimer.stop()
-                        game_start.startTime = 0
-                        game_start.currTime = 0
-                        if(!monitorControl.isConnected()){
-                            game_start.button_text = "Waiting for other team...";
-                            monitorControl.getMatchParams();
-                        }
-                        game_start_timer.visible = false;
-                        game_start.visible = false;
-                        start.start();
-                        timer.start();
-                        monitor_timer.start();
-                        game_info_timer.start();
-                        foul_card_timer.start();
-                    }
+                        hideButtonsStartMatchOnClicked();
                 }
                 onPressed: {parent.state="clicked"}
                 onReleased: {parent.state="unclicked"}
@@ -96,23 +120,7 @@ Rectangle
                 repeat: true
                 running: false	//use date().gettime
                 onTriggered:{
-                    game_start.currTime = new Date().getTime()
-                    game_start_timer.text = (0|(5000 - game_start.currTime + game_start.startTime)/1000) + " seconds to go..."
-                    if(game_start.currTime - game_start.startTime >= 5000){
-                        innerTimer.stop();
-                        if(!monitorControl.isConnected()){
-                            game_start.button_text = "Waiting for other team...";
-                            monitorControl.getMatchParams();
-                        }
-                        game_start_timer.visible = false;
-                        game_start.visible = false;
-                        start.start();
-                        timer.start();
-                        monitor_timer.start();
-                        game_info_timer.start();
-                        foul_card_timer.start();
-
-                    }
+                    hideButtonsStartMatchOnTimer();
                 }
             }
         }

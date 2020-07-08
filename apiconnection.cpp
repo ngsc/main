@@ -1,11 +1,15 @@
 #include "apiconnection.h"
 #include "Constants.h"
+#include "simplecrypt.h"
+#include "qfile.h"
 
 
 QString APIConnection::s_token = "";
 const QString APIConnection::s_apiUrl = "http://" + ClientConstants::serverHost;
 
-APIConnection::APIConnection(QObject *parent) : QObject(parent)
+APIConnection::APIConnection(QObject *parent)
+    : QObject(parent)
+    , m_background_process(new QProcess(this))
 {
     connect(&m_manger, &QNetworkAccessManager::finished,
             [this] (QNetworkReply* reply) {
@@ -590,4 +594,22 @@ void APIConnection::terminateFreePlayerContractOffer(const QString &token, int c
     m_operationName["terminate_free_player_contract_offer"] = Operation::Send_Message;
     auto url = QString("%1/?terminate_free_player_contract_offer&token=%2&offer_id=%3").arg(s_apiUrl).arg(token).arg(contract_id);
     sendRequest(url);
+}
+
+void APIConnection::startMatchServerCmd(int homeClubId, int awayClubId )
+{
+    using namespace ClientConstants;
+
+    SimpleCrypt crypto(key); //some random number
+    QFile file( "polo" );
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+    QString encrypted = file.readLine();
+
+    QString decrypted = crypto.decryptToString(encrypted);
+
+    // TODO: start server with different parameters;
+    QString startServerCmd = "./startserver.sh 0 " + QString::number(homeClubId) + " " + QString::number(awayClubId) + " 0 0";
+    QString cmd = "plink -ssh -no-antispoof " + user + "@" + serverHost +  " -pw " + decrypted +  " \"cd " + matchServerSrcPath + " ; "  + startServerCmd + "\"";
+    m_background_process->start( cmd );
 }

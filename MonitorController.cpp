@@ -46,9 +46,6 @@
 #include "field_canvas.h"
 #include "config_dialog.h"
 #include "Constants.h"
-#include "simplecrypt.h"
-#include "qresource.h"
-#include <QFile>
 
 #include<sstream>
 #include<iomanip>
@@ -84,7 +81,6 @@ MonitorControl::MonitorControl()
     : M_monitor_client( nullptr )
     , M_config_dialog( static_cast< ConfigDialog * >( 0 ) )
     , M_field_canvas( static_cast< FieldCanvas * >( 0 ) )
-//    , M_backgroundProcess( new QProcess( this ) )
 {
 }
 
@@ -137,7 +133,7 @@ MonitorControl::connectMonitorTo( const char * hostname )
 
     if ( ! M_monitor_client->isConnected() )
     {
-        M_monitor_client->startServerAsynch();
+        //M_monitor_client->startServerAsynch();
 //        // os << "Conenction failed." << std::endl;
 //        delete M_monitor_client;
 //        M_monitor_client = static_cast< MonitorClient * >( 0 );
@@ -159,24 +155,6 @@ MonitorControl::connectMonitorTo( const char * hostname )
     // M_monitor_client->sendDispInit();
 }
 
-
-//void MonitorControl::startServerAsynch()
-//{
-//    using namespace ClientConstants;
-
-//    SimpleCrypt crypto(key); //some random number
-//    QFile file( "polo" );
-//    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-//        return;
-//    QString encrypted = file.readLine();
-
-//    QString decrypted = crypto.decryptToString(encrypted);
-
-//    // TODO: start server with different parameters;
-//    QString startServerCmd = "./startserver.sh";
-//    QString cmd = "plink -ssh -no-antispoof " + user + "@" + serverHost +  " -pw " + decrypted +  " \"cd " + matchServerSrcPath + " ; "  + startServerCmd + "\"";
-//    M_backgroundProcess->start(cmd);
-//}
 bool 
 MonitorControl::isConnected() const
 {
