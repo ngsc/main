@@ -304,7 +304,7 @@ Rectangle {
     Connections {
         target: monitorControl
         onTcpFullMessageReceived: {
-            app.busyIndicator.running = false;
+            app.busyIndicatorMatchStart.running = false;
         }
     }
 }

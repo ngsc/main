@@ -37,6 +37,8 @@ ApplicationWindow {
 
     property alias busyIndicator: busyIndicator
 
+    property alias busyIndicatorMatchStart: busyIndicatorMatchStart
+
     property bool is_additionalClicked: true
 
     property bool is_exitEntered: true
@@ -1425,6 +1427,13 @@ ApplicationWindow {
 
         BusyIndicator {
             id: busyIndicator
+            width: 100
+            height: width
+            anchors.centerIn: stackView
+            running: false
+        }
+        BusyIndicator {
+            id: busyIndicatorMatchStart
             width: 100
             height: width
             anchors.centerIn: stackView

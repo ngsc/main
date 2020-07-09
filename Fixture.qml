@@ -737,7 +737,7 @@ Rectangle {
         target: monitorControl
         onTcpFullMessageReceived:
         {
-            app.busyIndicator.running = false;
+            app.busyIndicatorMatchStart.running = false;
         }
     }
 
@@ -763,7 +763,7 @@ Rectangle {
                 callinsidepage2(monitor);
                 monitor.hideButtonsStartMatchOnClicked();
                 APIConnection.startMatchServerCmd(managerUser.clubId, root.lastInvitedClubId);
-                app.busyIndicator.running = true;
+                app.busyIndicatorMatchStart.running = true;
                 root.lastInviteeId = -1;
             }
             app.canResign = !invitationModel.areThereInvetationNews()
