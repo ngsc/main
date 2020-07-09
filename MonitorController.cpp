@@ -230,7 +230,6 @@ MonitorControl::update()
         // PlayerControl::setPlayerColor(param.player_type_.id_, i < rcss::rcg::MAX_PLAYER, QColor(Qt::blue) /*painter.brush().color()*/);
         QColor color = MonitorControl::getPLayerColor(param);
         PlayerControl::setPlayerColor( i, color);
-        qDebug() << "player id: " << param.player_type_.id_;
         PlayerControl::setPlayerNeckAngle( i, param.player_.neck_);
 
         QString pitch_info = getPitchInfo();

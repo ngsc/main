@@ -307,10 +307,13 @@ Rectangle
                 Rectangle{
                     z:parent.z +1
                     id: player_neck
-                    width: parent.width  / 3
-                    height: parent.height  / 3
+                    width: parent.width / 5
+                    height: parent.height
+                    anchors.bottom: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
                     color: parent.color
-                    transform: Rotation { origin.x: 4; origin.y: 4; angle: player.rotate}
+                    transformOrigin: Item.Bottom
+                    rotation: player.rotate
                     }
                 /*MouseArea {
                     anchors.fill: parent
@@ -359,10 +362,13 @@ Rectangle
                 Rectangle{
                     z:parent.z +1
                     id: player_neck1
-                    width: parent.width  / 3
-                    height: parent.height / 3
+                    width: parent.width / 5
+                    height: parent.height
+                    anchors.bottom: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
                     color: parent.color
-                    transform: Rotation { origin.x: 4; origin.y: 4; angle: player.rotate}
+                    transformOrigin: Item.Bottom
+                    rotation: player1.rotate
                 }
                 /*MouseArea {
                     anchors.fill: parent
