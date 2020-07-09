@@ -139,6 +139,9 @@ public slots:
 	void sendPlayerSubstitute(int player1_id, int player2_id);
     void sendTactics(QString teamName);
     void updateTeamTacticMask( int tactType, bool value );
+
+signals:
+    void tcpFullMessageReceived();
 };
 
 #endif

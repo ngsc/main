@@ -130,13 +130,19 @@ MonitorControl::connectMonitorTo( const char * hostname )
                                           hostname,
                                           Options::instance().serverPort(),
                                           Options::instance().clientVersion() );
-
+    connect(
+        M_monitor_client, &MonitorClient::tcpFullMessageReceived,
+        [this]()
+        {
+            emit tcpFullMessageReceived();
+        }
+    );
     if ( ! M_monitor_client->isConnected() )
     {
         //M_monitor_client->startServerAsynch();
 //        // os << "Conenction failed." << std::endl;
-//        delete M_monitor_client;
-//        M_monitor_client = static_cast< MonitorClient * >( 0 );
+        delete M_monitor_client;
+        M_monitor_client = static_cast< MonitorClient * >( 0 );
         return;
     }
     // os << "Connected!" << std::endl;
@@ -256,8 +262,8 @@ MonitorControl::disconnectMonitor()
         std::cerr << "disconnectMonitor ..." << std::endl;
         M_monitor_client->disconnect();
 
-//        delete M_monitor_client;
-//        M_monitor_client = static_cast< MonitorClient * >( 0 );
+        delete M_monitor_client;
+        M_monitor_client = static_cast< MonitorClient * >( 0 );
 
         //
         // quit application if auto_quit_mode is on

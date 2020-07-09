@@ -287,7 +287,7 @@ MonitorClient::handleTcpRecevied()
         }
         if(ok)
         {
-            emit received();
+            emit tcpFullMessageReceived();
         }
         else
         {

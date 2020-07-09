@@ -182,7 +182,7 @@ private slots:
 
 signals:
 
-    void received();
+    void tcpFullMessageReceived();
     void disconnectRequested();
     void reconnectRequested();
 

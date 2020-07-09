@@ -239,6 +239,7 @@ Rectangle {
                             APIConnection.acceptInvitation(managerUser.token,currentNews.invitationId)
                             callinsidepage2(monitor);
                             monitor.hideButtonsStartMatchOnClicked();
+                            app.busyIndicator.running = true
                         } else if (currentNews.stage === News.OfferContract) {
                             console.log("submit")
                             submitContract.news = currentNews
@@ -298,6 +299,12 @@ Rectangle {
             //            newsModel.setNews(publicNews);
             newsModel.setpublicNews(publicNews)
             newsflashanimation.running = newsPage.newsModel.containsUnread()
+        }
+    }
+    Connections {
+        target: monitorControl
+        onTcpFullMessageReceived: {
+            app.busyIndicator.running = false;
         }
     }
 }

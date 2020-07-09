@@ -1099,7 +1099,7 @@ MonitorMainWindow::connectMonitorTo( const char * hostname )
     M_connect_monitor_to_act->setEnabled( false );
     M_disconnect_monitor_act->setEnabled( true );
 
-    connect( M_monitor_client, SIGNAL( received() ),
+    connect( M_monitor_client, SIGNAL( tcpFullMessageReceived() ),
              this, SLOT( receiveMonitorPacket() ) );
     connect( M_monitor_client, SIGNAL( disconnectRequested() ),
              this, SLOT( disconnectMonitor() ) );

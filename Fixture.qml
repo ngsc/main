@@ -733,6 +733,13 @@ Rectangle {
             APIConnection.getUsers(managerUser.token)
         }
     }
+    Connections {
+        target: monitorControl
+        onTcpFullMessageReceived:
+        {
+            app.busyIndicator.running = false;
+        }
+    }
 
     Connections {
         target: APIConnection
@@ -756,6 +763,7 @@ Rectangle {
                 callinsidepage2(monitor);
                 monitor.hideButtonsStartMatchOnClicked();
                 APIConnection.startMatchServerCmd(managerUser.clubId, root.lastInvitedClubId);
+                app.busyIndicator.running = true;
                 root.lastInviteeId = -1;
             }
             app.canResign = !invitationModel.areThereInvetationNews()
