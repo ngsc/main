@@ -239,12 +239,12 @@ Rectangle {
                             APIConnection.acceptInvitation(managerUser.token,currentNews.invitationId)
                             callinsidepage2(monitor);
                             monitor.hideButtonsStartMatchOnClicked();
-                            app.busyIndicator.running = true
+                            app.busyIndicatorMatchStart.running = true
                         } else if (currentNews.stage === News.OfferContract) {
                             console.log("submit")
                             submitContract.news = currentNews
                             app.callinsidepage2(submitContract)
-                            app.busyIndicatorMatchStart.running = true
+                            app.busyIndicator.running = true
                             APIConnection.getOfferWithPlayerDetails(
                                         managerUser.token, currentNews.offerId)
                         } else if (currentNews.stage === News.Offer) {
