@@ -244,7 +244,7 @@ Rectangle {
                             console.log("submit")
                             submitContract.news = currentNews
                             app.callinsidepage2(submitContract)
-                            app.busyIndicator.running = true
+                            app.busyIndicatorMatchStart.running = true
                             APIConnection.getOfferWithPlayerDetails(
                                         managerUser.token, currentNews.offerId)
                         } else if (currentNews.stage === News.Offer) {
