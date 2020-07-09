@@ -33,7 +33,8 @@ Rectangle
                 game_start.button_text = "Waiting for other team...";
                 monitorControl.getMatchParams();
             }
-        hideButtonsStartMatch();
+            hideButtonsStartMatch();
+
         }
     }
 
@@ -44,7 +45,7 @@ Rectangle
     if(game_start.currTime - game_start.startTime >= 5000){
         innerTimer.stop();
         if(!monitorControl.isConnected()){
-            game_start.button_text = "Waiting for other team...";
+            game_start.button_text = "Waiting match start...";
             monitorControl.getMatchParams();
             }
         hideButtonsStartMatch();
@@ -54,12 +55,22 @@ Rectangle
     function hideButtonsStartMatch()
     {
         game_start_timer.visible = false;
-        game_start.visible = false;
+        if(monitorControl.isConnected())
+        {
+            game_start.visible = false;
+        }
         start.start();
         timer.start();
         monitor_timer.start();
         game_info_timer.start();
         foul_card_timer.start();
+    }
+
+    Connections{
+        target: monitorControl
+        onTcpFullMessageReceived: {
+            game_start.visible = false;
+        }
     }
 
     FieldControl{
