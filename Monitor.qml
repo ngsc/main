@@ -428,9 +428,10 @@ Rectangle
             //timer.start()
             return playerControl.getPlayerColor(player_id);
         }
-        function getPlayerNeckAngle(player_id)
+        // body angle + neck angle
+        function getPlayerAngle(player_id)
         {
-            return playerControl.getPlayerNeckAngle(player_id);
+            return playerControl.getPlayerNeckAngle(player_id) + playerControl.getPlayerBodyAngle(player_id);
         }
 
         //Monitor
@@ -555,7 +556,7 @@ Rectangle
                         players_left.itemAt(i).color = getPlayerColor(i)
                         players_left.itemAt(i).x = getPlayerPoint(i)[0] + 7.5 // HACK
                         players_left.itemAt(i).y = getPlayerPoint(i)[1] - 10
-                        players_left.itemAt(i).rotate = getPlayerNeckAngle(i)
+                        players_left.itemAt(i).rotate = getPlayerAngle(i)
                         ball.x = getBallPoint()[0] + 263; //HACK
                         ball.y = getBallPoint()[1] + 4.5; //HACK
                     }
@@ -567,7 +568,7 @@ Rectangle
                         players_right.itemAt(i).color = getPlayerColor(i+11)
                         players_right.itemAt(i).x = getPlayerPoint(i+11)[0] + 7.5-(pitch.width / 2) // HACK
                         players_right.itemAt(i).y = getPlayerPoint(i+11)[1] - 10
-                        players_right.itemAt(i).rotate = getPlayerNeckAngle(i+11)
+                        players_right.itemAt(i).rotate = getPlayerAngle(i+11)
                         ball.x = getBallPoint()[0] + 263; //HACK
                         ball.y = getBallPoint()[1] + 4.5; //HACK
                     }

@@ -49,6 +49,19 @@ void PlayerControl::setPlayerNeckAngle(int player_id, int neck_angle)
     //os << "File: " << __FILE__ << ":" << __LINE__ << "\n";
     m_players[player_id].m_neck_angle = neck_angle;
 }
+int PlayerControl::getPlayerBodyAngle(int player_id)
+{
+    //std::ofstream os("C:/Users/Martun/Desktop/monitor_log.txt", std::ofstream::out | std::ofstream::app);
+    //os << "File: " << __FILE__ << ":" << __LINE__ << "\n";
+    return m_players[player_id].m_body_angle;
+}
+
+void PlayerControl::setPlayerBodyAngle(int player_id, int body_angle)
+{
+    //std::ofstream os("C:/Users/Martun/Desktop/monitor_log.txt", std::ofstream::out | std::ofstream::app);
+    //os << "File: " << __FILE__ << ":" << __LINE__ << "\n";
+    m_players[player_id].m_body_angle = body_angle;
+}
 
 QVector<double> PlayerControl::getBallPoint()
 {

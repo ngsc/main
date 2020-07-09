@@ -17,6 +17,7 @@ private:
 	{
 		QColor m_color;
 		int m_neck_angle;
+        int m_body_angle;
 		QVector<double> m_point;
 	};
 	static QVector<PlayerProperties> m_players;
@@ -40,6 +41,9 @@ public slots:
     //neck angle
     static int getPlayerNeckAngle(int player_id);
     static void setPlayerNeckAngle(int player_id, int neck_angle);
+
+    static int getPlayerBodyAngle(int player_id);
+    static void setPlayerBodyAngle(int player_id, int body_angle);
 
     //ball position
     static QVector<double> getBallPoint();

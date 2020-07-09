@@ -231,6 +231,7 @@ MonitorControl::update()
         QColor color = MonitorControl::getPLayerColor(param);
         PlayerControl::setPlayerColor( i, color);
         PlayerControl::setPlayerNeckAngle( i, param.player_.neck_);
+        PlayerControl::setPlayerBodyAngle( i, param.player_.body_);
 
         QString pitch_info = getPitchInfo();
         PlayerControl::setPitchInfo(pitch_info);
