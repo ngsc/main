@@ -16,13 +16,17 @@ import com.Game.SortFilterProxyModel 1.0
 
 Rectangle
 {
-    function hideButtonsStartMatchOnClicked()
+    function hideButtonsStartMatchOnClicked(startServer)
     {
         if(game_start.startTime == 0){
             game_start.startTime = new Date().getTime()
             game_start.currTime = new Date().getTime()
             innerTimer.start()
             game_start.button_text = "Prepared?";	//User can set tactics on the tactics center meanwhile
+            if(startServer)
+            {
+                monitorControl.startMatchServerCmd(23292170,406)
+            }
 
         }
         else if(game_start.currTime - game_start.startTime > 100){
@@ -123,7 +127,7 @@ Rectangle
                 cursorShape: Qt.PointingHandCursor
                 acceptedButtons: Qt.LeftButton
                 onClicked: {
-                        hideButtonsStartMatchOnClicked();
+                        hideButtonsStartMatchOnClicked(true);
                 }
                 onPressed: {parent.state="clicked"}
                 onReleased: {parent.state="unclicked"}

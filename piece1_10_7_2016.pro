@@ -82,7 +82,7 @@ INCLUDEPATH += $$PWD\monitor\include\rcsslogplayer \
 LIBS += -lwsock32 -lOle32
 
 HEADERS += \
-    Constants.h \
+    constants.h \
     mainwindow.h \
     apiconnection.h \
     simplecrypt.h \

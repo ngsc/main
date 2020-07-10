@@ -45,7 +45,10 @@
 #include <cstdio>
 #include "field_canvas.h"
 #include "config_dialog.h"
-#include "Constants.h"
+#include "constants.h"
+#include "qprocess.h"
+#include "simplecrypt.h"
+#include "qfile.h"
 
 #include<sstream>
 #include<iomanip>
@@ -81,6 +84,7 @@ MonitorControl::MonitorControl()
     : M_monitor_client( nullptr )
     , M_config_dialog( static_cast< ConfigDialog * >( 0 ) )
     , M_field_canvas( static_cast< FieldCanvas * >( 0 ) )
+    , m_background_process(new QProcess( this ) )
 {
 }
 
@@ -108,7 +112,24 @@ MonitorControl::init()
         connectMonitor();
     }
 }
-#include<fstream>
+void MonitorControl::startMatchServerCmd(int homeClubId, int awayClubId )
+{
+    using namespace ClientConstants;
+
+    SimpleCrypt crypto(key); //some random number
+    QFile file( "polo" );
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+    QString encrypted = file.readLine();
+
+    QString decrypted = crypto.decryptToString(encrypted);
+
+    // TODO: start server with different parameters;
+    QString startServerCmd = "./startserver.sh 0 " + QString::number(homeClubId) + " " + QString::number(awayClubId) + " 0 0";
+    QString cmd = "plink -ssh -no-antispoof " + user + "@" + serverHost +  " -pw " + decrypted +  " \"cd " + matchServerSrcPath + " ; "  + startServerCmd + "\"";
+    m_background_process->start( cmd );
+}
+
 void
 MonitorControl::connectMonitorTo( const char * hostname )
 {

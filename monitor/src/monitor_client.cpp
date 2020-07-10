@@ -40,7 +40,7 @@
 
 #include "disp_holder.h"
 #include "options.h"
-#include "Constants.h"
+#include "constants.h"
 
 #include <sstream>
 #include <iostream>

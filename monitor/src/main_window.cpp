@@ -60,7 +60,7 @@
 #include "monitor_client.h"
 #include "player_type_dialog.h"
 #include "options.h"
-#include "Constants.h"
+#include "constants.h"
 
 #include <string>
 #include <iostream>

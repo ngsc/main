@@ -24,7 +24,6 @@
 #include "bullettext.h"
 #include "historybrief.h"
 #include "usercommentsmodel.h"
-#include "qprocess.h"
 
 class Tournament;
 class Club;
@@ -101,7 +100,6 @@ class APIConnection : public QObject
         Translate,
         Create_Transfer_Offer_Contract
     };
-    QProcess* m_background_process;
 
 public:
 
@@ -110,8 +108,6 @@ public:
     static void setToken(QString& token);
 
     void parseJson(const QString& json);
-
-    Q_INVOKABLE void startMatchServerCmd(int homeClubId, int awayClubId );
 
 signals:
     void replyAvailable(const QString& reply);

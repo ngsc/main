@@ -50,7 +50,7 @@
 #include <cmath>
 #include <cstdio>
 
-#include "Constants.h"
+#include "constants.h"
 
 #ifndef PACKAGE_NAME
 #define PACKAGE_NAME "rcssmonitor"

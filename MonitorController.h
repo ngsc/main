@@ -48,11 +48,13 @@
 #include "player_painter.h"
 #include "config_dialog.h"
 
+
 class ConfigDialog;
 class FieldCanvas;
 class LogPlayer;
 class MonitorClient;
 class PlayerTypeDialog;
+class QProcess;
 
 class MonitorControl : public QObject
 {
@@ -84,13 +86,14 @@ private:
     MonitorClient * M_monitor_client;
     ConfigDialog * M_config_dialog;
     FieldCanvas * M_field_canvas;
+    QProcess* m_background_process;
 
 public:
-
     MonitorControl();
     ~MonitorControl();
 
     void init();
+    Q_INVOKABLE void startMatchServerCmd(int homeClubId, int awayClubId );
 private:
 
     void connectMonitorTo( const char * hostname );

@@ -761,8 +761,8 @@ Rectangle {
             if (invitationModel.isLastInvitationAccepted(root.lastInvitationDate, root.lastInviteeId))
             {
                 callinsidepage2(monitor);
-                monitor.hideButtonsStartMatchOnClicked();
-                APIConnection.startMatchServerCmd(managerUser.clubId, root.lastInvitedClubId);
+                monitor.hideButtonsStartMatchOnClicked(false);
+                monitorControl.startMatchServerCmd(managerUser.clubId, root.lastInvitedClubId);
                 app.busyIndicatorMatchStart.running = true;
                 root.lastInviteeId = -1;
             }
