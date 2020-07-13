@@ -311,8 +311,9 @@ Rectangle
                 Rectangle{
                     z:parent.z +1
                     id: player_neck
-                    width: parent.width / 5
-                    height: parent.height
+                    width: parent.width / 2
+                    height: parent.height * 0.7
+                    radius: 6
                     anchors.bottom: parent.verticalCenter
                     anchors.horizontalCenter: parent.horizontalCenter
                     color: parent.color
@@ -366,8 +367,9 @@ Rectangle
                 Rectangle{
                     z:parent.z +1
                     id: player_neck1
-                    width: parent.width / 5
-                    height: parent.height
+                    width: parent.width / 2
+                    height: parent.height * 0.7
+                    radius: 6
                     anchors.bottom: parent.verticalCenter
                     anchors.horizontalCenter: parent.horizontalCenter
                     color: parent.color
