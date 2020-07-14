@@ -288,18 +288,32 @@ Rectangle
             id: players_right
             model: 11
             Rectangle{
-                id: player
-                width: 12
-                height: 12
-                radius: 12
+                id: player_right
+                width: 15
+                height: 15
+                radius: 15
                 visible: true
-                color: "black"
+                //color: "black"
                 z : parent.z + 100
-                border.width: 0.3
-                border.color: "white"
-                property int rotate: 0
+                border.width: 0.5
+                border.color: "black"
+                property int body_rotation: 0
+                property int neck_rotation: 0
+                Rectangle{
+                    id: player_right_inner_circle
+                    width: 5
+                    height: 5
+                    radius: 5
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    visible: true
+                    color: "transparent"
+                    border.color: "black"
+                    border.width: 0.5
+                }
+
                 Text {
-                    id: player_number	//remove in final release
+                    id: player_right_number	//remove in final release
                     text: index % 11 + 1
                     color: "white"
                     anchors.bottom: parent.top
@@ -309,20 +323,34 @@ Rectangle
                     font.pointSize: 7; font.bold: true
                 }
                 Rectangle{
+                    // is actually a line
                     z:parent.z +1
-                    id: player_neck
-                    width: parent.width / 2
-                    height: parent.height * 0.7
-                    radius: 6
+                    id: player_right_neck
+                    width: 1
+                    height: parent.height / 2
+                    radius: 1
                     anchors.bottom: parent.verticalCenter
                     anchors.horizontalCenter: parent.horizontalCenter
-                    color: parent.color
+                    color: "black"
                     transformOrigin: Item.Bottom
-                    rotation: player.rotate
+                    rotation: player_right.body_rotation + player_right.neck_rotation
                     }
+                Rectangle{
+                    // is actually a line
+                    z:parent.z +1
+                    id: player_right_body
+                    width: 1
+                    height: parent.height / 2
+                    radius: 1
+                    anchors.bottom: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    color: "black"
+                    transformOrigin: Item.Bottom
+                    rotation: player_right.body_rotation
+                }
                 /*MouseArea {
                     anchors.fill: parent
-                    drag.target: player
+                    drag.target: player_right
                     drag.axis: Drag.XandYAxis
                     drag.minimumX: 0
                     //drag.maximumX: container.width - rect.width
@@ -344,16 +372,29 @@ Rectangle
             id: players_left
             model: 11
             Rectangle{
-                id: player1
-                width: 12
-                height: 12
-                radius: 12
+                id: player_left
+                width: 15
+                height: 15
+                radius: 15
                 visible: true
                 color: "black"
                 z : parent.z + 100
-                border.width: 0.3
-                border.color: "white"
-                property int rotate: 0
+                border.width: 0.5
+                border.color: "black"
+                property int neck_rotation: 0
+                property int body_rotation: 0
+                Rectangle{
+                    id: player_left_inner_cicle
+                    width: 5
+                    height: 5
+                    radius: 5
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    visible: true
+                    color: "transparent"
+                    border.color: "black"
+                    border.width: 0.5
+                }
                 Text {
                     id: player_number1
                     text: index % 11 + 1
@@ -366,15 +407,27 @@ Rectangle
                 }
                 Rectangle{
                     z:parent.z +1
-                    id: player_neck1
-                    width: parent.width / 2
-                    height: parent.height * 0.7
-                    radius: 6
+                    id: player_left_neck
+                    width: 1
+                    height: parent.height / 2
+                    radius: 1
                     anchors.bottom: parent.verticalCenter
                     anchors.horizontalCenter: parent.horizontalCenter
-                    color: parent.color
+                    color: "black"
                     transformOrigin: Item.Bottom
-                    rotation: player1.rotate
+                    rotation: player_left.body_rotation + player_left.neck_rotation
+                }
+                Rectangle{
+                    z:parent.z +1
+                    id: player_left_body
+                    width: 1
+                    height: parent.height / 2
+                    radius: 1
+                    anchors.bottom: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    color: "black"
+                    transformOrigin: Item.Bottom
+                    rotation: player_left.body_rotation
                 }
                 /*MouseArea {
                     anchors.fill: parent
@@ -562,7 +615,8 @@ Rectangle
                         players_left.itemAt(i).color = getPlayerColor(i)
                         players_left.itemAt(i).x = getPlayerPoint(i)[0] + 7.5 // HACK
                         players_left.itemAt(i).y = getPlayerPoint(i)[1] - 10
-                        players_left.itemAt(i).rotate = getPlayerAngle(i)
+                        players_left.itemAt(i).neck_rotation = playerControl.getPlayerNeckAngle(i)
+                        players_left.itemAt(i).body_rotation = playerControl.getPlayerBodyAngle(i)
                         ball.x = getBallPoint()[0] + 263; //HACK
                         ball.y = getBallPoint()[1] + 4.5; //HACK
                     }
@@ -574,7 +628,8 @@ Rectangle
                         players_right.itemAt(i).color = getPlayerColor(i+11)
                         players_right.itemAt(i).x = getPlayerPoint(i+11)[0] + 7.5-(pitch.width / 2) // HACK
                         players_right.itemAt(i).y = getPlayerPoint(i+11)[1] - 10
-                        players_right.itemAt(i).rotate = getPlayerAngle(i+11)
+                        players_right.itemAt(i).neck_rotation = playerControl.getPlayerNeckAngle(i+11)
+                        players_right.itemAt(i).body_rotation = playerControl.getPlayerBodyAngle(i+11)
                         ball.x = getBallPoint()[0] + 263; //HACK
                         ball.y = getBallPoint()[1] + 4.5; //HACK
                     }
@@ -597,7 +652,7 @@ Rectangle
         //     //             players.itemAt(i).color = getPlayerColor(i)
         //     //             players.itemAt(i).x = getPlayerPoint(i)[0] + 7.5 // HACK
         //     //             players.itemAt(i).y = getPlayerPoint(i)[1]
-        //     //             players.itemAt(i).player.player_neck.rotation = getPlayerNeckAngle(i)
+        //     //             players.itemAt(i).player_right.player_neck.rotation = getPlayerNeckAngle(i)
         //     //             ball.x = getBallPoint()[0] + 263;
         //     //             ball.y = getBallPoint()[1] + 3.5;
         //     //         }
