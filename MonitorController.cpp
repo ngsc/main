@@ -94,6 +94,7 @@ MonitorControl::MonitorControl()
  */
 MonitorControl::~MonitorControl()
 {
+    // dummy code
     delete M_monitor_client;
     delete M_field_canvas;
 }
