@@ -127,7 +127,7 @@ void MonitorControl::startMatchServerCmd(int homeClubId, int awayClubId )
 
     // TODO: start server with different parameters;
     QString startServerCmd = "./startserver.sh 0 " + QString::number(homeClubId) + " " + QString::number(awayClubId) + " 0 0";
-    QString cmd = "plink -ssh -no-antispoof " + user + "@" + serverHost +  " -pw " + decrypted +  " \"cd " + matchServerSrcPath + " ; "  + startServerCmd + "\"";
+    QString cmd = "plink -ssh -no-antispoof " + user + "@" + serverHost +  " -pw " + decrypted + " \"pkill matchserver ; cd " + matchServerSrcPath + " ; "  + startServerCmd + "\"";
     m_background_process->start( cmd );
 }
 
