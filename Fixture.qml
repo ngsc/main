@@ -471,8 +471,9 @@ Rectangle {
             {
                 id: inviteButton
                 anchors.right: parent.right
+                anchors.rightMargin: 25
                 anchors.bottom: parent.bottom
-                anchors.rightMargin: 10
+                anchors.bottomMargin: 10
                 text: qsTr("Invite")
                 enabled: onlineUsersTable.selection.count > 0
                 onClicked: {
@@ -492,8 +493,9 @@ Rectangle {
             {
                 id: cancel_button
                 anchors.right: inviteButton.left
-                anchors.rightMargin: 20
+                anchors.rightMargin: 10
                 anchors.bottom: parent.bottom
+                anchors.bottomMargin: 10
                 text: qsTr("Clear")
                 onClicked: { onlineUsersTable.selection.clear() }
             }
@@ -696,7 +698,7 @@ Rectangle {
                 id: accept_button
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
-                anchors.rightMargin: 10
+                anchors.rightMargin: 20
                 text: qsTr("Invite")
                 enabled: invitationFilterModel.get(invitationTable.currentRow).awayUserId === managerUser.clubId && invitationFilterModel.get(invitationTable.currentRow).status === "active"
                 visible: enabled

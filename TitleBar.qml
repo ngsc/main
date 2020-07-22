@@ -146,25 +146,38 @@ Item {
             anchors.centerIn: parent
             property int vco: 0
             color: textColor
-            font.family: "Comic Sans MS"
+            font.family: "Chianti BT"
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             anchors.verticalCenterOffset: vco
             text: qsTr(title)
             font.pointSize: titleFontSize
             font.letterSpacing: 1
+            layer.enabled: true
+            layer.effect: DropShadow {
+                verticalOffset: 2
+                color: "#80000000"
+                radius: 1
+                samples: 3
+            }
+//            DropShadow {
+//                anchors.fill: parent
+//                verticalOffset: 2
+//                color: "#80000000"
+//                radius: 1
+//                samples: 3
+//            }
         }
         Text {
             id: club_text
             text: qsTr(app_title_bar.selectedclubname)
             anchors.horizontalCenter: title_text.horizontalCenter
-            font.family: "Comic Sans MS"//"Kristen ITC"
+            font.family: "VAGRounded BT"//"Kristen ITC"
             font.pointSize: clubFontSize
             anchors.bottom: parent.bottom
             color: "yellow"
             anchors.bottomMargin: 2
             visible: showselectedclubname || setportrailVisible
-
             onVisibleChanged: {
                 if(visible)
                     title_text.vco = -15
