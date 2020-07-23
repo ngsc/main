@@ -471,7 +471,7 @@ Rectangle {
             {
                 id: inviteButton
                 anchors.right: parent.right
-                anchors.rightMargin: 25
+                anchors.rightMargin: 20
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: 10
                 text: qsTr("Invite")
@@ -493,7 +493,7 @@ Rectangle {
             {
                 id: cancel_button
                 anchors.right: inviteButton.left
-                anchors.rightMargin: 10
+                anchors.rightMargin: 20
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: 10
                 text: qsTr("Clear")
@@ -697,8 +697,10 @@ Rectangle {
             {
                 id: accept_button
                 anchors.right: parent.right
-                anchors.bottom: parent.bottom
                 anchors.rightMargin: 20
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 10
+
                 text: qsTr("Invite")
                 enabled: invitationFilterModel.get(invitationTable.currentRow).awayUserId === managerUser.clubId && invitationFilterModel.get(invitationTable.currentRow).status === "active"
                 visible: enabled
@@ -712,6 +714,7 @@ Rectangle {
                 anchors.right: accept_button.left
                 anchors.rightMargin: 20
                 anchors.bottom: parent.bottom
+                anchors.bottomMargin: 10
                 text: qsTr("Decline")
                 enabled: accept_button.enabled
                 visible: true//enabled

@@ -157,8 +157,10 @@ Item {
         MyButtonNormal {
             id: confirm_button
             anchors.right: parent.right
-            anchors.bottom: parent.bottom
             anchors.rightMargin: 10
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 10
+
             text: qsTr("Confirm")
             onClicked:
             {
@@ -189,6 +191,7 @@ Item {
             anchors.right: confirm_button.left
             anchors.rightMargin: 20
             anchors.bottom: parent.bottom
+            anchors.bottomMargin: 10
             text: qsTr("Cancel")
             onClicked: { failedQuizBox.visible = true }
         }

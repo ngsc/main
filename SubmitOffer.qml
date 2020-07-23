@@ -402,8 +402,8 @@ Rectangle {
             id: confirm_button
             anchors.right: parent.right
             anchors.bottom: comments_gorup_box.top
-            anchors.bottomMargin: 5
-            anchors.rightMargin: 5
+            anchors.bottomMargin: 10
+            anchors.rightMargin: 10
             text: qsTr("Submit")
             onClicked: { confirm.visible = true }
         }
@@ -412,7 +412,7 @@ Rectangle {
             id: cancel_button
             anchors.top: confirm_button.top
             anchors.right: confirm_button.left
-            anchors.rightMargin: 5
+            anchors.rightMargin: 10
             text: qsTr("Cancel")
             onClicked: { app_title_bar.popPage() }
         }

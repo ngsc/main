@@ -49,46 +49,36 @@ Rectangle
         onClicked:
         {
             root.clicked();
-            console.log("Clicked");
         }
         onEntered:
         {
             root.state = "entered";
-//            txt.color = "#ffffff";
-            console.log("entered");
         }
         onExited:
         {
             root.state = "exited";
-//            txt.color = "#e6e6e6";
-            console.log("exited");
-        }
-        onPressed:
-        {
-            root.state = "pressed";
-            console.log("pressed");
         }
 
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
     }
-    states: [ State {
-        name: "pressed"; when: mouseArea.pressed
-        PropertyChanges { target: root; anchors.rightMargin: anchors.rightMargin - 3; anchors.bottomMargin: anchors.bottomMargin - 3; shadowHorizOffset: 0; shadowVertOffset: 0 }
-    },
-    State{
-        name: "entered"; when: mouseArea.entered
-        PropertyChanges { target: root; scale: 1.05 }
-        PropertyChanges { target: txt; color: "#ffffff" }
-    },
-    State{
-        name: "exited"; when: mouseArea.exited
-        PropertyChanges { target: txt; color: "#e6e6e6" }
-    }]
+    states: [
+        State {
+            name: "pressed"; when: mouseArea.pressed
+            PropertyChanges { target: root; anchors.rightMargin: anchors.rightMargin - 3; anchors.bottomMargin: anchors.bottomMargin - 3; shadowHorizOffset: 0; shadowVertOffset: 0 }
+        },
+        State{
+            name: "entered";
+            PropertyChanges { target: root; scale: 1.03 }
+            PropertyChanges { target: txt; color: "#ffffff" }
+        },
+        State{
+            name: "exited";
+            PropertyChanges { target: txt; color: "#e6e6e6" }
+        }]
 
     transitions: Transition {
         NumberAnimation  { properties: "shadowHorizOffset,shadowVertOffset"; duration:100; easing.type: Easing.InOutQuad }
         NumberAnimation { properties: "scale"; duration: 100; easing.type: Easing.InOutQuad }
-//        NumberAnimation { properties: "shadowVertOffset"; duration: 200; easing.type: Easing.InOutQuad }
     }
 }
