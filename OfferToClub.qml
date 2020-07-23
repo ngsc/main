@@ -16,6 +16,7 @@ import com.Game.Player 1.0
 import com.Game.APIConnection 1.0
 import com.Game.Club 1.0
 import com.Game.SortFilterProxyModel 1.0
+import Constants 1.0
 
 Rectangle {
     id: offertoclubPage
@@ -86,7 +87,7 @@ Rectangle {
             Text {
                 id: comment_label
                 text: qsTr(transferValueText)
-                font.family: "Comic Sans MS"
+                font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                 color: "#ffffff"
                 anchors.left: parent.left
                 anchors.top: parent.top
@@ -114,7 +115,7 @@ Rectangle {
             Text {
                 id: offerTypeLabel
                 text: qsTr("Offer Type")
-                font.family: "Comic Sans MS"
+                font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                 color: "#ffffff"
                 anchors.left: parent.left
                 anchors.top: parent.top
@@ -138,7 +139,7 @@ Rectangle {
             Text {
                 id: feeLabel
                 text: qsTr("Fee")
-                font.family: "Comic Sans MS"
+                font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                 color: "#ffffff"
                 anchors.left: parent.left
                 anchors.top: offerTypeLabel.bottom
@@ -165,7 +166,7 @@ Rectangle {
                     verticalAlignment: Text.AlignVCenter;
                     horizontalAlignment: Text.AlignHCenter
                     color: "white"
-                    font.family: "Comic Sans MS"//"Kristen ITC"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null//"Kristen ITC"
                     font.pointSize: 15
                     font.bold: true
                     //                    font.italic: italicfont
@@ -212,7 +213,7 @@ Rectangle {
                     verticalAlignment: Text.AlignVCenter;
                     horizontalAlignment: Text.AlignHCenter
                     color: "white"
-                    font.family: "Comic Sans MS"//"Kristen ITC"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null//"Kristen ITC"
                     font.pointSize: 15
                     font.bold: true
                     //                    font.italic: italicfont
@@ -362,7 +363,7 @@ Rectangle {
                             elide: Text.ElideRight
                             color: "white"
                             renderType: Text.NativeRendering
-                            font.family: "Comic Sans MS"
+                            font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                             font.pointSize: 10
                             font.bold: true
                         }
@@ -435,7 +436,7 @@ Rectangle {
                             elide: Text.ElideRight
                             color: clubsTable.model.get(styleData.row).foreground1Value ? clubsTable.model.get(styleData.row).foreground1Value : "black"
                             renderType: Text.NativeRendering
-                            font.family: "Comic Sans MS"
+                            font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                             font.pointSize: 10
                         }
                         CheckBox {
@@ -540,7 +541,7 @@ Rectangle {
                     verticalAlignment: Text.AlignVCenter;
                     horizontalAlignment: Text.AlignHCenter
                     color: "white"
-                    font.family: "Comic Sans MS"//"Kristen ITC"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null//"Kristen ITC"
                     font.pointSize: 10
                     //                    font.bold: true
                     //                    font.italic: italicfont
@@ -589,7 +590,7 @@ Rectangle {
                     verticalAlignment: Text.AlignVCenter;
                     horizontalAlignment: Text.AlignHCenter
                     color: "white"
-                    font.family: "Comic Sans MS"//"Kristen ITC"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null//"Kristen ITC"
                     font.pointSize: 10
                     font.bold: true
                     //                    font.italic: italicfont
@@ -638,7 +639,7 @@ Rectangle {
                     verticalAlignment: Text.AlignVCenter;
                     horizontalAlignment: Text.AlignHCenter
                     color: "white"
-                    font.family: "Comic Sans MS"//"Kristen ITC"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null//"Kristen ITC"
                     font.pointSize: 10
                     font.bold: true
                     //                    font.italic: italicfont

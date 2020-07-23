@@ -6,6 +6,7 @@ import com.Game.Match 1.0
 import com.Game.SimpleUser 1.0
 import com.Game.Invitation 1.0
 import com.Game.SortFilterProxyModel 1.0
+import Constants 1.0
 
 Rectangle {
     id: root
@@ -89,7 +90,7 @@ Rectangle {
                     elide: Text.ElideRight
                     color: "white"
                     renderType: Text.NativeRendering
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     font.pointSize: 10
                     font.bold: true
                 }
@@ -149,7 +150,7 @@ Rectangle {
                     elide: Text.ElideRight
                     color: "white"
                     renderType: Text.NativeRendering
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     font.pointSize: 9
                 }
             }
@@ -198,7 +199,7 @@ Rectangle {
                     anchors.centerIn: parent
                     text: qsTr(styleData.title)
                     font.pointSize: 10
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     color: styleData.selected ? "white" : "black"
                 }
             }
@@ -238,7 +239,7 @@ Rectangle {
                     anchors.centerIn: parent
                     color: "#ffffff"
                     font.pointSize: 10
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     text: "Invite Players"
                 }
             }*/
@@ -311,7 +312,7 @@ Rectangle {
                             elide: Text.ElideRight
                             color: "white"
                             renderType: Text.NativeRendering
-                            font.family: "Comic Sans MS"
+                            font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                             font.pointSize: 10
                             font.bold: true
                         }
@@ -369,7 +370,7 @@ Rectangle {
                             elide: Text.ElideRight
                             color: "white"
                             renderType: Text.NativeRendering
-                            font.family: "Comic Sans MS"
+                            font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                             font.pointSize: 9
                         }
                     }
@@ -497,7 +498,7 @@ Rectangle {
                             elide: Text.ElideRight
                             color: "white"
                             renderType: Text.NativeRendering
-                            font.family: "Comic Sans MS"
+                            font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                             font.pointSize: 10
                             font.bold: true
                         }
@@ -555,7 +556,7 @@ Rectangle {
                             elide: Text.ElideRight
                             color: "white"
                             renderType: Text.NativeRendering
-                            font.family: "Comic Sans MS"
+                            font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                             font.pointSize: 9
                         }
                     }

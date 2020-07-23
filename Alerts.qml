@@ -1,6 +1,7 @@
 import QtQuick 2.7
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
+import Constants 1.0
 
 Rectangle {
     id: popup
@@ -46,7 +47,7 @@ Rectangle {
         id: label
         anchors.centerIn: parent
         color: "#ffffff"
-        font.family: "Comic Sans MS"
+        font.family: Constants.primaryFont ? Constants.primaryFont.name: null
         font.pointSize: 12
         wrapMode: Text.WordWrap
         horizontalAlignment: Text.AlignHCenter

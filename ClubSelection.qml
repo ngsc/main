@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.0
 
 import com.Game.APIConnection 1.0
 import com.Game.Club 1.0
+import Constants 1.0
 
 Rectangle {
     id: root
@@ -135,7 +136,7 @@ Rectangle {
                     color: "white"
                     text: qsTr(name)
                     font.pointSize: 10
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     horizontalAlignment: Text.AlignHCenter
                 }
             }
@@ -185,7 +186,7 @@ Rectangle {
                 text: qsTr("Confirming the Team")
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.margins: 50
-                font.family: "Comic Sans MS"
+                font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                 font.pointSize: 15
                 font.bold: true
                 color: "white"
@@ -195,7 +196,7 @@ Rectangle {
                 text: qsTr("Are you sure to take over %1 team?!").arg(root.selectedclub)
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.margins: 50
-                font.family: "Comic Sans MS"//"Kristen ITC"
+                font.family: Constants.primaryFont ? Constants.primaryFont.name: null//"Kristen ITC"
                 font.pointSize: 15
                 font.bold: false
                 color: "white"
@@ -232,7 +233,7 @@ Rectangle {
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
                         anchors.fill: parent
-                        font.family: "Comic Sans MS"
+                        font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                         font.pointSize: 15
                         font.bold: true
                         color: "white"
@@ -303,7 +304,7 @@ Rectangle {
                         horizontalAlignment: Text.AlignHCenter
                         anchors.fill: parent
                         text : qsTr("Continue")
-                        font.family: "Comic Sans MS"//"Kristen ITC"
+                        font.family: Constants.primaryFont ? Constants.primaryFont.name: null//"Kristen ITC"
                         font.pointSize: 15
                         font.bold: true
                         color: "white"

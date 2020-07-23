@@ -11,4 +11,12 @@ Item{
 
     readonly property string backgroundColor: "#3b76b1"
     readonly property string backgroundBorderColor: "#34537a"
+
+    readonly property FontLoader primaryFont: FontLoader {
+        source: "qrc:/fonts/TT1212M_.TTF"
+        }
+
+    readonly property FontLoader secondaryFont: FontLoader {
+        source: "qrc:/fonts/tt0756m_.ttf"
+        }
 }

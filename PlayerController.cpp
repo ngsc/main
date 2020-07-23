@@ -4,7 +4,7 @@
 #include <fstream>
 QVector<PlayerControl::PlayerProperties> PlayerControl::m_players(22);
 QVector<double> PlayerControl::m_ball_position;
-QColor PlayerControl::m_ball_color;
+QColor PlayerControl::m_ball_color = QColor(0,0,0);
 QString PlayerControl::m_pitch_info;
 QString PlayerControl::m_foul_card_info;
 

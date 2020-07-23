@@ -4,6 +4,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.0
 import QtGraphicalEffects 1.0
+import Constants 1.0
 
 Rectangle
 {
@@ -36,7 +37,7 @@ Rectangle
         anchors.centerIn: parent
         color: "#e6e6e6"
         font.pointSize: 10
-        font.family: "Comic Sans MS"
+        font.family: Constants.primaryFont ? Constants.primaryFont.name: null
         text: qsTr("Button")
     }
 

@@ -2,6 +2,7 @@ import QtQuick 2.4
 import QtQuick.Controls 2.0
 import com.Game.APIConnection 1.0
 import com.Game.Player 1.0
+import Constants 1.0
 
 Rectangle{
     id : root
@@ -52,7 +53,7 @@ Rectangle{
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         font.pointSize: 9
-        font.family: "Comic Sans MS"
+        font.family: Constants.primaryFont ? Constants.primaryFont.name: null
         text: qsTr("Actions")//+ status )
         anchors.centerIn: parent
     }

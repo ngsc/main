@@ -49,7 +49,7 @@ Rectangle {
                 Text {
                     id: txt1
                     text: qsTr("%1 is requesting %2 per week").arg(player.name).arg(currencyFormatter.currencyString(player.value))
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     color: "#ffffff"
                     anchors.left: parent.left
                     anchors.top: parent.top
@@ -80,7 +80,7 @@ Rectangle {
                 Text {
                     id: squad_status_label
                     text: qsTr("Squad Status")
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     color: "#ffffff"
                     anchors.left: parent.left
                     anchors.top: parent.top
@@ -104,7 +104,7 @@ Rectangle {
                 {
                     id: wage_label
                     text: qsTr("Wage")
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     color: "#ffffff"
                     anchors.left: parent.left
                     anchors.top: squad_status_label.bottom
@@ -155,7 +155,7 @@ Rectangle {
                 {
                     id: contract_length_label
                     text: qsTr("Contract Length")
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     color: "#ffffff"
                     anchors.left: parent.left
                     anchors.top: wage_label.bottom
@@ -179,7 +179,7 @@ Rectangle {
                 {
                     id: signing_fee_label
                     text: qsTr("Signing on Fee")
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     color: "#ffffff"
                     anchors.left: parent.left
                     anchors.top: contract_length_label.bottom
@@ -270,7 +270,7 @@ Rectangle {
                 Text {
                     id: txt3
                     text: qsTr("Overall valued is %1").arg(currencyFormatter.currencyString(player.value))
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     color: "#ffffff"
                     anchors.left: parent.left
                     anchors.top: parent.top
@@ -281,7 +281,7 @@ Rectangle {
                 Text {
                     id: txt4
                     text: qsTr("Player has minimum fee release clause of %1").arg(currencyFormatter.currencyString(player.minimumFee))
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     color: "#ffffff"
                     anchors.left: txt3.left
                     anchors.top: txt3.bottom

@@ -21,6 +21,9 @@
         <file>icons/maximize-blue.png</file>
         <file>icons/minimize-blue.png</file>
         <file>icons/arrow-blue.png</file>
+        <file>fonts/TT1212M_.TTF</file>
+        <file>fonts/tt0756m_.ttf</file>
+        <file>fonts/symbol.ttf</file>
         <file>Inside_1.qml</file>
         <file>Inside_2.qml</file>
         <file>images/clubs/Guangzhou.png</file>

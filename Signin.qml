@@ -5,6 +5,7 @@ import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.0
 import QtGraphicalEffects 1.0
 import com.Game.APIConnection 1.0
+import Constants 1.0
 
 Item {
     id: signin
@@ -94,7 +95,7 @@ Item {
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 width: parent.width-35
-                font.family: "Comic Sans MS"
+                font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                 font.pointSize: 12
                 style: TextFieldStyle{
                     textColor: "#ffffff"
@@ -136,7 +137,7 @@ Item {
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 width: parent.width-35
-                font.family: "Comic Sans MS"
+                font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                 font.pointSize: 12
                 echoMode: TextField.Password
                 style: TextFieldStyle{
@@ -250,7 +251,7 @@ Item {
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 width: parent.width-35
-                font.family: "Comic Sans MS"
+                font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                 font.pointSize: 12
                 style: TextFieldStyle{
                     textColor: "#ffffff"

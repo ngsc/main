@@ -7,6 +7,7 @@ import QtQuick.Layouts 1.0
 import com.Game.APIConnection 1.0
 import com.Game.SortFilterProxyModel 1.0
 import QtQml.Models 2.2
+import Constants 1.0
 
 Item {
     id: commentpart
@@ -77,7 +78,7 @@ Item {
             //            anchors.bottom: parent.bottom
             activeFocusOnPress: true
             width: parent.width - 35
-            font.family: "Comic Sans MS"
+            font.family: Constants.primaryFont ? Constants.primaryFont.name: null
             font.pointSize: 12
             focus: true
             style: TextFieldStyle {

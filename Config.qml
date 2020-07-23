@@ -3,6 +3,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.0
+import Constants 1.0
 
 Rectangle {
     id: page2
@@ -28,7 +29,7 @@ Rectangle {
                 Text {
                     id: lang_label
                     text: qsTr("Language")
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     color: "#ffffff"
                     anchors.left: parent.left
                     anchors.top: parent.top
@@ -53,7 +54,7 @@ Rectangle {
                 Text {
                     id: abuse_label
                     text: qsTr("Abuse Filter")
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     color: "#ffffff"
                     anchors.left: parent.left
                     anchors.top: lang_label.bottom
@@ -86,7 +87,7 @@ Rectangle {
                 Text {
                     id: music_switch_label
                     text: qsTr("Music Switch")
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     color: "#ffffff"
                     anchors.left: parent.left
                     anchors.top: abuse_label.bottom
@@ -135,7 +136,7 @@ Rectangle {
                 Text {
                     id: skin_label
                     text: qsTr("Skin Selector")
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     color: "#ffffff"
                     anchors.left: parent.left
                     anchors.top: parent.top
@@ -155,7 +156,7 @@ Rectangle {
                 Text {
                     id: author_label
                     text: qsTr("Authors")
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     color: "#ffffff"
                     anchors.left: parent.left
                     anchors.top: skin_label.bottom
@@ -168,14 +169,14 @@ Rectangle {
                     anchors.verticalCenter: author_label.verticalCenter
                     anchors.left: skin_selector_combo_box.left
                     text: qsTr("Ferhan, Darryl, Meena")
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     color: "#ffffff"
                     font.pointSize: 11
                 }
                 Text {
                     id: description_label
                     text: qsTr("Description")
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     color: "#ffffff"
                     anchors.left: parent.left
                     anchors.top: author_label.bottom
@@ -188,7 +189,7 @@ Rectangle {
                     anchors.verticalCenter: description_label.verticalCenter
                     anchors.left: author_text.left
                     text: setText() //   qsTr("Dark Blue Spirit")
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     color: "#ffffff"
                     font.pointSize: 11
                     function setText() {
@@ -264,7 +265,7 @@ Rectangle {
                             height: 30
                             width: 200
                             text: qsTr("Chestnut Studios")
-                            font.family: "Comic Sans MS"
+                            font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                             color: "#ffaa00"
                             font.pointSize: 11
                         }
@@ -277,7 +278,7 @@ Rectangle {
                             height: 30
                             width: parent.width - chestnut_label.width - 20 - 10 - 70
                             text: qsTr("Motto")
-                            font.family: "Comic Sans MS"
+                            font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                             color: "#ffaa00"
                             font.pointSize: 11
                         }
@@ -290,7 +291,7 @@ Rectangle {
                             height: 30
                             width: 200
                             text: qsTr("Meena : Technical Support")
-                            font.family: "Comic Sans MS"
+                            font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                             wrapMode: Text.Wrap
                             color: "#ffffff"
                             font.pointSize: 11
@@ -303,7 +304,7 @@ Rectangle {
                             anchors.topMargin: 20
                             width: parent.width - chestnut_label.width - 20 - 10 - 70 //parent.width-chestnut_label.width-30-20-100
                             text: qsTr("If kisses hearts and flowers is what you know about love. Then you don't know what love really is.")
-                            font.family: "Comic Sans MS"
+                            font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                             wrapMode: Text.Wrap
                             color: "#ffffff"
                             font.pointSize: 11
@@ -317,7 +318,7 @@ Rectangle {
                             height: 30
                             width: 200
                             text: qsTr("Yazan Wasfi & Xiao Cong Hsu : Programming")
-                            font.family: "Comic Sans MS"
+                            font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                             wrapMode: Text.Wrap
                             color: "#ffffff"
                             font.pointSize: 11
@@ -330,7 +331,7 @@ Rectangle {
                             anchors.topMargin: 20
                             width: parent.width - label3.width - 20 - 10 - 70 //parent.width-chestnut_label.width-30-20-100
                             text: qsTr("Every French Soldier carries a marshal's baton in his Knapsack")
-                            font.family: "Comic Sans MS"
+                            font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                             wrapMode: Text.Wrap
                             color: "#ffffff"
                             font.pointSize: 11
@@ -344,7 +345,7 @@ Rectangle {
                             height: 30
                             width: 200
                             text: qsTr("Darryl Lo : Chairman")
-                            font.family: "Comic Sans MS"
+                            font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                             wrapMode: Text.Wrap
                             color: "#ffffff"
                             font.pointSize: 11
@@ -357,7 +358,7 @@ Rectangle {
                             anchors.topMargin: 20
                             width: parent.width - label4.width - 20 - 10 - 70 //parent.width-chestnut_label.width-30-20-100
                             text: qsTr("Love and Piece!")
-                            font.family: "Comic Sans MS"
+                            font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                             wrapMode: Text.Wrap
                             color: "#ffffff"
                             font.pointSize: 11
@@ -371,7 +372,7 @@ Rectangle {
                             height: 30
                             width: 200
                             text: qsTr("Louis Yao : Market Supervisor")
-                            font.family: "Comic Sans MS"
+                            font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                             wrapMode: Text.Wrap
                             color: "#ffffff"
                             font.pointSize: 11
@@ -384,7 +385,7 @@ Rectangle {
                             anchors.topMargin: 20
                             width: parent.width - label5.width - 20 - 10 - 70 //parent.width-chestnut_label.width-30-20-100
                             text: qsTr("Never go south driving the chariot north!")
-                            font.family: "Comic Sans MS"
+                            font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                             wrapMode: Text.Wrap
                             color: "#ffffff"
                             font.pointSize: 11

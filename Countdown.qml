@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.4
+import Constants 1.0
 
 Item {
     id: count_down
@@ -29,7 +30,7 @@ Item {
             anchors.centerIn: parent
             color: "#ffffff"
             font.pointSize: 12
-            font.family: "Comic Sans MS"
+            font.family: Constants.primaryFont ? Constants.primaryFont.name: null
             text: qsTr(count_down.pad(Math.max(0,Math.floor(seconds/60)),2) + ":" + pad(Math.max(0,seconds% 60),2))
         }
     }

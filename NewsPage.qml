@@ -5,6 +5,7 @@ import com.Game.SortFilterProxyModel 1.0
 import com.Game.News 1.0
 import com.Game.Player 1.0
 import com.Game.SortFilterProxyModel 1.0
+import Constants 1.0
 
 Rectangle {
     id: root
@@ -43,7 +44,7 @@ Rectangle {
                     text: qsTr(brief)
                     color: "red"
                     font.pointSize: 14
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     anchors.left: parent.left
                     anchors.leftMargin: 20
                 }
@@ -105,7 +106,7 @@ Rectangle {
                             text: qsTrId(brief)// + localization.updateLanguage;//QT_TR_NOOP(brief)//qsTr(brief)
                             color: read === true ? "white" : "red"
                             font.pointSize: 11
-                            font.family: "Comic Sans MS"
+                            font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                             verticalAlignment: Text.AlignVCenter
                             z: listView.z
                         }
@@ -169,7 +170,7 @@ Rectangle {
                     text: qsTr("Date: %1").arg(Qt.formatDateTime(currentNews.dateTime,"yyyy-MM-dd hh:mm:ss"))
                     color: "white"
                     font.pointSize: 11
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     verticalAlignment: Text.AlignVCenter
                 }
 
@@ -210,7 +211,7 @@ Rectangle {
                     }
                     color: "white"
                     font.pointSize: 13
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 
                     MouseArea {

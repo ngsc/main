@@ -32,7 +32,7 @@ Rectangle
             Text {
                 id: contract_label
                 text: qsTr(playerName + " is requesting $ per week")
-                font.family: "Comic Sans MS"
+                font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                 color: "#ffffff"
                 anchors.left: parent.left
                 anchors.top: parent.top
@@ -63,7 +63,7 @@ Rectangle
             Text {
                 id: squad_status_label
                 text: qsTr("squad status")
-                font.family: "Comic Sans MS"
+                font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                 color: "#ffffff"
                 anchors.left: parent.left
                 anchors.top: parent.top
@@ -76,7 +76,7 @@ Rectangle
             Text {
                 id: wage_label
                 text: qsTr("wage")
-                font.family: "Comic Sans MS"
+                font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                 color: "#ffffff"
                 anchors.left: parent.left
                 anchors.top: squad_status_label.bottom
@@ -89,7 +89,7 @@ Rectangle
             Text {
                 id: contract_lenght_label
                 text: qsTr("contract lenght")
-                font.family: "Comic Sans MS"
+                font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                 color: "#ffffff"
                 anchors.left: parent.left
                 anchors.top: wage_label.bottom
@@ -102,7 +102,7 @@ Rectangle
             Text {
                 id: signing_on_fee_label
                 text: qsTr("signing on fee")
-                font.family: "Comic Sans MS"
+                font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                 color: "#ffffff"
                 anchors.left: parent.left
                 anchors.top: contract_lenght_label.bottom
@@ -133,7 +133,7 @@ Rectangle
             Text {
                 id: comment_label
                 text: qsTr(playerName + "  current wage is $ per week")
-                font.family: "Comic Sans MS"
+                font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                 color: "#ffffff"
                 anchors.left: parent.left
                 anchors.top: parent.top

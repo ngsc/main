@@ -8,6 +8,7 @@ import QtQml.Models 2.2
 import com.Game.Announcement 1.0
 import com.Game.SimpleUser 1.0
 import com.Game.APIConnection 1.0
+import Constants 1.0
 
 Item {
     id: announcement_board
@@ -136,7 +137,7 @@ Item {
             anchors.leftMargin: 5
             anchors.verticalCenter: parent.verticalCenter
             color: "#ffaa00"
-            font.family: "Comic Sans MS"//"Kristen ITC"
+            font.family: Constants.primaryFont ? Constants.primaryFont.name: null//"Kristen ITC"
             text: qsTr("Announcement Board") //+ Retranslate.onLanguageChaned
             font.pointSize: 12
             //font.letterSpacing: 1

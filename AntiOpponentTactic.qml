@@ -697,7 +697,7 @@ Rectangle
                     color: "black"
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
-                    font.family:"Times"
+                    font.family:Constants.secondaryFont ? Constants.secondaryFont.name: null
                     font.bold: true
                     font.italic: true
                     font.pointSize: 10

@@ -1,5 +1,6 @@
 import QtQuick 2.4
 import QtGraphicalEffects 1.0
+import Constants 1.0
 
 Item {
     id: app_title_bar
@@ -135,7 +136,7 @@ Item {
         opacity: 1.0
 
         gradient: Gradient {
-            GradientStop { position: 0.0; color: Qt.lighter(backgroundColor)}
+            GradientStop { position: 0.0; color: backgroundColor ? Qt.lighter(backgroundColor): Qt.lighter(defaultBackgroundColor)}
             GradientStop { position: 1.0; color: backgroundColor}
         }
 
@@ -146,7 +147,7 @@ Item {
             anchors.centerIn: parent
             property int vco: 0
             color: textColor
-            font.family: "Chianti BT"
+            font.family: Constants.primaryFont ? Constants.primaryFont.name: null
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             anchors.verticalCenterOffset: vco

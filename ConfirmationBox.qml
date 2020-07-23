@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.2
+import Constants 1.0
 
 Item {
     id: confirmationbox
@@ -40,7 +41,7 @@ Item {
                 id: title_text
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.margins: 50
-                font.family: "Comic Sans MS"
+                font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                 font.pointSize: 15
                 font.bold: true
                 color: "white"
@@ -49,7 +50,7 @@ Item {
                 id: question_text
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.margins: 50
-                font.family: "Comic Sans MS"//"Kristen ITC"
+                font.family: Constants.primaryFont ? Constants.primaryFont.name: null//"Kristen ITC"
                 font.pointSize: 15
                 font.bold: false
                 fontSizeMode: Text.HorizontalFit
@@ -89,7 +90,7 @@ Item {
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
                         anchors.fill: parent
-                        font.family: "Comic Sans MS"
+                        font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                         font.pointSize: 15
                         font.bold: true
                         color: "white"
@@ -124,7 +125,7 @@ Item {
                         horizontalAlignment: Text.AlignHCenter
                         anchors.fill: parent
                         //text : "Exit"
-                        font.family: "Comic Sans MS"//"Kristen ITC"
+                        font.family: Constants.primaryFont ? Constants.primaryFont.name: null//"Kristen ITC"
                         font.pointSize: 15
                         font.bold: true
                         color: "white"

@@ -2187,8 +2187,8 @@ Rectangle
                 color: "black"
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
-                font.family:"Times"
-                //font.family: "Comic Sans MS"
+                font.family:Constants.secondaryFont ? Constants.secondaryFont.name: null
+                //font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                 font.bold: true
                 font.italic: true
                 font.pointSize: 10
@@ -2252,8 +2252,8 @@ Rectangle
                     color: "black"
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
-                    font.family:"Times"
-                    //font.family: "Comic Sans MS"
+                    font.family:Constants.secondaryFont ? Constants.secondaryFont.name: null
+                    //font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     font.bold: true
                     font.italic: true
                     font.pointSize: 10
@@ -2309,7 +2309,7 @@ Rectangle
                     color: "black"
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
-                    font.family:"Times"
+                    font.family:Constants.secondaryFont ? Constants.secondaryFont.name: null
                     font.bold: true
                     font.italic: true
                     font.pointSize: 10
@@ -2397,7 +2397,7 @@ Rectangle
                     color: "black"
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
-                    font.family:"Times"
+                    font.family:Constants.secondaryFont ? Constants.secondaryFont.name: null
                     font.bold: true
                     font.italic: true
                     font.pointSize: 10
@@ -2512,7 +2512,7 @@ Rectangle
                     color: "black"
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
-                    font.family:"Times"
+                    font.family:Constants.secondaryFont ? Constants.secondaryFont.name: null
                     font.bold: true
                     font.italic: true
                     font.pointSize: 10
@@ -2599,7 +2599,7 @@ Rectangle
                     color: "black"
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
-                    font.family:"Times"
+                    font.family:Constants.secondaryFont ? Constants.secondaryFont.name: null
                     font.bold: true
                     font.italic: true
                     font.pointSize: 10
@@ -2802,7 +2802,7 @@ Rectangle
                     color: "black"
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
-                    font.family:"Times"
+                    font.family:Constants.secondaryFont ? Constants.secondaryFont.name: null
                     font.bold: true
                     font.italic: true
                     font.pointSize: 9
@@ -3011,7 +3011,7 @@ Rectangle
                     color: "black"
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
-                    font.family:"Times"
+                    font.family:Constants.secondaryFont ? Constants.secondaryFont.name: null
                     font.bold: true
                     font.italic: true
                     font.pointSize: 10
@@ -3159,7 +3159,7 @@ Rectangle
                     color: "black"
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
-                    font.family:"Times"
+                    font.family:Constants.secondaryFont ? Constants.secondaryFont.name: null
                     font.bold: true
                     font.italic: true
                     font.pointSize: 10
@@ -3293,7 +3293,7 @@ Rectangle
                     color: "black"
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
-                    font.family:"Times"
+                    font.family:Constants.secondaryFont ? Constants.secondaryFont.name: null
                     font.bold: true
                     font.italic: true
                     font.pointSize: 10
@@ -3399,7 +3399,7 @@ Rectangle
                     color: "black"
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
-                    font.family:"Times"
+                    font.family:Constants.secondaryFont ? Constants.secondaryFont.name: null
                     font.bold: true
                     font.italic: true
                     font.pointSize: 10
@@ -3575,7 +3575,7 @@ Rectangle
                     color: "black"
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
-                    font.family:"Times"
+                    font.family:Constants.secondaryFont ? Constants.secondaryFont.name: null
                     font.bold: true
                     font.italic: true
                     font.pointSize: 10
@@ -3751,7 +3751,7 @@ Rectangle
                     color: "black"
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
-                    font.family:"Times"
+                    font.family:Constants.secondaryFont ? Constants.secondaryFont.name: null
                     font.bold: true
                     font.italic: true
                     font.pointSize: 10
@@ -3851,7 +3851,7 @@ Rectangle
                     color: "black"
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
-                    font.family:"Times"
+                    font.family:Constants.secondaryFont ? Constants.secondaryFont.name: null
                     font.bold: true
                     font.italic: true
                     font.pointSize: 10
@@ -4010,7 +4010,7 @@ Rectangle
                 color: "black"
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
-                font.family:"Times"
+                font.family:Constants.secondaryFont ? Constants.secondaryFont.name: null
                 font.bold: true
                 font.italic: true
                 font.pointSize: 10
@@ -4052,7 +4052,7 @@ Rectangle
                 color: "black"
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
-                font.family:"Times"
+                font.family:Constants.secondaryFont ? Constants.secondaryFont.name: null
                 font.bold: true
                 font.italic: true
                 font.pointSize: 10

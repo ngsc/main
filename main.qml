@@ -65,7 +65,7 @@ ApplicationWindow {
         },
         //Text { text : "Kristen ITC"},
         Text {
-            text: "Comic Sans MS"
+            text: Constants.primaryFont ? Constants.primaryFont.name: null
         },
         Text {
             text: "Monospace"
@@ -249,8 +249,9 @@ ApplicationWindow {
                 font.pointSize: 9
                 //                font.pixelSize: Theme.fontSizeHuge * 2.0
                 color: "#ffaa00"//"#ffd700"//Qt.tint("lightsteelblue", "#10FF0000")//"blue"
-                property string dateTimeString:"--:--:--"+"\n"+"--- -- ----"+"\n"+"----" //Qt.formatTime(new Date(),"hh:mm:ss ap")+"\n" +Qt.formatDate(new Date(),"ddd d MMMM")+"\n"+Qt.formatDate(new Date(),"yyyy")
-                text: qsTr(dateTimeString)//Date.fromLocaleString(Qt.locale(), Qt.formatTime(new Date(),"hh:mm:ss"), "hh:mm:ss") + "\n"+Qt.formatDate(new Date(),"ddd d MMMM yyyy")//Qt.formatTime(new Date(),"ddd yyyy-MM-dd hh:mm:ss")
+                //property string dateTimeString:"--:--:--"+"\n"+"--- -- ----"+"\n"+"----" //Qt.formatTime(new Date(),"hh:mm:ss ap")+"\n" +Qt.formatDate(new Date(),"ddd d MMMM")+"\n"+Qt.formatDate(new Date(),"yyyy")
+                text: "--:--:--"+"\n"+"--- -- ----"+"\n"+"----" //Qt.formatTime(new Date(),"hh:mm:ss ap")+"\n" +Qt.formatDate(new Date(),"ddd d MMMM")+"\n"+Qt.formatDate(new Date(),"yyyy")  //qsTr(dateTimeString)
+                //Date.fromLocaleString(Qt.locale(), Qt.formatTime(new Date(),"hh:mm:ss"), "hh:mm:ss") + "\n"+Qt.formatDate(new Date(),"ddd d MMMM yyyy")//Qt.formatTime(new Date(),"ddd yyyy-MM-dd hh:mm:ss")
             }
         }
 
@@ -302,7 +303,7 @@ ApplicationWindow {
                 width: parent.width
                 //                anchors.top: parent.top
                 //                anchors.bottom: parent.bottom
-                font.family: "Comic Sans MS" //"Kristen ITC" "Times"
+                font.family: "Times" //"Kristen ITC" Constants.secondaryFont ? Constants.secondaryFont.name: null
                 font.pointSize: 14
                 color: "black"
                 //                activeFocusOnPress: false
@@ -1104,7 +1105,7 @@ ApplicationWindow {
                 anchors.bottom: parent.bottom
                 activeFocusOnPress: true
                 width: parent.width - 35
-                font.family: "Comic Sans MS"
+                font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                 font.pointSize: 12
                 focus: true
                 z : parent.z

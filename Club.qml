@@ -12,6 +12,7 @@ import Qt.labs.folderlistmodel 2.0
 import com.Game.APIConnection 1.0
 import com.Game.Player 1.0
 import com.Game.SortFilterProxyModel 1.0
+import Constants 1.0
 
 Rectangle {
     id: clubPage
@@ -22,9 +23,9 @@ Rectangle {
     property alias pModel: playerModel
 
     function setClub() {
-        app_title_bar.title = managerUser.club.name
-        app_title_bar.selectedclubname = qsTr("League %1").arg(
-                    managerUser.club.leagueId === 0 ? "A" : "B")
+        app_title_bar.title = managerUser.club ? managerUser.club.name: null
+        app_title_bar.selectedclubname =  managerUser.club ? qsTr("League %1").arg(
+                    managerUser.club.leagueId === 0 ? "A" : "B") : null
         app_title_bar.selectedclubid = managerUser.club.id
         app_title_bar.backgroundColor = managerUser.club.background1Value
         app_title_bar.textColor = managerUser.club.foreground1Value
@@ -81,7 +82,7 @@ Rectangle {
                     anchors.verticalCenter: parent.verticalCenter
                     padding: 5
                     font.pointSize: 9
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     text: qsTr("POSITION")
                 }
                 MouseArea {
@@ -124,7 +125,7 @@ Rectangle {
                     anchors.verticalCenter: parent.verticalCenter
                     padding: 5
                     font.pointSize: 9
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     text: qsTr("NUMBER")
                 }
                 MouseArea {
@@ -159,7 +160,7 @@ Rectangle {
                     anchors.verticalCenter: parent.verticalCenter
                     padding: 5
                     font.pointSize: 9
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     text: qsTr("TACTIC")
                 }
                 MouseArea {

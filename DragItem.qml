@@ -1,4 +1,5 @@
 import QtQuick 2.7
+import Constants 1.0
 
 Item {
     id: root
@@ -43,7 +44,7 @@ Item {
                 anchors.fill: parent
                 color: "#ffffff"
                 font.pointSize: 10
-                font.family: "Comic Sans MS"
+                font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                 text: qsTr(root.text)
                 horizontalAlignment:Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter

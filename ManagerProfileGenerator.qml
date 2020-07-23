@@ -37,7 +37,7 @@ Rectangle
             color: "black"
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
-            font.family:"Times"
+            font.family: Constants.secondaryFont ? Constants.secondaryFont.name: null
             font.pointSize: 12
             text: qsTr("Done")
         }

@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.0
 import com.Game.Player 1.0
 import com.Game.APIConnection 1.0
 import com.Game.News 1.0
+import Constants 1.0
 
 Rectangle {
     id: root
@@ -57,7 +58,7 @@ Rectangle {
                 Text {
                     id: txt1
                     text: qsTr("%1's %2 is currently valued at %3").arg(root.owner_club_name).arg(player.name).arg(currencyFormatter.currencyString(player.value))
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     color: "#ffffff"
                     anchors.left: parent.left
                     anchors.top: parent.top
@@ -73,7 +74,7 @@ Rectangle {
                             club_name = root.bidding_club_id;
                         return qsTr("%1 are demanding %2 for %3").arg(club_name).arg(currencyFormatter.currencyString(root.fee)).arg(player.name)
                     }
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     color: "#ffffff"
                     anchors.left: txt1.left
                     anchors.top: txt1.bottom
@@ -103,7 +104,7 @@ Rectangle {
                 Text {
                     id: offer_label
                     text: qsTr("Offer Type")
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     color: "#ffffff"
                     anchors.left: parent.left
                     anchors.top: parent.top
@@ -135,7 +136,7 @@ Rectangle {
                     {
                         id: transfer_fees_label
                         text: qsTr("Fees")
-                        font.family: "Comic Sans MS"
+                        font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                         color: "#ffffff"
                         anchors.left: parent.left
                         anchors.top: parent.top
@@ -190,7 +191,7 @@ Rectangle {
                     {
                         id: transfer_flexibility_label
                         text: qsTr("Flexibility")
-                        font.family: "Comic Sans MS"
+                        font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                         color: "#ffffff"
                         anchors.left: parent.left
                         anchors.top: transfer_fees_label.bottom
@@ -225,7 +226,7 @@ Rectangle {
                     {
                         id: loan_fees_label
                         text: qsTr("Fees")
-                        font.family: "Comic Sans MS"
+                        font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                         color: "#ffffff"
                         anchors.left: parent.left
                         anchors.top: parent.top
@@ -276,7 +277,7 @@ Rectangle {
                     {
                         id: loan_duration_label
                         text: qsTr("Duration")
-                        font.family: "Comic Sans MS"
+                        font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                         color: "#ffffff"
                         anchors.left: parent.left
                         anchors.top: loan_fees_label.bottom
@@ -299,7 +300,7 @@ Rectangle {
                     {
                         id: loan_wages_label
                         text: qsTr("Wages")
-                        font.family: "Comic Sans MS"
+                        font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                         color: "#ffffff"
                         anchors.left: parent.left
                         anchors.top: loan_duration_label.bottom
@@ -322,7 +323,7 @@ Rectangle {
                     {
                         id: loan_future_fees_label
                         text: qsTr("Future Fees")
-                        font.family: "Comic Sans MS"
+                        font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                         color: "#ffffff"
                         anchors.left: parent.left
                         anchors.top: loan_wages_label.bottom
@@ -484,7 +485,7 @@ Rectangle {
                 {
                     id: recall_label
                     text: qsTr("Can be recalled")
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     color: "#ffffff"
                     anchors.left: recall_check_box.right
                     anchors.top: parent.top
@@ -515,7 +516,7 @@ Rectangle {
                 Text {
                     id: txt3
                     text: qsTr("Overall valued is %1").arg(currencyFormatter.currencyString(player.value))
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     color: "#ffffff"
                     anchors.left: parent.left
                     anchors.top: parent.top
@@ -526,7 +527,7 @@ Rectangle {
                 Text {
                     id: txt4
                     text: qsTr("Player has minimum fee release clause of %1").arg(currencyFormatter.currencyString(player.minimumFee))
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     color: "#ffffff"
                     anchors.left: txt3.left
                     anchors.top: txt3.bottom

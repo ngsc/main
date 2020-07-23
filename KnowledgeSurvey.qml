@@ -5,6 +5,7 @@ import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.0
 import QtGraphicalEffects 1.0
 import com.Game.APIConnection 1.0
+import Constants 1.0
 
 Item {
     id: knowledge_survey
@@ -58,7 +59,7 @@ Item {
 
                         Text {
                             id: question_id
-                            font.family: "Comic Sans MS"
+                            font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                             color: "#ffaa00"
                             font.pointSize: 11
                             text: question

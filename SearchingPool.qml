@@ -6,6 +6,7 @@ import QtQuick.Controls.Styles 1.4
 import com.Game.APIConnection 1.0
 import com.Game.SearchingPool 1.0
 import com.Game.SortFilterProxyModel 1.0
+import Constants 1.0
 
 
 Rectangle {
@@ -77,7 +78,7 @@ Rectangle {
                     anchors.bottom: parent.bottom
                     anchors.right: parent.right
                     placeholderText: qsTr("Filter by Name")
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     font.pointSize: 10
                     style: TextFieldStyle{
                         textColor: "#ffffff"
@@ -121,7 +122,7 @@ Rectangle {
                     anchors.bottom: parent.bottom
                     anchors.right: parent.right
                     placeholderText: qsTr("Filter by Club")
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     font.pointSize: 10
                     style: TextFieldStyle{
                         textColor: "#ffffff"
@@ -164,7 +165,7 @@ Rectangle {
                     anchors.bottom: parent.bottom
                     anchors.right: parent.right
                     placeholderText: qsTr("Filter by Position")
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     font.pointSize: 10
                     style: TextFieldStyle{
                         textColor: "#ffffff"
@@ -207,7 +208,7 @@ Rectangle {
                     anchors.bottom: parent.bottom
                     anchors.right: parent.right
                     placeholderText: qsTr("Filter by value")
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     font.pointSize: 10
                     style: TextFieldStyle{
                         textColor: "#ffffff"
@@ -250,7 +251,7 @@ Rectangle {
                     anchors.bottom: parent.bottom
                     anchors.right: parent.right
                     placeholderText: qsTr("Filter by Based")
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     font.pointSize: 10
                     style: TextFieldStyle{
                         textColor: "#ffffff"
@@ -291,7 +292,7 @@ Rectangle {
                     anchors.bottom: parent.bottom
                     anchors.right: parent.right
                     text: qsTr("Clear")
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     font.pointSize: 10
                     /*style: TextFieldStyle{
                         textColor: "#ffffff"
@@ -420,7 +421,7 @@ Rectangle {
                         elide: Text.ElideRight
                         color: "white"
                         renderType: Text.NativeRendering
-                        font.family: "Comic Sans MS"
+                        font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                         font.pointSize: 10
                         font.bold: true
                     }
@@ -477,7 +478,7 @@ Rectangle {
                         elide: Text.ElideRight
                         color: "white"
                         renderType: Text.NativeRendering
-                        font.family: "Comic Sans MS"
+                        font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                         font.pointSize: 9
                     }
                 }

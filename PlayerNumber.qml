@@ -82,7 +82,7 @@ Rectangle {
                 width: parent.width*0.6
                 color: "white"
                 font.pointSize: 10
-                font.family: "Comic Sans MS"
+                font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                 text: name
                 anchors.verticalCenter: parent.verticalCenter
                 verticalAlignment: Text.AlignVCenter
@@ -94,7 +94,7 @@ Rectangle {
                 width: parent.width*0.2
                 color: "#ff0000"
                 font.pointSize: 10
-                font.family: "Comic Sans MS"
+                font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                 text: proposedPosition
                 anchors.verticalCenter: parent.verticalCenter
                 verticalAlignment: Text.AlignVCenter

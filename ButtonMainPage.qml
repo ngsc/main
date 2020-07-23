@@ -3,6 +3,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
+import Constants 1.0
 
 
 Rectangle
@@ -33,7 +34,7 @@ Rectangle
         anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
         color: "#34537a"
-        font.family: "Comic Sans MS"//"Kristen ITC"
+        font.family: Constants.primaryFont ? Constants.primaryFont.name: null//"Kristen ITC"
         font.pointSize: 15
         font.bold: boldfont
         font.italic: italicfont

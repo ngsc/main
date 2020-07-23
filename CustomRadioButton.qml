@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.1
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
+import Constants 1.0
 
 Item {
     id: radio_button
@@ -46,7 +47,7 @@ Item {
             style: RadioButtonStyle {
                 label: Text {
                     text: qsTr(control.text)
-                    font.family: "Comic Sans MS"
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
                     font.pointSize: 11
                     font.italic: radio_button.italicfont
                     font.bold: radio_button.boldfont

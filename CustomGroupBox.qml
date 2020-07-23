@@ -3,6 +3,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.0
+import Constants 1.0
 
 Rectangle
 {
@@ -59,7 +60,7 @@ Rectangle
     {
         id: group_box_title_text
         anchors.centerIn: group_box_title
-        font.family: "Comic Sans MS"
+        font.family: Constants.primaryFont ? Constants.primaryFont.name: null
         font.pointSize: 11
         color: "#e1e100"
         font.bold: true

@@ -21,7 +21,7 @@ Rectangle {
 		height: 300
 		id:team_away_statistic_page_text
         font.pointSize: 10
-        font.family: "Comic Sans MS"
+        font.family: Constants.primaryFont ? Constants.primaryFont.name: null
 		textColor: "white"
         backgroundVisible: false
 		verticalAlignment: TextEdit.AlignVCenter

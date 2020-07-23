@@ -32,7 +32,7 @@ DropArea {
             anchors.centerIn: parent
             color: "green"
             font.pointSize: 10
-            font.family: "Comic Sans MS"
+            font.family: Constants.primaryFont ? Constants.primaryFont.name: null
             text: qsTr(root.text)
             }
 
