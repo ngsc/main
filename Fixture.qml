@@ -159,51 +159,10 @@ Rectangle {
                 radius: 5
             }
 
-            handle: Rectangle {
-                id: search_scroll_view_handle
-                implicitWidth: 15
-                radius: width/2
-                color: "#55aaff"
-                border.color: "#577fa9"
-                border.width: 2
-            }
-            scrollBarBackground: Rectangle {
-                id: search_scroll_background
-                implicitWidth: 15
-                //implicitHeight: overViewTable.height-(30)+10
-                radius: 7
-                color: "#3b76b1"
-                border.color: "#34537a"
-                border.width: 1
-            }
-            decrementControl: Rectangle {
-                id: search_scroll_view_dec_control
-                implicitWidth: 15
-                implicitHeight: implicitWidth
-                color: "#34537a"
-                Image
-                {
-                    anchors.fill: parent
-                    anchors.margins: 1
-                    fillMode: Image.Stretch
-                    source: "qrc:/icons/arrow-orange-up.png"
-                    opacity: 1
-                }
-            }
-            incrementControl: Rectangle {
-                id: search_scroll_view_inc_control
-                implicitWidth: 15
-                implicitHeight: implicitWidth
-                color: "#34537a"
-                Image
-                {
-                    anchors.fill: parent
-                    anchors.leftMargin: 1
-                    fillMode: Image.Stretch
-                    source: "qrc:/icons/arrow-orange-down.png"
-                    opacity: 1
-                }
-            }
+            handle: ScrollBarHandle{}
+            scrollBarBackground: ScrollBarBackground{}
+            decrementControl: ScrollBarDecrementControl{}
+            incrementControl: ScrollBarIncrementControl{}
         }
     }
 
@@ -420,50 +379,10 @@ Rectangle {
                         radius: 5
                     }
 
-                    handle: Rectangle {
-                        id: search_scroll_view_handle2
-                        implicitWidth: 15
-                        radius: width/2
-                        color: "#55aaff"
-                        border.color: "#577fa9"
-                        border.width: 2
-                    }
-                    scrollBarBackground: Rectangle {
-                        id: search_scroll_background2
-                        implicitWidth: 15
-                        radius: 7
-                        color: "#3b76b1"
-                        border.color: "#34537a"
-                        border.width: 1
-                    }
-                    decrementControl: Rectangle {
-                        id: search_scroll_view_dec_control2
-                        implicitWidth: 15
-                        implicitHeight: implicitWidth
-                        color: "#34537a"
-                        Image
-                        {
-                            anchors.fill: parent
-                            anchors.margins: 1
-                            fillMode: Image.Stretch
-                            source: "qrc:/icons/arrow-orange-up.png"
-                            opacity: 1
-                        }
-                    }
-                    incrementControl: Rectangle {
-                        id: search_scroll_view_inc_control2
-                        implicitWidth: 15
-                        implicitHeight: implicitWidth
-                        color: "#34537a"
-                        Image
-                        {
-                            anchors.fill: parent
-                            anchors.leftMargin: 1
-                            fillMode: Image.Stretch
-                            source: "qrc:/icons/arrow-orange-down.png"
-                            opacity: 1
-                        }
-                    }
+                    handle: ScrollBarHandle{}
+                    scrollBarBackground: ScrollBarBackground{}
+                    decrementControl: ScrollBarDecrementControl{}
+                    incrementControl: ScrollBarIncrementControl{}
                 }
             }
 
@@ -646,50 +565,10 @@ Rectangle {
                         radius: 5
                     }
 
-                    handle: Rectangle {
-                        id: search_scroll_view_handle2
-                        implicitWidth: 15
-                        radius: width/2
-                        color: "#55aaff"
-                        border.color: "#577fa9"
-                        border.width: 2
-                    }
-                    scrollBarBackground: Rectangle {
-                        id: search_scroll_background2
-                        implicitWidth: 15
-                        radius: 7
-                        color: "#3b76b1"
-                        border.color: "#34537a"
-                        border.width: 1
-                    }
-                    decrementControl: Rectangle {
-                        id: search_scroll_view_dec_control2
-                        implicitWidth: 15
-                        implicitHeight: implicitWidth
-                        color: "#34537a"
-                        Image
-                        {
-                            anchors.fill: parent
-                            anchors.margins: 1
-                            fillMode: Image.Stretch
-                            source: "qrc:/icons/arrow-orange-up.png"
-                            opacity: 1
-                        }
-                    }
-                    incrementControl: Rectangle {
-                        id: search_scroll_view_inc_control2
-                        implicitWidth: 15
-                        implicitHeight: implicitWidth
-                        color: "#34537a"
-                        Image
-                        {
-                            anchors.fill: parent
-                            anchors.leftMargin: 1
-                            fillMode: Image.Stretch
-                            source: "qrc:/icons/arrow-orange-down.png"
-                            opacity: 1
-                        }
-                    }
+                    handle: ScrollBarHandle{}
+                    scrollBarBackground: ScrollBarBackground{}
+                    decrementControl: ScrollBarDecrementControl{}
+                    incrementControl: ScrollBarIncrementControl{}
                 }
             }
 

@@ -9,6 +9,7 @@ import com.Game.APIConnection 1.0
 import com.Game.User 1.0
 import com.Game.Announcement 1.0
 import com.Game.Player 1.0
+import Constants 1.0
 
 ApplicationWindow {
     id: app

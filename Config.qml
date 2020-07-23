@@ -220,23 +220,12 @@ Rectangle {
                     anchors.margins: 2
                     horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOff
                     style: ScrollViewStyle {
-                        handle: Rectangle {
-                            id: announcement_board_scroll_view_handle
-                            implicitWidth: 15
-                            radius: width / 2
-                            color: "#55aaff"
-                            border.color: "#577fa9"
-                            border.width: 2
-                        }
-                        scrollBarBackground: Rectangle {
+                        handle: ScrollBarHandle{}
+                        scrollBarBackground: ScrollBarBackground {
                             id: announcement_board_scroll_view_background
 
                             implicitWidth: 15
                             implicitHeight: config_scroll_view.height - (30) + 10
-                            radius: width / 2
-                            color: "#3b76b1"
-                            border.color: "#34537a"
-                            border.width: 1
                             //color: "#ffffff"
 
                             /*LinearGradient{
@@ -251,33 +240,12 @@ Rectangle {
                                             }
                                         }*/
                         }
-                        decrementControl: Rectangle {
+                        decrementControl: ScrollBarDecrementControl {
                             id: announcement_board_scroll_view_dec_control
-                            implicitWidth: 15
-                            implicitHeight: implicitWidth
-                            color: "transparent" //"#34537a"//"#4081c2"
-                            radius: 5
-                            Image {
-                                anchors.fill: parent
-                                anchors.margins: 1
-                                //anchors.margins: 1
-                                fillMode: Image.Stretch
-                                source: "qrc:/icons/arrow-orange-up.png"
-                                opacity: 1
-                            }
+                            radius: 1
                         }
-                        incrementControl: Rectangle {
+                        incrementControl: ScrollBarIncrementControl {
                             id: announcement_board_scroll_view_inc_control
-                            implicitWidth: 15
-                            implicitHeight: implicitWidth
-                            color: "transparent" //"#34537a"
-                            Image {
-                                anchors.fill: parent
-                                anchors.leftMargin: 1
-                                fillMode: Image.Stretch
-                                source: "qrc:/icons/arrow-orange-down.png"
-                                opacity: 1
-                            }
                         }
                     }
                     visible: (parent.height > 30) ? true : false

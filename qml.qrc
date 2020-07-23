@@ -9,6 +9,8 @@
         <file>MyButtonNormal.qml</file>
         <file>icons/arrow-orange-down.png</file>
         <file>icons/arrow-orange-up.png</file>
+        <file>icons/arrow-cm4-white-gray-down.png</file>
+        <file>icons/arrow-cm4-white-gray-up.png</file>
         <file>icons/arrow-white-down.png</file>
         <file>icons/arrow-white-up.png</file>
         <file>icons/background.jpg</file>
@@ -67,6 +69,9 @@
         <file>NewsPage.qml</file>
         <file>ViewOffer.qml</file>
         <file>SubmitContract.qml</file>
+        <file>ScrollBarBackground.qml</file>
+        <file>ScrollBarDecrementControl.qml</file>
+        <file>ScrollBarIncrementControl.qml</file>
         <file>images/clubs/normal/1099.png</file>
         <file>images/clubs/normal/1100.png</file>
         <file>images/clubs/normal/1135.png</file>
@@ -2539,5 +2544,7 @@
         <file>images/players/98034601.png</file>
         <file>images/portrait/moustache.JPG</file>
         <file>images/portrait/young.JPG</file>
+        <file>ScrollBarHandle.qml</file>
+        <file>Constants.qml</file>
     </qresource>
 </RCC>

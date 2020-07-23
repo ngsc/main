@@ -79,6 +79,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<UserCommentsModel>("com.Game.User", 1, 0, "UserCommentsModel");
     qmlRegisterType<TeamTactic>("com.Game.Tactic", 1, 0, "TeamTactic");
     qmlRegisterType<TeamTacticModel>("com.Game.Tactic", 1, 0, "TeamTacticModel");
+    qmlRegisterSingletonType(QUrl("qrc:/Constants.qml"), "Constants", 1, 0, "Constants");
 
     QQmlApplicationEngine engine;
     engine.clearComponentCache();
