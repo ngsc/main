@@ -6,6 +6,7 @@ Rectangle
     implicitWidth: 15
     implicitHeight: implicitWidth
     //color: "#34537a"
+    color: "transparent"
     Image
     {
         anchors.fill: parent
