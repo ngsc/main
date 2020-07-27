@@ -243,8 +243,8 @@ Rectangle {
         {
             id: cancel_button
             anchors.top: confirm_button.top
-            anchors.right: confirm_button.left
-            anchors.rightMargin: 20
+            anchors.right: parent.right
+            anchors.rightMargin: confirm_button.width + 10 + 20
             text: qsTr("Withdraw Offer")
             onClicked: { app_title_bar.popPage() }
             width: confirm_button.width

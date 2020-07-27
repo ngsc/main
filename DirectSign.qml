@@ -160,8 +160,8 @@ Rectangle
     {
         id: withdraw_button
         anchors.top: comment.bottom
-        anchors.right: confirm_button.left
-        anchors.margins: 10
+        anchors.right: parent.right
+        anchors.margins:  confirm_button.width + 10 + 10
         width: 150
         text: qsTr("withdraw offer")
 //        onClicked: { app_title_bar.popPage() }

@@ -265,8 +265,8 @@ Rectangle {
                 anchors {
                     bottom: parent.bottom
                     bottomMargin: 20
-                    right: respond_button.left
-                    rightMargin: 10
+                    right: parent.right
+                    rightMargin: 10 + respond_button.width + 10
                 }
                 visible: currentNews.isPublicNews ? false : true //true//details_box.showDetails
                 text: qsTr("Decline")

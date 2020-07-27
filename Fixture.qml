@@ -412,8 +412,8 @@ Rectangle {
             MyButtonNormal
             {
                 id: cancel_button
-                anchors.right: inviteButton.left
-                anchors.rightMargin: 20
+                anchors.right: parent.right
+                anchors.rightMargin: inviteButton.width + 10 + 10/*+ inviteButton.rightMargin*/
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: 10
                 text: qsTr("Clear")
@@ -591,8 +591,8 @@ Rectangle {
             MyButtonNormal
             {
                 id: cancel_button
-                anchors.right: accept_button.left
-                anchors.rightMargin: 20
+                anchors.right: parent.right
+                anchors.rightMargin: accept_button.width + 10 + 10/*accept_button.rightMargin*/
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: 10
                 text: qsTr("Decline")

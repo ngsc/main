@@ -150,8 +150,8 @@ Item {
 
         MyButtonNormal {
             id: cancel_button
-            anchors.right: confirm_button.left
-            anchors.rightMargin: 20
+            anchors.right: parent.right
+            anchors.rightMargin: confirm_button.width + 10 + 10
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 10
             text: qsTr("Cancel")

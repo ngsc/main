@@ -393,8 +393,8 @@ Rectangle {
         {
             id: negotiate_button
             anchors.top: confirm_button.top
-            anchors.right: confirm_button.right
-            width: confirm_button.width
+            anchors.right: parent.right
+            width: confirm_button.width + 5 + 5
             text: news.stage === News.OwnerClubDemandPrice ? qsTr("Make New Proposal") : qsTr("Negotiate  Proposal")
             visible: {
                 if(news.offerType === News.Transfer)
@@ -419,8 +419,8 @@ Rectangle {
         {
             id: restore_button
             anchors.top: confirm_button.top
-            anchors.right: cancel_button.left
-            anchors.rightMargin: 5
+            anchors.right: parent.right
+            anchors.rightMargin: 5 + confirm_button.width + 5
             text: qsTr("Restore")
             visible: negotiate_button.visible
             onClicked: {

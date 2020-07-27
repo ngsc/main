@@ -412,8 +412,8 @@ Rectangle {
         {
             id: cancel_button
             anchors.top: confirm_button.top
-            anchors.right: confirm_button.left
-            anchors.rightMargin: 10
+            anchors.right: parent.right
+            anchors.rightMargin: confirm_button.width + 10 + 10
             text: qsTr("Cancel")
             onClicked: { app_title_bar.popPage() }
         }
