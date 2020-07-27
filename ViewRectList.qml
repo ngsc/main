@@ -47,51 +47,14 @@ Rectangle{
             anchors.margins: 2
             horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOff
             style: ScrollViewStyle{
-                handle: Rectangle {
-                    id: announcement_board_scroll_view_handle
-                    implicitWidth: 15
-                    radius: width/2
-                    color: "#55aaff"
-                    border.color: "#577fa9"
-                    border.width: 2
-                }
-                scrollBarBackground: Rectangle {
+                handle: ScrollBarHandle{}
+                scrollBarBackground: ScrollBarBackground {
                     id: announcement_board_scroll_view_background
                     implicitWidth: 15
                     implicitHeight: announcement_board_scroll_view.height-(30)+10
-                    radius: 7
-                    color: "#3b76b1"
-                    border.color: "#34537a"
-                    border.width: 1
                 }
-                decrementControl: Rectangle {
-                    id: announcement_board_scroll_view_dec_control
-                    implicitWidth: 15
-                    implicitHeight: implicitWidth
-                    color: "#34537a"
-                    Image
-                    {
-                        anchors.fill: parent
-                        anchors.margins: 1
-                        fillMode: Image.Stretch
-                        source: "qrc:/icons/arrow-orange-up.png"
-                        opacity: 1
-                    }
-                }
-                incrementControl: Rectangle {
-                    id: announcement_board_scroll_view_inc_control
-                    implicitWidth: 15
-                    implicitHeight: implicitWidth
-                    color: "#34537a"
-                    Image
-                    {
-                        anchors.fill: parent
-                        anchors.leftMargin: 1
-                        fillMode: Image.Stretch
-                        source: "qrc:/icons/arrow-orange-down.png"
-                        opacity: 1
-                    }
-                }
+                decrementControl: ScrollBarDecrementControl{}
+                incrementControl: ScrollBarIncrementControl{}
             }
             visible: (parent.height>30) ? true : false
             Rectangle
