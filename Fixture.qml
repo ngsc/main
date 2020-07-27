@@ -413,7 +413,7 @@ Rectangle {
             {
                 id: cancel_button
                 anchors.right: parent.right
-                anchors.rightMargin: inviteButton.width + 10 + 10/*+ inviteButton.rightMargin*/
+                anchors.rightMargin: inviteButton.width + 10 + 20/*+ inviteButton.rightMargin*/
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: 10
                 text: qsTr("Clear")
@@ -592,7 +592,7 @@ Rectangle {
             {
                 id: cancel_button
                 anchors.right: parent.right
-                anchors.rightMargin: accept_button.width + 10 + 10/*accept_button.rightMargin*/
+                anchors.rightMargin: accept_button.width + 10 + 20/*accept_button.rightMargin*/
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: 10
                 text: qsTr("Decline")
