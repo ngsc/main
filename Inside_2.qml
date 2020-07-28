@@ -84,7 +84,7 @@ Rectangle
             property bool boldfont_1: false
             property bool italicfont_1: false
             boldfont: arsenal.boldfont_1
-            italicfont: arsenal.italicfont_1
+            //italicfont: arsenal.italicfont_1
             //anchors.leftMargin: 30
             enabled: managerUser.quizPass
             button_text: qsTr("Club Selection ")

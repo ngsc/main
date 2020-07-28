@@ -2229,8 +2229,17 @@ Rectangle
             model: teamTacticModel
             delegate:
             CheckBox {
+                style: CheckBoxStyle{
+                    label: Text {
+                        text: name
+                        font.pointSize: 10
+                        font.family: Constants.secondaryFont ? Constants.secondaryFont.name: null
+                    }
+                }
+
                 text: name
                 width: parent.width
+
                 checked: selected
                 onCheckedChanged:
                 {

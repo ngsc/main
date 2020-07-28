@@ -2261,8 +2261,8 @@ Rectangle
                 anchors.verticalCenter: parent.verticalCenter
                 font.family:Constants.secondaryFont ? Constants.secondaryFont.name: null
                 //font.family: Constants.primaryFont ? Constants.primaryFont.name: null
-                font.bold: true
-                font.italic: true
+                //font.bold: true
+                //font.italic: true
                 font.pointSize: 10
                 text: qsTr("Team Instruction")
             }
