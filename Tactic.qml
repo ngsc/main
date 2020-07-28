@@ -11,6 +11,7 @@ import QtQuick.Layouts 1.0
 import com.Game.APIConnection 1.0
 import com.Game.Player 1.0
 import com.Game.Tactic 1.0
+import Constants 1.0
 
 Rectangle
 {
@@ -2229,11 +2230,30 @@ Rectangle
             model: teamTacticModel
             delegate:
             CheckBox {
+                id: tacticCheckbox
                 style: CheckBoxStyle{
                     label: Text {
+                        id: checkboxLabelText
                         text: name
                         font.pointSize: 10
                         font.family: Constants.secondaryFont ? Constants.secondaryFont.name: null
+                    }
+                    indicator: Rectangle {
+//                        anchors.top: parent.top
+//                        anchors.left: parent.left
+                        implicitHeight: 16
+                        implicitWidth: 16
+                        radius: 3
+                        color: tacticCheckbox.hovered ? Constants.checkboxColorHovered: Constants.checkboxColor
+                        border.color: control.activeFocus ? "#ffffff" : "gray"
+                        border.width: 1
+                        Image
+                        {
+                            anchors.fill: parent
+                            fillMode: Image.Stretch
+                            source: "qrc:/icons/check-black.png"
+                            visible: tacticCheckbox.checked ? true: false
+                        }
                     }
                 }
 

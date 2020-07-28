@@ -72,13 +72,13 @@ Rectangle {
                             height: abuse_label.height
                             width: height
                             radius: 3
-                            color: "#3b76b1"
+                            color: abuse_check_box.hovered ? Constants.checkboxColorHovered: Constants.checkboxColor
                             border.color: control.activeFocus ? "#ffffff" : "gray"
                             border.width: 1
                             Image {
                                 anchors.fill: parent
                                 fillMode: Image.Stretch
-                                source: "qrc:/icons/check-white.png"
+                                source: "qrc:/icons/check-black.png"
                                 visible: abuse_check_box.checked ? true : false
                             }
                         }
@@ -105,13 +105,13 @@ Rectangle {
                             height: abuse_label.height
                             width: height
                             radius: 3
-                            color: "#3b76b1"
+                            color: music_switch_check_box.hovered ? Constants.checkboxColorHovered: Constants.checkboxColor
                             border.color: control.activeFocus ? "#ffffff" : "gray"
                             border.width: 1
                             Image {
                                 anchors.fill: parent
                                 fillMode: Image.Stretch
-                                source: "qrc:/icons/check-white.png"
+                                source: "qrc:/icons/check-black.png"
                                 visible: music_switch_check_box.checked ? true : false
                             }
                         }

@@ -214,8 +214,10 @@ ApplicationWindow {
         Rectangle {
             id: background_cover
             anchors.fill: parent
-            color: "#34537a"
-            opacity: 0.7
+            // color: "#34537a"
+            //color: "#090909"
+            color: Constants.backgroundLayerAlphaColor
+            opacity: 0.6
         }
 
         Rectangle{
@@ -224,12 +226,12 @@ ApplicationWindow {
             height: 80
             //            color: "black"
             gradient: Gradient {
-                GradientStop { position: 0.0; color: Qt.lighter("#34537a")}
-                GradientStop { position: 1.0; color: "#34537a"}
+                GradientStop { position: 0.0; color: Qt.lighter( Constants.menuBackgroundColor )}
+                GradientStop { position: 1.0; color: Constants.menuBackgroundColor }
             }
             //            border.color: "#ffd700"
             //            border.width: 4
-            radius: 30
+            radius: Constants.menuRectRadius
             anchors.top: parent.top
             anchors.topMargin: 10
             anchors.left: parent.left
@@ -248,7 +250,7 @@ ApplicationWindow {
                 //                font.italic: true
                 font.pointSize: 9
                 //                font.pixelSize: Theme.fontSizeHuge * 2.0
-                color: "#ffaa00"//"#ffd700"//Qt.tint("lightsteelblue", "#10FF0000")//"blue"
+                color: Constants.menuTextColor//"#ffaa00"//"#ffd700"//Qt.tint("lightsteelblue", "#10FF0000")//"blue"
                 //property string dateTimeString:"--:--:--"+"\n"+"--- -- ----"+"\n"+"----" //Qt.formatTime(new Date(),"hh:mm:ss ap")+"\n" +Qt.formatDate(new Date(),"ddd d MMMM")+"\n"+Qt.formatDate(new Date(),"yyyy")
                 text: "--:--:--"+"\n"+"--- -- ----"+"\n"+"----" //Qt.formatTime(new Date(),"hh:mm:ss ap")+"\n" +Qt.formatDate(new Date(),"ddd d MMMM")+"\n"+Qt.formatDate(new Date(),"yyyy")  //qsTr(dateTimeString)
                 //Date.fromLocaleString(Qt.locale(), Qt.formatTime(new Date(),"hh:mm:ss"), "hh:mm:ss") + "\n"+Qt.formatDate(new Date(),"ddd d MMMM yyyy")//Qt.formatTime(new Date(),"ddd yyyy-MM-dd hh:mm:ss")
@@ -1093,7 +1095,8 @@ ApplicationWindow {
                 border.color: "#fdc807"
                 border.width: 3
                 anchors.fill: parent
-                color: "#34537a"
+                //color: "#34537a"
+                color: Constants.menuBackgroundColor
                 opacity: 0.7
                 z : parent.z
                 radius: parent.radius

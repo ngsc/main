@@ -5,6 +5,7 @@
 
 import QtQuick 2.6
 import QtQuick.Controls 2.1
+import Constants 1.0
 
 Item {
     id : customComboBox
@@ -31,15 +32,15 @@ Item {
 
         indicator: Rectangle {
             anchors.right: parent.right
-            anchors.rightMargin: 40
+            anchors.rightMargin: 20
             anchors.verticalCenter: parent.verticalCenter
             Image {
                 id: name
                 anchors.verticalCenter: parent.verticalCenter
-                height: 20
+                height: 10
                 width: height
                 fillMode: Image.Stretch
-                source: "qrc:/icons/arrow-white-down.png"
+                source: "qrc:/icons/combo-arrow-black-down.png"
             }
         }
 
@@ -54,7 +55,7 @@ Item {
                 implicitHeight: 30
                 height: 30
                 radius: 30
-                color: (combobox.highlightedIndex === index)?   "lightblue" : "#3b76b1"
+                color: (combobox.highlightedIndex === index) ? Constants.comboboxButtonColor : Constants.comboboxButtonColor
                 MouseArea
                 {
                     id:mouseAreatext
@@ -62,13 +63,14 @@ Item {
                     hoverEnabled:true
                     onHoveredChanged: {
                         if(hoveredornot){
-                            delgatebackground.color = "#3b76b1"
-                            textdelegate.color = "white"
+                            delgatebackground.color = Constants.comboboxButtonColor
+                            //"#3b76b1"
+                            textdelegate.color = Constants.comboboxButtonTextColor
                             hoveredornot = false
                         }else{
                             hoveredornot = true
-                            delgatebackground.color = "lightblue"
-                            textdelegate.color = "black"
+                            delgatebackground.color = Constants.comboboxButtonColor
+                            textdelegate.color = Constants.comboboxButtonHoveredTextColor
                         }
                         combobox.currentIndex = index
                     }
@@ -82,7 +84,7 @@ Item {
             contentItem: Text {
                 id : textdelegate
                 text: qsTr(modelData)
-                color:(combobox.highlightedIndex === index) ?"black" :  "white"
+                color:(combobox.highlightedIndex === index) ? "white" :  Constants.comboboxButtonTextColor
                 height: 30
                 font: combobox.font
                 elide: Text.ElideRight
@@ -97,7 +99,7 @@ Item {
             rightPadding: combobox.indicator.width + combobox.spacing
             text: qsTr(combobox.displayText)
             font: combobox.font
-            color:    "white"
+            color: Constants.comboboxButtonTextColor
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideRight
         }
@@ -107,9 +109,9 @@ Item {
             implicitWidth: 120
             implicitHeight: 30
             height: 30
-            color: customComboBox.enabled ? "#3b76b1" : "#2e598f"
+            color: Constants.comboboxButtonColor
             radius: 30
-//            opacity: customComboBox.enabled ? 1 : 0.8
+            opacity: customComboBox.enabled ? 1 : 0.8
         }
 
         popup: Popup {
@@ -130,8 +132,8 @@ Item {
             background: Rectangle {
                 width: combobox.width
                 height : listview.contentHeight
-                border.color: "#3b76b1"
-                color:  "#3b76b1"
+                border.color: Constants.comboboxButtonColor
+                color: Constants.comboboxButtonColor
                 radius: 10
             }
         }

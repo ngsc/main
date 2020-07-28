@@ -18,7 +18,7 @@ Rectangle
 
     width: 100
     height: 30
-    color: "#989898"
+    color: Constants.menuButtonColor
     radius: width/3
     layer.enabled: true
     layer.effect:  DropShadow {
@@ -35,7 +35,7 @@ Rectangle
     {
         id: txt
         anchors.centerIn: parent
-        color: "#e6e6e6"
+        color: Constants.menuButtonTextColor
         font.pointSize: 10
         font.family: Constants.primaryFont ? Constants.primaryFont.name: null
         text: qsTr("Button")

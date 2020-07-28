@@ -23,8 +23,8 @@ Item {
     property string selectedclubname: ""
     property int selectedclubid: 0
     property bool showselectedclubname: false
-    readonly property string defaultTextColor: "#ffaa00"
-    readonly property string defaultBackgroundColor: "#34537a"
+    readonly property string defaultTextColor: Constants.menuTextColor
+    readonly property string defaultBackgroundColor: Constants.menuBackgroundColor
     property string textColor: defaultTextColor
     property string backgroundColor: defaultBackgroundColor
 
@@ -132,11 +132,11 @@ Item {
     {
         id: rectangle
         anchors.fill: parent
-        radius: width
+        radius: Constants.menuRectRadius
         opacity: 1.0
 
         gradient: Gradient {
-            GradientStop { position: 0.0; color: backgroundColor ? Qt.lighter(backgroundColor): Qt.lighter(defaultBackgroundColor)}
+            GradientStop { position: 0.0; color: Qt.lighter(backgroundColor)}
             GradientStop { position: 1.0; color: backgroundColor}
         }
 
@@ -212,7 +212,7 @@ Item {
             width: height
             visible: setforwordvisibility && stackView.__currentItem !== signinPage && stackView.__currentItem !== signupPage
             fillMode: Image.Stretch
-            source: "qrc:/icons/forward-orange.png"
+            source: "qrc:/icons/arrow-sharp-forward.png"
             MouseArea
             {
                 anchors.fill: parent
@@ -333,7 +333,7 @@ Item {
             width: height
             fillMode: Image.Stretch
             visible: stackView.depth>1 && stackView.__currentItem !== signinPage && stackView.__currentItem !== signupPage ? true : false
-            source: "qrc:/icons/back-orange.png"
+            source: "qrc:/icons/arrow-sharp-back.png"
             MouseArea
             {
                 anchors.fill: parent
