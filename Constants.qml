@@ -12,6 +12,8 @@ Item{
     //Title Bar
     readonly property int titleBarWidth: panelWidth  // 910
     readonly property int titleBarHeight: 80
+    readonly property int defaultTitleFontSize: 30
+    readonly property int defaultClubFontSize: 13
 
     //scroll Bar colors
     readonly property string scrollBarHandleColor: "#b4b4b4"

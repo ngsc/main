@@ -7,6 +7,16 @@ Item {
     width: Constants.titleBarWidth
     height: Constants.titleBarHeight
 
+    property alias firstTeamColor: firstTeamScoreFigure.teamColor
+    property alias firstTeamName: firstTeamScoreFigure.teamName
+    property alias firstTeamScore: firstTeamScoreFigure.score
+    property alias firstScoreVisible: firstTeamScoreFigure.visible
+
+    property alias secondTeamColor: secondTeamScoreFigure.color
+    property alias secondTeamName: secondTeamScoreFigure.teamName
+    property alias secondTeamScore: secondTeamScoreFigure.score
+    property alias secondScoreVisible: secondTeamScoreFigure.visible
+
     property var forwardlist:[]
     property var forwardTitleProperties: []
     property var backwardTitleProperties: []
@@ -28,10 +38,8 @@ Item {
     property string textColor: defaultTextColor
     property string backgroundColor: defaultBackgroundColor
 
-    readonly property int defaultTitleFontSize: 30
-    readonly property int defaultClubFontSize: 13
-    property int titleFontSize: defaultTitleFontSize
-    property int clubFontSize: defaultClubFontSize
+    property int titleFontSize: Constants.defaultTitleFontSize
+    property int clubFontSize: Constants.defaultClubFontSize
 
     function printObject(o) {
       var out = '----------------------------------\n';
@@ -56,8 +64,8 @@ Item {
         textColor = defaultTextColor
         backgroundColor = defaultBackgroundColor
 
-        titleFontSize = defaultTitleFontSize
-        clubFontSize = defaultClubFontSize
+        titleFontSize = Constants.defaultTitleFontSize
+        clubFontSize = Constants.defaultClubFontSize
     }
 
     function pushProperties(list) {
@@ -155,6 +163,25 @@ Item {
         }
 
         MouseArea{cursorShape: Qt.PointingHandCursor}
+        TeamScoreRectangle
+        {
+            id: firstTeamScoreFigure
+            z: 1
+            anchors.left: parent.left
+            width: parent.width / 2
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+        }
+        TeamScoreRectangle
+        {
+            z: 1
+            id: secondTeamScoreFigure
+            anchors.right: parent.right
+            width: parent.width / 2
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+        }
+
         Text
         {
             id: title_text
@@ -175,13 +202,6 @@ Item {
                 radius: 1
                 samples: 3
             }
-//            DropShadow {
-//                anchors.fill: parent
-//                verticalOffset: 2
-//                color: "#80000000"
-//                radius: 1
-//                samples: 3
-//            }
         }
         Text {
             id: club_text

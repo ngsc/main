@@ -2556,5 +2556,6 @@
         <file>Constants.qml</file>
         <file>PlayerComboBox.qml</file>
         <file>ButtonCM4.qml</file>
+        <file>TeamScoreRectangle.qml</file>
     </qresource>
 </RCC>

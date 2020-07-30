@@ -13,6 +13,7 @@ import QtQml 2.12
 import com.Game.APIConnection 1.0
 import com.Game.Player 1.0
 import com.Game.SortFilterProxyModel 1.0
+import Constants 1.0
 
 Rectangle
 {
@@ -159,44 +160,6 @@ Rectangle
             color: "white"
             font.pointSize: 8; font.bold: true
             text: "Press Start"
-        }
-    }
-    Rectangle
-    {
-        id: firstTeamScoreFigure
-        anchors.right: parent.horizontalCenter
-        anchors.rightMargin: 10
-        anchors.top: parent.top
-        height: 35
-        radius: 10
-        width: 150
-        visible: false
-        Text
-        {
-            id:firstTeamScoreFigureText
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.horizontalCenter: parent.horizontalCenter
-            //color: "white"
-            font.pointSize: 8; font.bold: true
-            //text: "First team"
-        }
-    }
-    Rectangle
-    {
-        id: secondTeamScoreFigure
-        anchors.left: parent.horizontalCenter
-        anchors.leftMargin: 10
-        anchors.top: parent.top
-        height: 35
-        radius: 10
-        width: 150
-        visible: false
-        Text
-        {
-            id: secondTeamScoreFigureText
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.horizontalCenter: parent.horizontalCenter
-            font.pointSize: 8; font.bold: true
         }
     }
     //game_info
@@ -572,44 +535,36 @@ Rectangle
                 //score_card.left_team_color = getPlayerColor(0)
                 //score_card.left_team_name = monitorControl.getLeftName()
                 //score_card.left_team_score = monitorControl.getLeftScore()
-                firstTeamScoreFigure.color = playerControl.getPlayerColor(1) !== null ? playerControl.getPlayerColor(1) : "transparent";
-                secondTeamScoreFigure.color = playerControl.getPlayerColor(13) !== null ? playerControl.getPlayerColor(13) : "transparent";
-                var firstText = "";
-                firstTeamScoreFigure.visible = false;
+                app_title_bar.firstTeamColor = playerControl.getPlayerColor(1) !== null ? playerControl.getPlayerColor(1) : "transparent";
+                app_title_bar.secondTeamColor = playerControl.getPlayerColor(13) !== null ? playerControl.getPlayerColor(13) : "transparent";
+                app_title_bar.firstScoreVisible = false;
                 if( monitorControl.getRightName().trim().length > 0 )
                 {
-                    firstTeamScoreFigure.visible = true
-                    firstText += monitorControl.getRightName();
+                    app_title_bar.firstScoreVisible = true
+                    app_title_bar.firstTeamName = monitorControl.getRightName();
                     if( monitorControl.getRightScore().trim().length > 0 )
                     {
-                      firstText += ": ";
-                      firstText +=  monitorControl.getRightScore();
+                      app_title_bar.firstTeamScore = monitorControl.getRightScore();
                     }
                     else
                     {
-                        firstText += ": 0";
+                        app_title_bar.firstTeamScore = 0;
                     }
                 }
-                firstTeamScoreFigureText.text = firstText;
-
-                secondTeamScoreFigure.visible = false;
-                var secondText = "";
+                app_title_bar.secondScoreVisible = false;
                 if( monitorControl.getLeftName().trim().length > 0 )
                 {
-                    secondTeamScoreFigure.visible = true;
-                    secondText += monitorControl.getLeftName();
+                    app_title_bar.secondScoreVisible = true;
+                    app_title_bar.secondTeamName = monitorControl.getLeftName();
                     if( monitorControl.getLeftScore().trim().length > 0 )
                     {
-                      secondText += ": ";
-                      secondText +=  monitorControl.getLeftScore();
+                        app_title_bar.secondTeamScore = monitorControl.getLeftScore();
                     }
                     else
                     {
-                        secondText += ": 0";
+                        app_title_bar.secondTeamScore = 0;
                     }
                 }
-                secondTeamScoreFigureText.text = secondText;
-
                 for(var i = 0; i < players_left.model; i++)
                     {
                         players_left.itemAt(i).color = getPlayerColor(i)
