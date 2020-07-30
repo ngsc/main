@@ -105,6 +105,20 @@ Item {
         app_title_bar.clubFontSize = obj.clubFontSize
     }
 
+    function pushPage(){
+        forwardInside = forwardlist.pop()
+        if(forwardlist.length>0){
+            setforwordvisibility = true
+        }else{
+            setforwordvisibility = false
+        }
+        stackView.push(forwardInside)
+        popProperties(forwardTitleProperties)
+        pushProperties(backwardTitleProperties)
+        //reset()
+        //app_title_bar.title = forwardInside.titleBar
+    }
+
     function popPage() {
         if(stackView.depth<=forwardlist.length){
             forwardlist.pop()
@@ -210,24 +224,14 @@ Item {
             anchors.rightMargin: 30
             height: parent.height/2
             width: height
-            visible: setforwordvisibility && stackView.__currentItem !== signinPage && stackView.__currentItem !== signupPage
+            visible: false/*setforwordvisibility && stackView.__currentItem !== signinPage && stackView.__currentItem !== signupPage*/
             fillMode: Image.Stretch
             source: "qrc:/icons/arrow-sharp-forward.png"
             MouseArea
             {
                 anchors.fill: parent
                 onClicked: {
-                    forwardInside = forwardlist.pop()
-                    if(forwardlist.length>0){
-                        setforwordvisibility = true
-                    }else{
-                        setforwordvisibility = false
-                    }
-                    stackView.push(forwardInside)
-                    popProperties(forwardTitleProperties)
-                    pushProperties(backwardTitleProperties)
-                    //reset()
-                    //app_title_bar.title = forwardInside.titleBar
+                    pushPage();
                 }
             }
         }
@@ -332,7 +336,7 @@ Item {
             height: parent.height/2
             width: height
             fillMode: Image.Stretch
-            visible: stackView.depth>1 && stackView.__currentItem !== signinPage && stackView.__currentItem !== signupPage ? true : false
+            visible: false/*stackView.depth>1 && stackView.__currentItem !== signinPage && stackView.__currentItem !== signupPage ? true : false*/
             source: "qrc:/icons/arrow-sharp-back.png"
             MouseArea
             {

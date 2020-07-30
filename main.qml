@@ -13,8 +13,12 @@ import Constants 1.0
 
 ApplicationWindow {
     id: app
-    width: 1466
-    height: 780
+    width: Constants.appWidth
+    height: Constants.appHeight
+
+    readonly property int panelButtonWidth: 180
+    readonly property int panelWidth: panelButtonWidth * 5 + 10
+    readonly property int titleBarWidth: panelWidth
 
     property MainWindow mainwindow: MainWindow{}
     property alias main_window: main_window
@@ -223,8 +227,8 @@ ApplicationWindow {
         Rectangle{
             id: timeRect
             width: 120
-            height: 80
-            //            color: "black"
+//            height: 80
+//            color: "black"
             gradient: Gradient {
                 GradientStop { position: 0.0; color: Qt.lighter( Constants.menuBackgroundColor )}
                 GradientStop { position: 1.0; color: Constants.menuBackgroundColor }
@@ -236,12 +240,15 @@ ApplicationWindow {
             anchors.topMargin: 10
             anchors.left: parent.left
             anchors.leftMargin: 10
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 10
             Text {
                 id: timeText
                 horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                anchors.verticalCenter: parent.verticalCenter
+//                verticalAlignment: Text.AlignVCenter
+//                anchors.verticalCenter: parent.verticalCenter
                 anchors.horizontalCenter: parent.horizontalCenter
+                anchors.top: parent.top
                 anchors.bottomMargin: 5
                 anchors.leftMargin: 5
                 anchors.topMargin: 5
@@ -255,6 +262,37 @@ ApplicationWindow {
                 text: "--:--:--"+"\n"+"--- -- ----"+"\n"+"----" //Qt.formatTime(new Date(),"hh:mm:ss ap")+"\n" +Qt.formatDate(new Date(),"ddd d MMMM")+"\n"+Qt.formatDate(new Date(),"yyyy")  //qsTr(dateTimeString)
                 //Date.fromLocaleString(Qt.locale(), Qt.formatTime(new Date(),"hh:mm:ss"), "hh:mm:ss") + "\n"+Qt.formatDate(new Date(),"ddd d MMMM yyyy")//Qt.formatTime(new Date(),"ddd yyyy-MM-dd hh:mm:ss")
             }
+            ButtonCM4{
+                id: button_page_back
+                anchors.top: timeText.bottom
+                anchors.topMargin: 40
+                anchors.left: parent.left
+                anchors.leftMargin: 10
+                height: 50
+                width: 50
+                enabled: stackView.depth>1 && stackView.__currentItem !== signinPage && stackView.__currentItem !== signupPage ? true : false
+                imagePath: "qrc:/icons/arrow-sharp-back.png"
+                disabledImagePath: "qrc:/icons/arrow-sharp-back-disabled.png"
+                onClicked:
+                {
+                    app_title_bar.popPage()
+                }
+            }
+            ButtonCM4{
+                anchors.top: timeText.bottom
+                anchors.topMargin: 40
+                anchors.left: button_page_back.right
+                anchors.leftMargin: 1
+                height: 50
+                width: 50
+                imagePath: "qrc:/icons/arrow-sharp-forward.png"
+                disabledImagePath: "qrc:/icons/arrow-sharp-forward-disabled.png"
+                enabled: app_title_bar.setforwordvisibility && stackView.__currentItem !== signinPage && stackView.__currentItem !== signupPage
+                onClicked:
+                {
+                    app_title_bar.pushPage()
+                }
+            }
         }
 
         TitleBar {
@@ -263,17 +301,26 @@ ApplicationWindow {
             anchors.topMargin: 10
             anchors.left: timeRect.right
             anchors.leftMargin: 10
+            width: titleBarWidth
         }
 
         MenuButton {
             id: playerActions
-            anchors.left: panel_5_compr_buttons.left
-            anchors.top: flowing_comment_field.top
-            height: flowing_comment_field.height
+            z: 1
+            anchors.right: bullet_comment_container.right
+            anchors.rightMargin: 50
+            anchors.top: bullet_comment_container.top
+            anchors.topMargin: 10
+            width: 100
+            height: bullet_comment.height - 10
             visible: stackView.__currentItem === playerProfile
                      || stackView.__currentItem === goalkeeperProfile
-            width: 100
+
         }
+//        CustomComboBox
+//        {
+//            property int
+//        }
 
         Rectangle {
             id: flowing_comment_field
@@ -282,10 +329,11 @@ ApplicationWindow {
             opacity: 0.5
             //anchors.left: main_window.left
             //anchors.leftMargin: 200
-            anchors.horizontalCenter: bullet_comment.horizontalCenter
+//            anchors.horizontalCenter: bullet_comment.horizontalCenter
             anchors.top: app_title_bar.bottom
+            anchors.left: app_title_bar.left
+            anchors.right: app_title_bar.right
             anchors.topMargin: 30
-            width: 600
             height: 40
             visible: stackView.__currentItem !== signinPage
                      && stackView.__currentItem !== signupPage
@@ -386,7 +434,7 @@ ApplicationWindow {
             anchors.bottom: parent.bottom
             anchors.margins: 10
             anchors.left: app_title_bar.left
-            anchors.right: app_title_bar.right
+            width: panelWidth
             height: 70
             z:10
             color: "transparent"
@@ -400,7 +448,7 @@ ApplicationWindow {
                 anchors.top: parent.top
                 anchors.left: parent.left
                 button_text: qsTr("Manager's HQ")
-                width: 180
+                width: panelButtonWidth
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
@@ -437,7 +485,7 @@ ApplicationWindow {
                 anchors.bottom: button_1.top
                 anchors.left: parent.left
                 button_text: qsTr("2D View")
-                width: 180
+                width: panelButtonWidth
                 MouseArea
                 {
                     anchors.fill: parent
@@ -461,7 +509,7 @@ ApplicationWindow {
                 anchors.bottom: parent.top
                 anchors.left: button_15.right
                 button_text: qsTr("Home Team Statistics")
-                width: 180
+                width: panelButtonWidth
                 MouseArea
                 {
                     anchors.fill: parent
@@ -488,7 +536,7 @@ ApplicationWindow {
                 anchors.bottom: parent.top
                 anchors.left: button_16.right
                 button_text: "Away Team Statistics"
-                width: 180
+                width: panelButtonWidth
                 MouseArea
                 {
                     anchors.fill: parent
@@ -513,7 +561,7 @@ ApplicationWindow {
                 id: button_19
                 anchors.bottom: parent.top
                 anchors.left: button_18.right
-                width: 180
+                width: panelButtonWidth
                 button_text: qsTr("Leave Post")
                 MouseArea {
                     anchors.fill: parent
@@ -559,7 +607,7 @@ ApplicationWindow {
                 anchors.left: button_18.right
                 button_text:qsTr("Retire")// Qt.binding(function() { return qsTrId("Retire") + localization.updateLanguage;})//qsTr("Retire") +//localization.updateLanguage//+ app.trTrigger
                 visible: false
-                width: 180
+                width: panelButtonWidth
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
@@ -601,7 +649,7 @@ ApplicationWindow {
                 anchors.left: button_18.right
                 button_text: qsTr("Resign")
                 visible: false
-                width: 180
+                width: panelButtonWidth
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
@@ -649,7 +697,7 @@ ApplicationWindow {
                 anchors.top: parent.top
                 anchors.left: button_1.right
                 button_text: qsTr("Squad")
-                width: 180
+                width: panelButtonWidth
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
@@ -692,7 +740,7 @@ ApplicationWindow {
                 anchors.top: parent.top
                 anchors.left: button_2.right
                 button_text: qsTr("Tactics Center")
-                width: 180
+                width: panelButtonWidth
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
@@ -721,7 +769,7 @@ ApplicationWindow {
                 anchors.top: parent.top
                 anchors.left: button_3.right
                 button_text: qsTr("Finance")
-                width: 180
+                width: panelButtonWidth
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
@@ -746,7 +794,7 @@ ApplicationWindow {
                 anchors.top: button_10.bottom
                 anchors.left: button_4.right
                 button_text: qsTr("News")
-                width: 180
+                width: panelButtonWidth
                 Rectangle {
                     id: flash
                     //                    anchors.top: parent.top
@@ -821,7 +869,7 @@ ApplicationWindow {
                 anchors.top: button_1.bottom
                 anchors.left: parent.left
                 button_text: qsTr("Next Opponent")
-                width: 180
+                width: panelButtonWidth
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
@@ -846,7 +894,7 @@ ApplicationWindow {
                 anchors.top: button_2.bottom
                 anchors.left: button_1.right
                 button_text: qsTr("Fixture")
-                width: 180
+                width: panelButtonWidth
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
@@ -874,7 +922,7 @@ ApplicationWindow {
                 anchors.top: button_3.bottom
                 anchors.left: button_2.right
                 button_text: qsTr("Searching Pool")
-                width: 180
+                width: panelButtonWidth
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
@@ -901,7 +949,7 @@ ApplicationWindow {
                 anchors.top: button_4.bottom
                 anchors.left: button_3.right
                 button_text:qsTr( "Current League")
-                width: 180
+                width: panelButtonWidth
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
@@ -929,7 +977,7 @@ ApplicationWindow {
                 anchors.top: parent.top
                 anchors.left: button_4.right
                 button_text: qsTr("Commentary Report")
-                width: 180
+                width: panelButtonWidth
                 MouseArea
                 {
                     anchors.fill: parent
@@ -952,7 +1000,7 @@ ApplicationWindow {
                 id: button_18
                 anchors.bottom: parent.top
                 anchors.left: button_17.right
-                width: 180
+                width: panelButtonWidth
                 button_text: qsTr("Additional")
 
                 //                property bool clickstatus: false
@@ -999,7 +1047,7 @@ ApplicationWindow {
                 anchors.bottom: button_18.top
                 anchors.right: button_18.right
                 button_text: qsTr("Exit")
-                width: 180
+                width: panelButtonWidth
                 visible: false
                 z:11
 
@@ -1039,7 +1087,7 @@ ApplicationWindow {
                 anchors.bottom: button_13.top
                 anchors.right: button_18.right
                 button_text: qsTr("Config")
-                width: 180
+                width: panelButtonWidth
                 visible: false
                 z:11
 
@@ -1077,98 +1125,108 @@ ApplicationWindow {
         }
 
         Rectangle {
-            id: bullet_comment
-            anchors.horizontalCenter: app_title_bar.horizontalCenter
+            id: bullet_comment_container
+            anchors.left: panel_5_compr_buttons.left
+            anchors.right: panel_5_compr_buttons.right
             anchors.bottom: panel_5_compr_buttons.top
             anchors.bottomMargin: 40
-            width: 600
-            height: 40
-            z:3
-            color: "transparent"
-            radius: width / 2
-            visible: stackView.__currentItem !== signinPage
-                     && stackView.__currentItem !== signupPage
-            MouseArea {
-                cursorShape: Qt.PointingHandCursor
-            }
-            Rectangle {
-                border.color: "#fdc807"
-                border.width: 3
+            height: 50
+            radius: Constants.menuRectRadius
+            color: Constants.menuBackgroundColor
+            Rectangle{
+                id: bullet_comment
                 anchors.fill: parent
-                //color: "#34537a"
-                color: Constants.menuBackgroundColor
-                opacity: 0.7
-                z : parent.z
-                radius: parent.radius
-            }
-            TextField {
-                id: bullet_comment_field_text
-                anchors.left: parent.left
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                activeFocusOnPress: true
-                width: parent.width - 35
-                font.family: Constants.primaryFont ? Constants.primaryFont.name: null
-                font.pointSize: 12
-                focus: true
-                z : parent.z
-                style: TextFieldStyle {
-                    textColor: "#ffffff"
-                    background: Rectangle {
-                        //border.color: "#fdc807"
-                        //border.width: 3
-                        //radius: width/2
-                        color: "transparent"
+                anchors.topMargin: 5
+                anchors.bottomMargin: 6
+                anchors.leftMargin: 30
+                anchors.rightMargin: 160
+                z:3
+                color: "black"
+                radius: Constants.menuRectRadius / 5
+                visible: stackView.__currentItem !== signinPage
+                         && stackView.__currentItem !== signupPage
+                MouseArea {
+                    cursorShape: Qt.PointingHandCursor
+                }
+//                Rectangle {
+//                    border.color: "#fdc807"
+//                    border.width: 1
+//                    anchors.fill: parent
+//                    //color: "#34537a"
+//                    color: Constants.menuBackgroundColor
+//                    opacity: 0.7
+//                    z : parent.z
+//                    radius: parent.radius
+//                }
+                TextField {
+                    id: bullet_comment_field_text
+                    anchors.left: parent.left
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+                    activeFocusOnPress: true
+                    width: parent.width - 35
+                    font.family: Constants.primaryFont ? Constants.primaryFont.name: null
+                    font.pointSize: 12
+                    focus: true
+                    z : parent.z
+                    style: TextFieldStyle {
+                        textColor: "#ffffff"
+                        background: Rectangle {
+                            //border.color: "#fdc807"
+                            //border.width: 3
+                            //radius: width/2
+                            color: "black"
+                        }
+                    }
+
+                    Keys.onReturnPressed: {
+                        flowing_comment_field_text.text = bullet_comment_field_text.text
                     }
                 }
+                Keys.onPressed: {
+                    if (event.key === Qt.Key_Enter) {
+                        APIConnection.createBullet(managerUser.token,
+                                                   managerUser.id,
+                                                   bullet_comment_field_text.text)
 
-                Keys.onReturnPressed: {
-                    flowing_comment_field_text.text = bullet_comment_field_text.text
+                        //                    flowing_comment_field_text.text=bullet_comment_field_text.text;
+                        //                    flowing_comment_field_text.font.pointSize = (Math.random()*90)%20
+                        //                    if(nameSliderTimer.running===false)
+                        //                        nameSliderTimer.start();
+                    }
                 }
-            }
-            Keys.onPressed: {
-                if (event.key === Qt.Key_Enter) {
-                    APIConnection.createBullet(managerUser.token,
-                                               managerUser.id,
-                                               bullet_comment_field_text.text)
+                Image {
+                    id: send_icon
+                    anchors.right: parent.right
+                    anchors.rightMargin: 10
+                    anchors.verticalCenter: parent.verticalCenter
+                    height: parent.height - 15
+                    width: height
+                    fillMode: Image.Stretch
+                    source: "qrc:/icons/arrow-blue.png"
 
-                    //                    flowing_comment_field_text.text=bullet_comment_field_text.text;
-                    //                    flowing_comment_field_text.font.pointSize = (Math.random()*90)%20
-                    //                    if(nameSliderTimer.running===false)
-                    //                        nameSliderTimer.start();
-                }
-            }
-            Image {
-                id: send_icon
-                anchors.right: parent.right
-                anchors.rightMargin: 10
-                anchors.verticalCenter: parent.verticalCenter
-                height: parent.height - 15
-                width: height
-                fillMode: Image.Stretch
-                source: "qrc:/icons/arrow-blue.png"
+                    property int fontIndex: (Math.random() * 95) % 5
+                    MouseArea {
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                        hoverEnabled: true
+                        onClicked: {
+                            APIConnection.createBullet(managerUser.token, managerUser.id,bullet_comment_field_text.text)
+                            APIConnection.getBulletText(managerUser.token);
 
-                property int fontIndex: (Math.random() * 95) % 5
-                MouseArea {
-                    anchors.fill: parent
-                    cursorShape: Qt.PointingHandCursor
-                    hoverEnabled: true
-                    onClicked: {
-                        APIConnection.createBullet(managerUser.token, managerUser.id,bullet_comment_field_text.text)
-                        APIConnection.getBulletText(managerUser.token);
-
-                        //                        flowing_comment_field_text.text=bullet_comment_field_text.text;
-                        //                        //                        flowing_comment_field_text.font.pointSize = (Math.random()*90)%20
-                        //                        flowing_comment_field_text.textColor = Qt.rgba((Math.random()*95)%2,(Math.random()*95)%2,(Math.random()*95)%2)
-                        //                        flowing_comment_field_text.font.family = fonts[send_icon.fontIndex].text
-                        ////                        console.log(send_icon.fontIndex)
-                        //                        send_icon.fontIndex++;
-                        //                        if(send_icon.fontIndex > 8){
-                        //                            send_icon.fontIndex = 0;
-                        //                        }
-                        ////                        console.log(flowing_comment_field_text.font.pointSize)
-                        //                        if(nameSliderTimer.running===false)
-                        //                            nameSliderTimer.start();
+                            //                        flowing_comment_field_text.text=bullet_comment_field_text.text;
+                            //                        //                        flowing_comment_field_text.font.pointSize = (Math.random()*90)%20
+                            //                        flowing_comment_field_text.textColor = Qt.rgba((Math.random()*95)%2,(Math.random()*95)%2,(Math.random()*95)%2)
+                            //                        flowing_comment_field_text.font.family = fonts[send_icon.fontIndex].text
+                            ////                        console.log(send_icon.fontIndex)
+                            //                        send_icon.fontIndex++;
+                            //                        if(send_icon.fontIndex > 8){
+                            //                            send_icon.fontIndex = 0;
+                            //                        }
+                            ////                        console.log(flowing_comment_field_text.font.pointSize)
+                            //                        if(nameSliderTimer.running===false)
+                            //                            nameSliderTimer.start();
+                        }
                     }
                 }
             }
@@ -1176,13 +1234,13 @@ ApplicationWindow {
 
         StackView {
             id: stackView
-            //            anchors.left: panel_5_compr_buttons.left
+//            //            anchors.left: panel_5_compr_buttons.left
             //            anchors.right: panel_5_compr_buttons.right
             x: panel_5_compr_buttons.x - 60
             width: panel_5_compr_buttons.width + 80
             anchors.top: flowing_comment_field.bottom
             anchors.topMargin: 10
-            anchors.bottom: bullet_comment.top
+            anchors.bottom: bullet_comment_container.top
             anchors.bottomMargin: 20
             clip: true
             // Implements back key navigation

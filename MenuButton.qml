@@ -7,7 +7,9 @@ import Constants 1.0
 Rectangle{
     id : root
     //text: "Actions"
-    color: "transparent"
+    //color: "transparent"
+    color: Constants.menuButtonColor
+    radius: 10
 
     property Player player : Player{ id: tmpPlayer
 
@@ -24,8 +26,8 @@ Rectangle{
 
     Rectangle {
 
-        color: "light gray"
-        border.color: "black"
+        color: "transparent"
+        //border.color: "black"
         anchors.fill: parent
 
         MouseArea {
@@ -34,10 +36,11 @@ Rectangle{
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             onEntered: {
-                color = "grey"
+                //color = "grey"
+                color = "light gray"
             }
             onExited: {
-                color = "light gray"
+                color = Constants.menuButtonColor
             }
             onClicked: {
                 console.log("open menu...");
@@ -55,6 +58,7 @@ Rectangle{
         font.pointSize: 9
         font.family: Constants.primaryFont ? Constants.primaryFont.name: null
         text: qsTr("Actions")//+ status )
+        color: Constants.menuButtonTextColor
         anchors.centerIn: parent
     }
 

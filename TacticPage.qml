@@ -391,79 +391,79 @@ Rectangle
 
         }/*
 		function updateOffsideTrap(){
-			return monitorControl.UpdateOffsideTrap();
+            return monitorControl.UpdateOffsideTrap();
 		}
 		function updateHardTackle(){
-			return monitorControl.UpdateHardTackle();
+            return monitorControl.UpdateHardTackle();
 		}
 		function updateHighLineClosingDown(){
-			return monitorControl.UpdateHighLineClosingDown();
+            return monitorControl.UpdateHighLineClosingDown();
 		} 
 		function updateOffsideLine(){
-			return monitorControl.UpdateOffsideLine();
+            return monitorControl.UpdateOffsideLine();
 		}
 		function updatePreventPass(){
-			return monitorControl.UpdatePreventPass();
+            return monitorControl.UpdatePreventPass();
 		}
 		function updatePreventingCutInside(){
-			return monitorControl.UpdatePreventingCutInside();
+            return monitorControl.UpdatePreventingCutInside();
 		}
 		function updateTightMarking(){
-			return monitorControl.UpdateTightMarking();
+            return monitorControl.UpdateTightMarking();
 		} 
 		function updateStopsPlay(){
-			return monitorControl.UpdateStopsPlay();
+            return monitorControl.UpdateStopsPlay();
 		}
 		function updateGetsForward(){
-			return monitorControl.UpdateGetsForward();
+            return monitorControl.UpdateGetsForward();
 		}
 		function updateShootFromDistance(){
-			return monitorControl.UpdateShootFromDistance();
+            return monitorControl.UpdateShootFromDistance();
 		}
 		function updateStayBack(){
-			return monitorControl.UpdateStayBack();
+            return monitorControl.UpdateStayBack();
 		}
 		function updateRunDownTheLine(){
-			return monitorControl.UpdateRunDownTheLine();
+            return monitorControl.UpdateRunDownTheLine();
 		}
 		function updateMovesIntoChannels(){
-			return monitorControl.UpdateMovesIntoChannels();
+            return monitorControl.UpdateMovesIntoChannels();
 		}
 		function updatePreferDribbleOverPass(){
-			return monitorControl.UpdatePreferDribbleOverPass();
+            return monitorControl.UpdatePreferDribbleOverPass();
 		}
 		function updateDictatesTempo(){
-			return monitorControl.UpdateDictatesTempo();
+            return monitorControl.UpdateDictatesTempo();
 		}
 		function updateComesDeepToGetBall(){
-			return monitorControl.UpdateComesDeepToGetBall();
+            return monitorControl.UpdateComesDeepToGetBall();
 		}
 		function updateLongPasses(){
-			return monitorControl.UpdateLongPasses();
+            return monitorControl.UpdateLongPasses();
 		}
 		function updateRoundToKeeper(){
-			return monitorControl.UpdateRoundToKeeper();
+            return monitorControl.UpdateRoundToKeeper();
 		}
 		function updateBeatOffsideTrap(){
-			return monitorControl.UpdateBeatOffsideTrap();
+            return monitorControl.UpdateBeatOffsideTrap();
 		}
 		function updateCutInside(){
-			return monitorControl.UpdateCutInside();
+            return monitorControl.UpdateCutInside();
 		}
 		function updateCrossTheBallMoreOften(){
-			return monitorControl.UpdateCrossTheBallMoreOften();
+            return monitorControl.UpdateCrossTheBallMoreOften();
 		}
 		function updateRushOut(){
-			return monitorControl.UpdateRushOut();
+            return monitorControl.UpdateRushOut();
 		}
 		function updateForwardInCornerKick(){
-			return monitorControl.UpdateForwardInCornerKick();
+            return monitorControl.UpdateForwardInCornerKick();
 		}
 		function updatePassBallToDefender(){
-			return monitorControl.UpdatePassBallToDefender();
+            return monitorControl.UpdatePassBallToDefender();
 		}
 		function updateTriesKillerBallOften(){
-			return monitorControl.UpdateTriesKillerBallOften();
+            return monitorControl.UpdateTriesKillerBallOften();
 		}
 		function sendTactics(){
 			return monitorControl.sendTactics();
@@ -2302,7 +2302,7 @@ Rectangle
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-							monitorControl.UpdateOffsideTrap()
+                            monitorControl.UpdateOffsideTrap()
                             if(parent.checked === false){
                                 parent.checked = true
                             }else{parent.checked = false}
@@ -2317,7 +2317,7 @@ Rectangle
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-							monitorControl.UpdateHardTackle()
+                            monitorControl.UpdateHardTackle()
                             if(parent.checked === false){
                                 parent.checked = true
                             }else{parent.checked = false}
@@ -2332,7 +2332,7 @@ Rectangle
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-							monitorControl.UpdateHighLineClosingDown()
+                            monitorControl.UpdateHighLineClosingDown()
                             if(parent.checked === false){
                                 parent.checked = true
                             }else{parent.checked = false}
@@ -2347,7 +2347,7 @@ Rectangle
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-							monitorControl.UpdateOffsideLine()
+                            monitorControl.UpdateOffsideLine()
                             if(parent.checked === false){
                                 parent.checked = true
                             }else{parent.checked = false}
@@ -2362,7 +2362,7 @@ Rectangle
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-							monitorControl.UpdatePreventPass()
+                            monitorControl.UpdatePreventPass()
                             if(parent.checked === false){
                                 parent.checked = true
                             }else{parent.checked = false}
@@ -2377,7 +2377,7 @@ Rectangle
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-							monitorControl.UpdatePreventingCutInside()
+                            monitorControl.UpdatePreventingCutInside()
                             if(parent.checked === false){
                                 parent.checked = true
                             }else{parent.checked = false}
@@ -2392,7 +2392,7 @@ Rectangle
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-							monitorControl.UpdateTightMarking()
+                            monitorControl.UpdateTightMarking()
                             if(parent.checked === false){
                                 parent.checked = true
                             }else{parent.checked = false}
@@ -2407,7 +2407,7 @@ Rectangle
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-							monitorControl.UpdateRunDownTheLine()
+                            monitorControl.UpdateRunDownTheLine()
                             if(parent.checked === false){
                                 parent.checked = true
                             }else{parent.checked = false}
@@ -2422,7 +2422,7 @@ Rectangle
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-							monitorControl.UpdatePreferDribbleOverPass()
+                            monitorControl.UpdatePreferDribbleOverPass()
                             if(parent.checked === false){
                                 parent.checked = true
                             }else{parent.checked = false}
@@ -2437,7 +2437,7 @@ Rectangle
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-							monitorControl.UpdateLongPasses()
+                            monitorControl.UpdateLongPasses()
                             if(parent.checked === false){
                                 parent.checked = true
                             }else{parent.checked = false}
@@ -2497,7 +2497,7 @@ Rectangle
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-							monitorControl.UpdateForwardInCornerKick()
+                            monitorControl.UpdateForwardInCornerKick()
                             if(parent.checked === false){
                                 parent.checked = true
                             }else{parent.checked = false}
@@ -2512,7 +2512,7 @@ Rectangle
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-							monitorControl.UpdateRushOut()
+                            monitorControl.UpdateRushOut()
                             if(parent.checked === false){
                                 parent.checked = true
                             }else{parent.checked = false}
@@ -2527,7 +2527,7 @@ Rectangle
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-							monitorControl.UpdatePassBallToDefender()
+                            monitorControl.UpdatePassBallToDefender()
                             if(parent.checked === false){
                                 parent.checked = true
                             }else{parent.checked = false}
@@ -2616,7 +2616,7 @@ Rectangle
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-							monitorControl.UpdateTriesKillerBallOften()
+                            monitorControl.UpdateTriesKillerBallOften()
                             if(parent.checked === false){
                                 parent.checked = true
                             }else{parent.checked = false}
@@ -2631,7 +2631,7 @@ Rectangle
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-							monitorControl.UpdateStayBack()
+                            monitorControl.UpdateStayBack()
                             if(parent.checked === false){
                                 parent.checked = true
                             }else{parent.checked = false}
@@ -2790,7 +2790,7 @@ Rectangle
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-							monitorControl.UpdateCutInside()
+                            monitorControl.UpdateCutInside()
                             if(parent.checked === false){
                                 parent.checked = true
                             }else{parent.checked = false}
@@ -2861,7 +2861,7 @@ Rectangle
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-							monitorControl.UpdateCrossTheBallMoreOften()
+                            monitorControl.UpdateCrossTheBallMoreOften()
                             if(parent.checked === false){
                                 parent.checked = true
                             }else{parent.checked = false}
@@ -3232,7 +3232,7 @@ Rectangle
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-							monitorControl.UpdateDictatesTempo()
+                            monitorControl.UpdateDictatesTempo()
                             if(parent.checked === false){
                                 parent.checked = true
                             }else{parent.checked = false}
@@ -3261,7 +3261,7 @@ Rectangle
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-							monitorControl.UpdateComesDeepToGetBall()
+                            monitorControl.UpdateComesDeepToGetBall()
                             if(parent.checked === false){
                                 parent.checked = true
                             }else{parent.checked = false}
@@ -3354,7 +3354,7 @@ Rectangle
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-							monitorControl.UpdateStopsPlay()
+                            monitorControl.UpdateStopsPlay()
                             if(parent.checked === false){
                                 parent.checked = true
                             }else{parent.checked = false}
@@ -3517,7 +3517,7 @@ Rectangle
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-							monitorControl.UpdateGetsForward()
+                            monitorControl.UpdateGetsForward()
                             if(parent.checked === false){
                                 parent.checked = true
                             }else{parent.checked = false}
@@ -3546,7 +3546,7 @@ Rectangle
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-							monitorControl.UpdateShootFromDistance()
+                            monitorControl.UpdateShootFromDistance()
                             if(parent.checked === false){
                                 parent.checked = true
                             }else{parent.checked = false}
@@ -3681,7 +3681,7 @@ Rectangle
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-							monitorControl.UpdateMovesIntoChannels()
+                            monitorControl.UpdateMovesIntoChannels()
                             if(parent.checked === false){
                                 parent.checked = true
                             }else{parent.checked = false}
@@ -3964,7 +3964,7 @@ Rectangle
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-							monitorControl.UpdateRoundToKeeper()
+                            monitorControl.UpdateRoundToKeeper()
                             if(parent.checked === false){
                                 parent.checked = true
                             }else{parent.checked = false}
@@ -3979,7 +3979,7 @@ Rectangle
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-							monitorControl.UpdateBeatOffsideTrap()
+                            monitorControl.UpdateBeatOffsideTrap()
                             if(parent.checked === false){
                                 parent.checked = true
                             }else{parent.checked = false}

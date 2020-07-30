@@ -2,6 +2,12 @@ pragma Singleton
 import QtQuick 2.0
 
 Item{
+
+    // Main Window main.qml
+    readonly property int appWidth: 1466
+    readonly property int appHeight: 780
+
+
     //scroll Bar colors
     readonly property string scrollBarHandleColor: "#b4b4b4"
     readonly property string scrollBarHandleColorBorder: "#999999"
@@ -30,6 +36,7 @@ Item{
     //background colors
     readonly property string menuBackgroundColor: "#122c68"
     readonly property string menuTextColor : "#009edf"
+    readonly property string buttonMarginColor: "#fdc807"
     readonly property string backgroundLayerAlphaColor: "#2F4F4F"
     readonly property int menuRectRadius: 20
 

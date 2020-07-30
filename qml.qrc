@@ -16,11 +16,12 @@
         <file>icons/background.jpg</file>
         <file>icons/back-orange.png</file>
         <file>icons/check-black.png</file>
-        <file>icons/check-black.png</file>
         <file>icons/cross-blue.png</file>
         <file>icons/forward-orange.png</file>
         <file>icons/arrow-sharp-back.png</file>
+        <file>icons/arrow-sharp-back-disabled.png</file>
         <file>icons/arrow-sharp-forward.png</file>
+        <file>icons/arrow-sharp-forward-disabled.png</file>
         <file>icons/combo-arrow-black-down.png</file>
         <file>icons/maximize-blue.png</file>
         <file>icons/minimize-blue.png</file>
@@ -2553,5 +2554,7 @@
         <file>images/portrait/young.JPG</file>
         <file>ScrollBarHandle.qml</file>
         <file>Constants.qml</file>
+        <file>PlayerComboBox.qml</file>
+        <file>ButtonCM4.qml</file>
     </qresource>
 </RCC>
