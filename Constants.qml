@@ -6,7 +6,12 @@ Item{
     // Main Window main.qml
     readonly property int appWidth: 1466
     readonly property int appHeight: 780
+    readonly property int panelButtonWidth: 180
+    readonly property int panelWidth: panelButtonWidth * 5 + 10 //910
 
+    //Title Bar
+    readonly property int titleBarWidth: panelWidth  // 910
+    readonly property int titleBarHeight: 80
 
     //scroll Bar colors
     readonly property string scrollBarHandleColor: "#b4b4b4"

@@ -16,10 +16,6 @@ ApplicationWindow {
     width: Constants.appWidth
     height: Constants.appHeight
 
-    readonly property int panelButtonWidth: 180
-    readonly property int panelWidth: panelButtonWidth * 5 + 10
-    readonly property int titleBarWidth: panelWidth
-
     property MainWindow mainwindow: MainWindow{}
     property alias main_window: main_window
     property alias user: managerUser
@@ -301,7 +297,8 @@ ApplicationWindow {
             anchors.topMargin: 10
             anchors.left: timeRect.right
             anchors.leftMargin: 10
-            width: titleBarWidth
+            height: Constants.titleBarHeight
+            width: Constants.titleBarWidth
         }
 
         MenuButton {
@@ -434,7 +431,7 @@ ApplicationWindow {
             anchors.bottom: parent.bottom
             anchors.margins: 10
             anchors.left: app_title_bar.left
-            width: panelWidth
+            width: Constants.panelWidth
             height: 70
             z:10
             color: "transparent"
@@ -448,7 +445,7 @@ ApplicationWindow {
                 anchors.top: parent.top
                 anchors.left: parent.left
                 button_text: qsTr("Manager's HQ")
-                width: panelButtonWidth
+                width: Constants.panelButtonWidth
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
@@ -485,7 +482,7 @@ ApplicationWindow {
                 anchors.bottom: button_1.top
                 anchors.left: parent.left
                 button_text: qsTr("2D View")
-                width: panelButtonWidth
+                width: Constants.panelButtonWidth
                 MouseArea
                 {
                     anchors.fill: parent
@@ -509,7 +506,7 @@ ApplicationWindow {
                 anchors.bottom: parent.top
                 anchors.left: button_15.right
                 button_text: qsTr("Home Team Statistics")
-                width: panelButtonWidth
+                width: Constants.panelButtonWidth
                 MouseArea
                 {
                     anchors.fill: parent
@@ -536,7 +533,7 @@ ApplicationWindow {
                 anchors.bottom: parent.top
                 anchors.left: button_16.right
                 button_text: "Away Team Statistics"
-                width: panelButtonWidth
+                width: Constants.panelButtonWidth
                 MouseArea
                 {
                     anchors.fill: parent
@@ -561,7 +558,7 @@ ApplicationWindow {
                 id: button_19
                 anchors.bottom: parent.top
                 anchors.left: button_18.right
-                width: panelButtonWidth
+                width: Constants.panelButtonWidth
                 button_text: qsTr("Leave Post")
                 MouseArea {
                     anchors.fill: parent
@@ -607,7 +604,7 @@ ApplicationWindow {
                 anchors.left: button_18.right
                 button_text:qsTr("Retire")// Qt.binding(function() { return qsTrId("Retire") + localization.updateLanguage;})//qsTr("Retire") +//localization.updateLanguage//+ app.trTrigger
                 visible: false
-                width: panelButtonWidth
+                width: Constants.panelButtonWidth
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
@@ -649,7 +646,7 @@ ApplicationWindow {
                 anchors.left: button_18.right
                 button_text: qsTr("Resign")
                 visible: false
-                width: panelButtonWidth
+                width: Constants.panelButtonWidth
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
@@ -697,7 +694,7 @@ ApplicationWindow {
                 anchors.top: parent.top
                 anchors.left: button_1.right
                 button_text: qsTr("Squad")
-                width: panelButtonWidth
+                width: Constants.panelButtonWidth
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
@@ -740,7 +737,7 @@ ApplicationWindow {
                 anchors.top: parent.top
                 anchors.left: button_2.right
                 button_text: qsTr("Tactics Center")
-                width: panelButtonWidth
+                width: Constants.panelButtonWidth
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
@@ -769,7 +766,7 @@ ApplicationWindow {
                 anchors.top: parent.top
                 anchors.left: button_3.right
                 button_text: qsTr("Finance")
-                width: panelButtonWidth
+                width: Constants.panelButtonWidth
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
@@ -794,7 +791,7 @@ ApplicationWindow {
                 anchors.top: button_10.bottom
                 anchors.left: button_4.right
                 button_text: qsTr("News")
-                width: panelButtonWidth
+                width: Constants.panelButtonWidth
                 Rectangle {
                     id: flash
                     //                    anchors.top: parent.top
@@ -869,7 +866,7 @@ ApplicationWindow {
                 anchors.top: button_1.bottom
                 anchors.left: parent.left
                 button_text: qsTr("Next Opponent")
-                width: panelButtonWidth
+                width: Constants.panelButtonWidth
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
@@ -894,7 +891,7 @@ ApplicationWindow {
                 anchors.top: button_2.bottom
                 anchors.left: button_1.right
                 button_text: qsTr("Fixture")
-                width: panelButtonWidth
+                width: Constants.panelButtonWidth
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
@@ -922,7 +919,7 @@ ApplicationWindow {
                 anchors.top: button_3.bottom
                 anchors.left: button_2.right
                 button_text: qsTr("Searching Pool")
-                width: panelButtonWidth
+                width: Constants.panelButtonWidth
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
@@ -949,7 +946,7 @@ ApplicationWindow {
                 anchors.top: button_4.bottom
                 anchors.left: button_3.right
                 button_text:qsTr( "Current League")
-                width: panelButtonWidth
+                width: Constants.panelButtonWidth
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
@@ -977,7 +974,7 @@ ApplicationWindow {
                 anchors.top: parent.top
                 anchors.left: button_4.right
                 button_text: qsTr("Commentary Report")
-                width: panelButtonWidth
+                width: Constants.panelButtonWidth
                 MouseArea
                 {
                     anchors.fill: parent
@@ -1000,7 +997,7 @@ ApplicationWindow {
                 id: button_18
                 anchors.bottom: parent.top
                 anchors.left: button_17.right
-                width: panelButtonWidth
+                width: Constants.panelButtonWidth
                 button_text: qsTr("Additional")
 
                 //                property bool clickstatus: false
@@ -1047,7 +1044,7 @@ ApplicationWindow {
                 anchors.bottom: button_18.top
                 anchors.right: button_18.right
                 button_text: qsTr("Exit")
-                width: panelButtonWidth
+                width: Constants.panelButtonWidth
                 visible: false
                 z:11
 
@@ -1087,7 +1084,7 @@ ApplicationWindow {
                 anchors.bottom: button_13.top
                 anchors.right: button_18.right
                 button_text: qsTr("Config")
-                width: panelButtonWidth
+                width: Constants.panelButtonWidth
                 visible: false
                 z:11
 
@@ -1236,8 +1233,8 @@ ApplicationWindow {
             id: stackView
 //            //            anchors.left: panel_5_compr_buttons.left
             //            anchors.right: panel_5_compr_buttons.right
-            x: panel_5_compr_buttons.x - 60
-            width: panel_5_compr_buttons.width + 80
+            x: panel_5_compr_buttons.x
+            width: panel_5_compr_buttons.width
             anchors.top: flowing_comment_field.bottom
             anchors.topMargin: 10
             anchors.bottom: bullet_comment_container.top

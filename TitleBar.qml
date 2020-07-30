@@ -4,8 +4,8 @@ import Constants 1.0
 
 Item {
     id: app_title_bar
-    width: 830
-    height: 80
+    width: Constants.titleBarWidth
+    height: Constants.titleBarHeight
 
     property var forwardlist:[]
     property var forwardTitleProperties: []
