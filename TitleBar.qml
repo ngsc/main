@@ -7,15 +7,15 @@ Item {
     width: Constants.titleBarWidth
     height: Constants.titleBarHeight
 
-    property alias firstTeamColor: firstTeamScoreFigure.teamColor
-    property alias firstTeamName: firstTeamScoreFigure.teamName
+//    property alias firstTeamColor: firstTeamScoreFigure.teamColor
+    //property alias firstTeamName: firstTeamScoreFigure.teamName
     property alias firstTeamScore: firstTeamScoreFigure.score
-    property alias firstScoreVisible: firstTeamScoreFigure.visible
+    //property alias firstScoreVisible: firstTeamScoreFigure.visible
 
-    property alias secondTeamColor: secondTeamScoreFigure.color
-    property alias secondTeamName: secondTeamScoreFigure.teamName
+//    property alias secondTeamColor: secondTeamScoreFigure.color
+    //property alias secondTeamName: secondTeamScoreFigure.teamName
     property alias secondTeamScore: secondTeamScoreFigure.score
-    property alias secondScoreVisible: secondTeamScoreFigure.visible
+    //property alias secondScoreVisible: secondTeamScoreFigure.visible
 
     property var forwardlist:[]
     property var forwardTitleProperties: []
@@ -171,6 +171,10 @@ Item {
             width: parent.width / 2
             anchors.top: parent.top
             anchors.bottom: parent.bottom
+            teamColor: monitorControl.leftClub ? monitorControl.leftClub.background1Value : null
+            teamName: monitorControl.leftClub ? monitorControl.leftClub.name : null
+//            score: monitorControl.leftClub ? monitor.leftScore : null
+            visible: monitorControl.leftClub ? true : false
         }
         TeamScoreRectangle
         {
@@ -180,6 +184,10 @@ Item {
             width: parent.width / 2
             anchors.top: parent.top
             anchors.bottom: parent.bottom
+            teamColor: monitorControl.rightClub ? monitorControl.rightClub.background1Value: null
+            teamName: monitorControl.rightClub ? monitorControl.rightClub.name : null
+//            score: monitor.rightClub ? monitor.rightScore : null
+            visible: monitorControl.rightClub ? true : false
         }
 
         Text

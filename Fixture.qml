@@ -620,7 +620,7 @@ Rectangle {
     }
     Connections {
         target: monitorControl
-        onTcpFullMessageReceived:
+        onLiveMatchDataChanged:
         {
             app.busyIndicatorMatchStart.running = false;
         }
@@ -647,7 +647,7 @@ Rectangle {
             {
                 callinsidepage2(monitor);
                 monitor.hideButtonsStartMatchOnClicked(false);
-                monitorControl.startMatchServerCmd(managerUser.clubId, root.lastInvitedClubId);
+                monitorControl.startMatchServerCmd(managerUser.token, managerUser.clubId, root.lastInvitedClubId );
                 app.busyIndicatorMatchStart.running = true;
                 root.lastInviteeId = -1;
             }

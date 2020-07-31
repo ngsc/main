@@ -49,6 +49,8 @@
 #include "qprocess.h"
 #include "simplecrypt.h"
 #include "qfile.h"
+#include "apiconnection.h"
+#include "club.h"
 
 #include<sstream>
 #include<iomanip>
@@ -85,6 +87,8 @@ MonitorControl::MonitorControl()
     , M_config_dialog( static_cast< ConfigDialog * >( 0 ) )
     , M_field_canvas( static_cast< FieldCanvas * >( 0 ) )
     , m_background_process(new QProcess( this ) )
+    , M_left_club( nullptr )
+    , M_right_club( nullptr )
 {
 }
 
@@ -113,7 +117,7 @@ MonitorControl::init()
         connectMonitor();
     }
 }
-void MonitorControl::startMatchServerCmd(int homeClubId, int awayClubId )
+void MonitorControl::startMatchServerCmd(QString token, int homeClubId, int awayClubId )
 {
     using namespace ClientConstants;
 
@@ -129,6 +133,36 @@ void MonitorControl::startMatchServerCmd(int homeClubId, int awayClubId )
     QString startServerCmd = "./startserver.sh 0 " + QString::number(homeClubId) + " " + QString::number(awayClubId) + " 0 0";
     QString cmd = "plink -ssh -no-antispoof " + user + "@" + serverHost +  " -pw " + decrypted + " \"pkill matchserver ; cd " + matchServerSrcPath + " ; "  + startServerCmd + "\"";
     m_background_process->start( cmd );
+
+    connect(
+        APIConnection::getInstance(), &APIConnection::getClubDetailsFinished,
+        [this, homeClubId, awayClubId](Club *club)
+            {
+                if( club->id() == homeClubId )
+                {
+                    M_left_club = club;
+                    emit leftClubChanged();
+                }
+                if( club->id() == awayClubId )
+                {
+                    M_right_club = club;
+                    emit rightClubChanged();
+                }
+            }
+    );
+    APIConnection::getInstance()->getClubDetails(token, awayClubId);
+    APIConnection::getInstance()->getClubDetails(token, homeClubId);
+
+}
+
+Club* MonitorControl::getLeftClub()
+{
+    return M_left_club;
+}
+
+Club* MonitorControl::getRightClub()
+{
+    return M_right_club;
 }
 
 void
@@ -156,7 +190,10 @@ MonitorControl::connectMonitorTo( const char * hostname )
         M_monitor_client, &MonitorClient::tcpFullMessageReceived,
         [this]()
         {
-            emit tcpFullMessageReceived();
+            update();
+            emit leftScoreChanged();
+            emit rightScoreChanged();
+            emit liveMatchDataChanged();
         }
     );
     if ( ! M_monitor_client->isConnected() )
@@ -556,6 +593,11 @@ MonitorControl::sendPlayerSubstitute(int player1_id, int player2_id) {
 }
 
 QString
+MonitorControl::getLeftTeamScore() {
+    return getLeftScore();
+}
+
+QString
 MonitorControl::getLeftScore() {
 	DispConstPtr disp = M_disp_holder.currentDisp();
 	if (!disp)
@@ -563,6 +605,11 @@ MonitorControl::getLeftScore() {
 		return NULL;
 	}
 	return QVariant(disp->team_[0].score_).toString();
+}
+
+QString
+MonitorControl::getRightTeamScore() {
+    return getRightScore();
 }
 QString
 MonitorControl::getRightScore() {

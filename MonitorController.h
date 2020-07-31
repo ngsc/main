@@ -48,17 +48,23 @@
 #include "player_painter.h"
 #include "config_dialog.h"
 
-
 class ConfigDialog;
 class FieldCanvas;
 class LogPlayer;
 class MonitorClient;
 class PlayerTypeDialog;
 class QProcess;
+class Club;
 
 class MonitorControl : public QObject
 {
     Q_OBJECT
+
+    Q_PROPERTY( Club* leftClub  READ getLeftClub NOTIFY leftClubChanged )
+    Q_PROPERTY( Club* rightClub READ getRightClub NOTIFY rightClubChanged )
+    Q_PROPERTY( QString leftScore READ getLeftTeamScore NOTIFY leftScoreChanged )
+    Q_PROPERTY( QString rightScore READ getRightTeamScore NOTIFY rightScoreChanged )
+
 private:
 
     struct Param {
@@ -87,13 +93,22 @@ private:
     ConfigDialog * M_config_dialog;
     FieldCanvas * M_field_canvas;
     QProcess* m_background_process;
+    Club* M_left_club; // home club
+    Club* M_right_club; // away club
+
 
 public:
     MonitorControl();
     ~MonitorControl();
 
     void init();
-    Q_INVOKABLE void startMatchServerCmd(int homeClubId, int awayClubId );
+    Q_INVOKABLE void startMatchServerCmd(QString token, int homeClubId, int awayClubId );
+
+    Club* getLeftClub();
+    Club* getRightClub();
+    QString getLeftTeamScore();
+    QString getRightTeamScore();
+
 private:
 
     void connectMonitorTo( const char * hostname );
@@ -144,7 +159,11 @@ public slots:
     void updateTeamTacticMask( int tactType, bool value );
 
 signals:
-    void tcpFullMessageReceived();
+    void liveMatchDataChanged();
+    void leftClubChanged();
+    void rightClubChanged();
+    void leftScoreChanged();
+    void rightScoreChanged();
 };
 
 #endif

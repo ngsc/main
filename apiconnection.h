@@ -105,6 +105,8 @@ public:
 
     explicit APIConnection(QObject *parent = nullptr);
 
+    static APIConnection* getInstance();
+
     static void setToken(QString& token);
 
     void parseJson(const QString& json);
@@ -250,6 +252,7 @@ private:
     static QString s_token;
     const static QString s_apiUrl;
     Club *m_SelectedClub = nullptr;
+    static APIConnection* s_instance;
 };
 
 __forceinline void APIConnection::parseJson(const QString &json)

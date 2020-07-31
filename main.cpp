@@ -32,7 +32,7 @@
 #include <windows.h>
 
 static QObject* createApiConnection(QQmlEngine*, QJSEngine*) {
-    return new APIConnection();
+    return APIConnection::getInstance();
 }
 
 int main(int argc, char *argv[])

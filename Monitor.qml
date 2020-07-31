@@ -26,7 +26,7 @@ Rectangle
             game_start.button_text = "Prepared?";	//User can set tactics on the tactics center meanwhile
             if(startServer)
             {
-                monitorControl.startMatchServerCmd(23292170,406)
+                monitorControl.startMatchServerCmd( managerUser.token, 23292170, 406 )
             }
 
         }
@@ -68,15 +68,13 @@ Rectangle
         }
 
         start.start();
-        timer.start();
-        monitor_timer.start();
         game_info_timer.start();
         foul_card_timer.start();
     }
 
     Connections{
         target: monitorControl
-        onTcpFullMessageReceived: {
+        onLiveMatchDataChanged: {
             game_start.visible = false;
         }
     }
@@ -428,7 +426,6 @@ Rectangle
         //Player
         function getPlayerPoint(player_id)
         {
-            //timer.start()
             return playerControl.getPlayerPoint(player_id);
         }
         //Player Move
@@ -447,7 +444,6 @@ Rectangle
         }
         function getPlayerColor(player_id)
         {
-            //timer.start()
             return playerControl.getPlayerColor(player_id);
         }
         // body angle + neck angle
@@ -465,16 +461,6 @@ Rectangle
         function sendTacticCommand()
         {
             monitorControl.sendTactics(managerUser.clubName);
-        }
-        Timer {
-            id: timer
-            interval: 16
-            running: false
-            repeat: true
-
-            onTriggered: {
-                monitorControl.update();
-            }
         }
         // function delay(delayTime, cb) {
         //     timer.interval = delayTime;
@@ -525,23 +511,19 @@ Rectangle
         //     game_info_timer.start();
         // }
 
-        Timer {
-            id: monitor_timer
-            interval: 16
-            repeat: true
-            running: false
+        Connections {
+            target: monitorControl
 
-            onTriggered: {
-                //score_card.left_team_color = getPlayerColor(0)
+            onLiveMatchDataChanged:
+            {
+                //app_title_bar.firstTeamColor = playerControl.getPlayerColor(1) !== null ? playerControl.getPlayerColor(1) : "transparent";                app_title_bar.secondTeamColor = playerControl.getPlayerColor(13) !== null ? playerControl.getPlayerColor(13) : "transparent";                app_title_bar.firstScoreVisible = false;                if( monitorControl.getRightName().trim().length > 0 )
                 //score_card.left_team_name = monitorControl.getLeftName()
                 //score_card.left_team_score = monitorControl.getLeftScore()
-                app_title_bar.firstTeamColor = playerControl.getPlayerColor(1) !== null ? playerControl.getPlayerColor(1) : "transparent";
-                app_title_bar.secondTeamColor = playerControl.getPlayerColor(13) !== null ? playerControl.getPlayerColor(13) : "transparent";
-                app_title_bar.firstScoreVisible = false;
+                //app_title_bar.firstTeamColor = playerControl.getPlayerColor(1) !== null ? playerControl.getPlayerColor(1) : "transparent";
+                //app_title_bar.secondTeamColor = playerControl.getPlayerColor(13) !== null ? playerControl.getPlayerColor(13) : "transparent";
+                //app_title_bar.firstScoreVisible = false;
                 if( monitorControl.getRightName().trim().length > 0 )
                 {
-                    app_title_bar.firstScoreVisible = true
-                    app_title_bar.firstTeamName = monitorControl.getRightName();
                     if( monitorControl.getRightScore().trim().length > 0 )
                     {
                       app_title_bar.firstTeamScore = monitorControl.getRightScore();
@@ -551,11 +533,8 @@ Rectangle
                         app_title_bar.firstTeamScore = 0;
                     }
                 }
-                app_title_bar.secondScoreVisible = false;
                 if( monitorControl.getLeftName().trim().length > 0 )
                 {
-                    app_title_bar.secondScoreVisible = true;
-                    app_title_bar.secondTeamName = monitorControl.getLeftName();
                     if( monitorControl.getLeftScore().trim().length > 0 )
                     {
                         app_title_bar.secondTeamScore = monitorControl.getLeftScore();
@@ -575,9 +554,6 @@ Rectangle
                         ball.x = getBallPoint()[0] + 263; //HACK
                         ball.y = getBallPoint()[1] + 4.5; //HACK
                     }
-                //score_card.right_team_color = getPlayerColor(11)
-                //score_card.right_team_name = monitorControl.getRightName()
-                //score_card.right_team_score = monitorControl.getRightScore()
                 for(var i = 0; i < players_right.model; i++)
                     {
                         players_right.itemAt(i).color = getPlayerColor(i+11)
@@ -590,38 +566,6 @@ Rectangle
                     }
             }
         }
-        // function delay_monitor(delay_monitor, cb) {
-        //     monitor_timer.interval = delay_monitor;
-        //     monitor_timer.repeat = true;
-        //     monitor_timer.triggered.connect(cb);
-        //     monitor_timer.start();
-        // }
-        // Component.onCompleted: {
-        //     // delay_monitor(15, function(){
-        //     //     monitorControl.update();
-        //     // })
-
-        //     // delay(16, function() {
-        //     //         for(var i = 0; i < players.model; i++)
-        //     //         {
-        //     //             players.itemAt(i).color = getPlayerColor(i)
-        //     //             players.itemAt(i).x = getPlayerPoint(i)[0] + 7.5 // HACK
-        //     //             players.itemAt(i).y = getPlayerPoint(i)[1]
-        //     //             players.itemAt(i).player_right.player_neck.rotation = getPlayerNeckAngle(i)
-        //     //             ball.x = getBallPoint()[0] + 263;
-        //     //             ball.y = getBallPoint()[1] + 3.5;
-        //     //         }
-        //     // })
-
-        //     // delay_game_info(15, function(){
-        //     //     game_info_text.text = getGameInfo();
-        //     // })
-        //     monitorControl.monitorStart();
-        //     // if(!monitorControl.isConnected())
-        //     // {
-        //     //     monitorControl.monitorStart();
-        //     // }
-        // }
 }
 
 

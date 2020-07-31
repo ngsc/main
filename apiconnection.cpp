@@ -4,6 +4,7 @@
 
 QString APIConnection::s_token = "";
 const QString APIConnection::s_apiUrl = "http://" + ClientConstants::serverHost;
+APIConnection* APIConnection::s_instance = nullptr;
 
 APIConnection::APIConnection(QObject *parent)
 : QObject(parent)
@@ -23,6 +24,15 @@ APIConnection::APIConnection(QObject *parent)
 void APIConnection::setToken(QString &token)
 {
     s_token = token;
+}
+
+APIConnection* APIConnection::getInstance()
+{
+    if( !s_instance )
+    {
+        s_instance = new APIConnection();
+    }
+    return s_instance;
 }
 
 void APIConnection::signIn(const QString& username, const QString& password)

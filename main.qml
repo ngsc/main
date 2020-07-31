@@ -1628,29 +1628,32 @@ ApplicationWindow {
         }
 
         onGetClubDetailsFinished: {
-            app.busyIndicator.running = false
-            console.log("get club details finished...")
-            managerUser.club = club
+            if ( !managerUser.club && managerUser.clubId === club.id )
+            {
+                app.busyIndicator.running = false
+                console.log("get club details finished...")
+                managerUser.club = club
 
-            if (clubDetailsforManager) {
-                clubPage.setclubDetailsforManager()
-            } else {
-                clubPage.setClub()
+                if (clubDetailsforManager) {
+                    clubPage.setclubDetailsforManager()
+                } else {
+                    clubPage.setClub()
+                }
+
+                //            if(clubDetailsforManager===0){
+                //                clubPage.setClub()
+                //            }else if(clubDetailsforManager===1){
+                //                clubPage.setclubDetailsforManager()
+                //            }else if(clubDetailsforManager===2){
+
+                //            }
+                app_title_bar.selectedclubportrait = "file:///" + applicationPath
+                        + "../images/clubs/normal/" + managerUser.club.id + ".png"
+
+                console.log("club name: " + managerUser.club.name)
+                console.log("foreground: " + managerUser.club.foreground1Value)
+                console.log("background: " + managerUser.club.background1Value)
             }
-
-            //            if(clubDetailsforManager===0){
-            //                clubPage.setClub()
-            //            }else if(clubDetailsforManager===1){
-            //                clubPage.setclubDetailsforManager()
-            //            }else if(clubDetailsforManager===2){
-
-            //            }
-            app_title_bar.selectedclubportrait = "file:///" + applicationPath
-                    + "../images/clubs/normal/" + managerUser.club.id + ".png"
-
-            console.log("club name: " + managerUser.club.name)
-            console.log("foreground: " + managerUser.club.foreground1Value)
-            console.log("background: " + managerUser.club.background1Value)
         }
 
         onGetUserStatus: {

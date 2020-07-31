@@ -31,7 +31,7 @@ Rectangle
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 5
         width: height
-        color: "white"
+        color: root.teamColor
         border.width: 2
         border.color: "black"
         radius: Constants.menuRectRadius
@@ -41,7 +41,7 @@ Rectangle
             anchors.horizontalCenter: parent.horizontalCenter
             font.pointSize: Constants.defaultClubFontSize; font.bold: true
             font.family: Constants.primaryFont ? Constants.primaryFont.name: null
-            text: score
+            text: root.score
             //text: "First team"
         }
     }
