@@ -166,6 +166,7 @@ Item {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             teamColor: stackView.__currentItem === monitor && monitorControl.leftClub && monitorControl.rightClub  ? monitorControl.leftClub.background1Value : null
+            teamTextColor: stackView.__currentItem === monitor && monitorControl.leftClub && monitorControl.rightClub  ? textColor : null
             teamName: stackView.__currentItem === monitor && monitorControl.leftClub && monitorControl.rightClub ? monitorControl.leftClub.name : null
 //            score: monitorControl.leftClub ? monitor.leftScore : null
             visible: stackView.__currentItem === monitor && monitorControl.leftClub && monitorControl.rightClub ? true : false
@@ -179,6 +180,7 @@ Item {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             teamColor: stackView.__currentItem === monitor && monitorControl.leftClub && monitorControl.rightClub ? monitorControl.rightClub.background1Value: null
+            teamTextColor: stackView.__currentItem === monitor && monitorControl.leftClub && monitorControl.rightClub  ? textColor : null
             teamName: stackView.__currentItem === monitor && monitorControl.leftClub && monitorControl.rightClub ? monitorControl.rightClub.name : null
 //            score: monitor.rightClub ? monitor.rightScore : null
             visible: stackView.__currentItem === monitor && monitorControl.leftClub && monitorControl.rightClub ? true : false
