@@ -7,15 +7,9 @@ Item {
     width: Constants.titleBarWidth
     height: Constants.titleBarHeight
 
-//    property alias firstTeamColor: firstTeamScoreFigure.teamColor
-    //property alias firstTeamName: firstTeamScoreFigure.teamName
     property alias firstTeamScore: firstTeamScoreFigure.score
-    //property alias firstScoreVisible: firstTeamScoreFigure.visible
 
-//    property alias secondTeamColor: secondTeamScoreFigure.color
-    //property alias secondTeamName: secondTeamScoreFigure.teamName
     property alias secondTeamScore: secondTeamScoreFigure.score
-    //property alias secondScoreVisible: secondTeamScoreFigure.visible
 
     property var forwardlist:[]
     property var forwardTitleProperties: []
@@ -158,8 +152,8 @@ Item {
         opacity: 1.0
 
         gradient: Gradient {
-            GradientStop { position: 0.0; color: Qt.lighter(backgroundColor)}
-            GradientStop { position: 1.0; color: backgroundColor}
+            GradientStop { position: 0.0; color: stackView.__currentItem === monitor && monitorControl.leftClub && monitorControl.rightClub ? "transparent" : Qt.lighter(backgroundColor)}
+            GradientStop { position: 1.0; color: stackView.__currentItem === monitor && monitorControl.leftClub && monitorControl.rightClub ? "transparent" : backgroundColor}
         }
 
         MouseArea{cursorShape: Qt.PointingHandCursor}
@@ -168,26 +162,26 @@ Item {
             id: firstTeamScoreFigure
             z: 1
             anchors.left: parent.left
-            width: parent.width / 2
+            width: parent.width / 2 - 1
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            teamColor: monitorControl.leftClub ? monitorControl.leftClub.background1Value : null
-            teamName: monitorControl.leftClub ? monitorControl.leftClub.name : null
+            teamColor: stackView.__currentItem === monitor && monitorControl.leftClub && monitorControl.rightClub  ? monitorControl.leftClub.background1Value : null
+            teamName: stackView.__currentItem === monitor && monitorControl.leftClub && monitorControl.rightClub ? monitorControl.leftClub.name : null
 //            score: monitorControl.leftClub ? monitor.leftScore : null
-            visible: monitorControl.leftClub ? true : false
+            visible: stackView.__currentItem === monitor && monitorControl.leftClub && monitorControl.rightClub ? true : false
         }
         TeamScoreRectangle
         {
             z: 1
             id: secondTeamScoreFigure
             anchors.right: parent.right
-            width: parent.width / 2
+            width: parent.width / 2 - 1
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            teamColor: monitorControl.rightClub ? monitorControl.rightClub.background1Value: null
-            teamName: monitorControl.rightClub ? monitorControl.rightClub.name : null
+            teamColor: stackView.__currentItem === monitor && monitorControl.leftClub && monitorControl.rightClub ? monitorControl.rightClub.background1Value: null
+            teamName: stackView.__currentItem === monitor && monitorControl.leftClub && monitorControl.rightClub ? monitorControl.rightClub.name : null
 //            score: monitor.rightClub ? monitor.rightScore : null
-            visible: monitorControl.rightClub ? true : false
+            visible: stackView.__currentItem === monitor && monitorControl.leftClub && monitorControl.rightClub ? true : false
         }
 
         Text
@@ -195,7 +189,7 @@ Item {
             id: title_text
             anchors.centerIn: parent
             property int vco: 0
-            color: textColor
+            color: stackView.__currentItem === monitor && monitorControl.leftClub && monitorControl.rightClub ? "transparent" : textColor
             font.family: Constants.primaryFont ? Constants.primaryFont.name: null
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter

@@ -546,7 +546,7 @@ Rectangle
                 }
                 for(var i = 0; i < players_left.model; i++)
                     {
-                        players_left.itemAt(i).color = getPlayerColor(i)
+                        players_left.itemAt(i).color = monitorControl.leftClub.background1Value
                         players_left.itemAt(i).x = getPlayerPoint(i)[0] + 7.5 // HACK
                         players_left.itemAt(i).y = getPlayerPoint(i)[1] - 10
                         players_left.itemAt(i).neck_rotation = playerControl.getPlayerNeckAngle(i)
@@ -556,7 +556,7 @@ Rectangle
                     }
                 for(var i = 0; i < players_right.model; i++)
                     {
-                        players_right.itemAt(i).color = getPlayerColor(i+11)
+                        players_right.itemAt(i).color = monitorControl.rightClub.background1Value
                         players_right.itemAt(i).x = getPlayerPoint(i+11)[0] + 7.5-(pitch.width / 2) // HACK
                         players_right.itemAt(i).y = getPlayerPoint(i+11)[1] - 10
                         players_right.itemAt(i).neck_rotation = playerControl.getPlayerNeckAngle(i+11)
