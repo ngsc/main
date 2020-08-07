@@ -221,9 +221,9 @@ ApplicationWindow {
         }
 
         Rectangle{
-            id: timeRect
-            width: 120
-//            height: 80
+            id: leftSideBarRect
+            width: Constants.leftSideBarWidth
+            height: Constants.leftSideBarHeight
 //            color: "black"
             gradient: Gradient {
                 GradientStop { position: 0.0; color: Qt.lighter( Constants.menuBackgroundColor )}
@@ -236,8 +236,6 @@ ApplicationWindow {
             anchors.topMargin: 10
             anchors.left: parent.left
             anchors.leftMargin: 10
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 10
             Text {
                 id: timeText
                 horizontalAlignment: Text.AlignHCenter
@@ -295,7 +293,7 @@ ApplicationWindow {
             id: app_title_bar
             anchors.top: parent.top
             anchors.topMargin: 10
-            anchors.left: timeRect.right
+            anchors.left: leftSideBarRect.right
             anchors.leftMargin: 10
             height: Constants.titleBarHeight
             width: Constants.titleBarWidth

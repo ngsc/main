@@ -15,6 +15,10 @@ Item{
     readonly property int defaultTitleFontSize: 30
     readonly property int defaultClubFontSize: 13
 
+    // Side Bar
+    readonly property int leftSideBarWidth: 120
+    readonly property int leftSideBarHeight: 160
+
     //scroll Bar colors
     readonly property string scrollBarHandleColor: "#b4b4b4"
     readonly property string scrollBarHandleColorBorder: "#999999"
