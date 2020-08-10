@@ -35,7 +35,7 @@ Rectangle
             game_start.startTime = 0
             game_start.currTime = 0
             if(!monitorControl.isConnected()){
-                game_start.button_text = "Waiting match start";
+                game_start.button_text = "      Waiting match start\nChestnut proudly presents\n       Work in progress";
                 monitorControl.getMatchParams();
             }
             hideButtonsStartMatch();
@@ -50,7 +50,7 @@ Rectangle
     if(game_start.currTime - game_start.startTime >= 5000){
         innerTimer.stop();
         if(!monitorControl.isConnected()){
-            game_start.button_text = "Waiting match start";
+            game_start.button_text = "      Waiting match start\nChestnut proudly presents\n       Work in progress";
             monitorControl.getMatchParams();
             }
         hideButtonsStartMatch();
@@ -115,6 +115,8 @@ Rectangle
     ButtonMainPage
         {
             id: game_start
+            width: 300
+//            height: 150
             anchors.verticalCenter: parent.verticalCenter
             anchors.horizontalCenter: parent.horizontalCenter
             button_text: "Start"
