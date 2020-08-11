@@ -68,14 +68,13 @@ Rectangle
         }
 
         start.start();
-        game_info_timer.start();
-        foul_card_timer.start();
     }
 
     Connections{
         target: monitorControl
-        onLiveMatchDataChanged: {
-            game_start.visible = false;
+        onConnectedChanged: {
+            if(monitorControl.connected)
+                game_start.visible = false;
         }
     }
 
@@ -173,7 +172,7 @@ Rectangle
         anchors.horizontalCenter: pitch.horizontalCenter
         Text {
             id: game_info_text
-            text: "Game info."
+            text: monitorControl.pitchInfo
             color: "white"
             anchors.left: game_info.left
             anchors.leftMargin: 20
@@ -192,8 +191,6 @@ Rectangle
         anchors.right:	parent.right
         anchors.rightMargin: 10
         color: 'black'
-        property alias foul_text: card_info_text.text
-        property alias foul_color:foul_card.color
         Rectangle{
             id:foul_card
             width:14
@@ -202,12 +199,11 @@ Rectangle
             anchors.left: foul_card_box.left
             anchors.leftMargin:4
             anchors.verticalCenter: foul_card_box.verticalCenter
-            color: 'limegreen'
+            color: monitorControl.foulCardInfo.startsWith("Red") ? 'red' : monitorControl.foulCardInfo.startsWith("Yellow") ? 'yellow' : 'limegreen'
                 }
         Text{
             id:card_info_text
-            text: "Foul Card Display"
-            anchors.left: foul_card.right
+            text: monitorControl.foulCardInfo
             anchors.leftMargin:4
             anchors.verticalCenter: parent.verticalCenter
             font.pointSize: 6
@@ -230,8 +226,8 @@ Rectangle
     //ball
     Rectangle{
         id: ball
-        x: pitch.x + pitch.height / 2
-        y: pitch.x + pitch.width / 2
+        x: monitorControl.ballPosition.x === -1 ? pitch.x + pitch.height / 2 : monitorControl.ballPosition.x + 263
+        y: monitorControl.ballPosition.y === -1 ? pitch.x + pitch.width / 2 : monitorControl.ballPosition.y + 4.5
         height: 5
         width: 5
         radius: 5
@@ -249,19 +245,19 @@ Rectangle
         anchors.topMargin: 35
         Repeater {
             id: players_right
-            model: 11
+            model: monitorControl.getRightLiveMatchPlayerInfoModel();
             Rectangle{
                 id: player_right
                 width: 15
                 height: 15
                 radius: 15
+                x: model.playerPosition.x + 7.5 - (pitch.width / 2) //HACK
+                y: model.playerPosition.y - 10
                 visible: true
-                //color: "black"
+                color: model.playerColor
                 z : parent.z + 100
                 border.width: 0.5
                 border.color: "black"
-                property int body_rotation: 0
-                property int neck_rotation: 0
                 Rectangle{
                     id: player_right_inner_circle
                     width: 5
@@ -277,7 +273,7 @@ Rectangle
 
                 Text {
                     id: player_right_number	//remove in final release
-                    text: index % 11 + 1
+                    text: model.number
                     color: "white"
                     anchors.bottom: parent.top
                     anchors.left: parent.right
@@ -296,7 +292,7 @@ Rectangle
                     anchors.horizontalCenter: parent.horizontalCenter
                     color: "black"
                     transformOrigin: Item.Bottom
-                    rotation: player_right.body_rotation + player_right.neck_rotation
+                    rotation: model.bodyAngle + model.neckAngle
                     }
                 Rectangle{
                     // is actually a line
@@ -309,7 +305,7 @@ Rectangle
                     anchors.horizontalCenter: parent.horizontalCenter
                     color: "black"
                     transformOrigin: Item.Bottom
-                    rotation: player_right.body_rotation
+                    rotation: model.bodyAngle
                 }
                 /*MouseArea {
                     anchors.fill: parent
@@ -331,21 +327,26 @@ Rectangle
         anchors.topMargin: 35
         anchors.left: parent.left
         anchors.leftMargin: 250
+        //property var leftLiveMatchPlayerInfoModel monitorControl.getLeftLiveMatchPlayerInfoModel()
+        //property var rightLiveMatchPlayerInfoModel monitorControl.getRightLiveMatchPlayerInfoModel()
+
         Repeater {
             id: players_left
-            model: 11
+            model: monitorControl.getLeftLiveMatchPlayerInfoModel();
             Rectangle{
                 id: player_left
                 width: 15
                 height: 15
                 radius: 15
                 visible: true
-                color: "black"
+//                players_left.itemAt(i).x = getPlayerPoint(i)[0] + 7.5 // HACK
+//                players_left.itemAt(i).y = getPlayerPoint(i)[1] - 10
+                x: model.playerPosition.x + 7.5 // HACK
+                y: model.playerPosition.y - 10
+                color: model.playerColor
                 z : parent.z + 100
                 border.width: 0.5
-                border.color: "black"
-                property int neck_rotation: 0
-                property int body_rotation: 0
+                border.color: model.playerColor
                 Rectangle{
                     id: player_left_inner_cicle
                     width: 5
@@ -360,7 +361,7 @@ Rectangle
                 }
                 Text {
                     id: player_number1
-                    text: index % 11 + 1
+                    text: model.number
                     color: "white"
                     anchors.bottom: parent.top
                     anchors.left: parent.right
@@ -378,7 +379,7 @@ Rectangle
                     anchors.horizontalCenter: parent.horizontalCenter
                     color: "black"
                     transformOrigin: Item.Bottom
-                    rotation: player_left.body_rotation + player_left.neck_rotation
+                    rotation: model.bodyAngle + model.neckAngle
                 }
                 Rectangle{
                     z:parent.z +1
@@ -390,7 +391,7 @@ Rectangle
                     anchors.horizontalCenter: parent.horizontalCenter
                     color: "black"
                     transformOrigin: Item.Bottom
-                    rotation: player_left.body_rotation
+                    rotation: model.bodyAngle
                 }
                 /*MouseArea {
                     anchors.fill: parent
@@ -414,160 +415,37 @@ Rectangle
         }
     }
 
+//    //Player Move
+//    function sendPlayerMove(player_id)
+//    {
+//        return monitorControl.sendPlayerMove(player_id,players_left.itemAt(player_id).x - 7.5,players_left.itemAt(player_id).y+10,players_left.itemAt(player_id).rotate);
+//    }
 
-        //Game info
-        function getGameInfo()
-        {
-            return playerControl.getPitchInfo();
-        }
-        //Ball
-        function getBallPoint()
-        {
-            return playerControl.getBallPoint();
-        }
-        //Player
-        function getPlayerPoint(player_id)
-        {
-            return playerControl.getPlayerPoint(player_id);
-        }
-        //Player Move
-        function sendPlayerMove(player_id)
-        {
-            return monitorControl.sendPlayerMove(player_id,players_left.itemAt(player_id).x - 7.5,players_left.itemAt(player_id).y+10,players_left.itemAt(player_id).rotate);
-        }
-        //Foul Card
-        function getFoulCardInfo()
-        {
-            return playerControl.getFoulCardInfo();
-        }
-        function getFoulCardColor()
-        {
-            return playerControl.getFoulCardColor();
-        }
-        function getPlayerColor(player_id)
-        {
-            return playerControl.getPlayerColor(player_id);
-        }
-        // body angle + neck angle
-        function getPlayerAngle(player_id)
-        {
-            return playerControl.getPlayerNeckAngle(player_id) + playerControl.getPlayerBodyAngle(player_id);
-        }
+    //Monitor
+    function monitorStart()
+    {
+        monitorControl.monitorStart();
+    }
+    //Tactics
+    function sendTacticCommand()
+    {
+        monitorControl.sendTactics(managerUser.clubName);
+    }
 
-        //Monitor
-        function monitorStart()
-        {
-            monitorControl.monitorStart();
-        }
-        //Tactics
-        function sendTacticCommand()
-        {
-            monitorControl.sendTactics(managerUser.clubName);
-        }
-        // function delay(delayTime, cb) {
-        //     timer.interval = delayTime;
-        //     timer.repeat = true;
-        //     timer.triggered.connect(cb);
-        //     timer.start();
-        // }
+    Timer {
+        id: start
+        repeat: true
+        running: false
+        interval: 2000
 
-        Timer {
-            id: start
-            repeat: true
-            running: false
-            interval: 2000
-
-            onTriggered: {
-                console.log("Monitor.qml.start timer triggered");
-                if( !monitorControl.isConnected() )
-                {
-                    monitorControl.monitorStart();
-                }
-            }
-        }
-        Timer {
-            id: game_info_timer
-            interval: 15
-            repeat: true
-            running: false
-
-            onTriggered: {
-                game_info_text.text = getGameInfo();
-            }
-        }
-        Timer {
-            id: foul_card_timer
-            interval: 15
-            repeat: true
-            running: false
-
-            onTriggered: {
-                foul_card_box.foul_text=getFoulCardInfo();
-                foul_card_box.foul_color=(getFoulCardInfo().startsWith("Red")?'red':getFoulCardInfo().startsWith("Yellow")?'yellow':'limegreen');
-            }
-        }
-        // function delay_game_info(delay_game_info, cb) {
-        //     game_info_timer.interval = delay_game_info;
-        //     game_info_timer.repeat = true;
-        //     game_info_timer.triggered.connect(cb);
-        //     game_info_timer.start();
-        // }
-
-        Connections {
-            target: monitorControl
-
-            onLiveMatchDataChanged:
+        onTriggered: {
+            console.log("Monitor.qml.start timer triggered");
+            if( !monitorControl.isConnected() )
             {
-                //app_title_bar.firstTeamColor = playerControl.getPlayerColor(1) !== null ? playerControl.getPlayerColor(1) : "transparent";                app_title_bar.secondTeamColor = playerControl.getPlayerColor(13) !== null ? playerControl.getPlayerColor(13) : "transparent";                app_title_bar.firstScoreVisible = false;                if( monitorControl.getRightName().trim().length > 0 )
-                //score_card.left_team_name = monitorControl.getLeftName()
-                //score_card.left_team_score = monitorControl.getLeftScore()
-                //app_title_bar.firstTeamColor = playerControl.getPlayerColor(1) !== null ? playerControl.getPlayerColor(1) : "transparent";
-                //app_title_bar.secondTeamColor = playerControl.getPlayerColor(13) !== null ? playerControl.getPlayerColor(13) : "transparent";
-                //app_title_bar.firstScoreVisible = false;
-                if( monitorControl.getRightName().trim().length > 0 )
-                {
-                    if( monitorControl.getRightScore().trim().length > 0 )
-                    {
-                      app_title_bar.firstTeamScore = monitorControl.getRightScore();
-                    }
-                    else
-                    {
-                        app_title_bar.firstTeamScore = 0;
-                    }
-                }
-                if( monitorControl.getLeftName().trim().length > 0 )
-                {
-                    if( monitorControl.getLeftScore().trim().length > 0 )
-                    {
-                        app_title_bar.secondTeamScore = monitorControl.getLeftScore();
-                    }
-                    else
-                    {
-                        app_title_bar.secondTeamScore = 0;
-                    }
-                }
-                for(var i = 0; i < players_left.model; i++)
-                    {
-                        players_left.itemAt(i).color = monitorControl.leftClub.background1Value
-                        players_left.itemAt(i).x = getPlayerPoint(i)[0] + 7.5 // HACK
-                        players_left.itemAt(i).y = getPlayerPoint(i)[1] - 10
-                        players_left.itemAt(i).neck_rotation = playerControl.getPlayerNeckAngle(i)
-                        players_left.itemAt(i).body_rotation = playerControl.getPlayerBodyAngle(i)
-                        ball.x = getBallPoint()[0] + 263; //HACK
-                        ball.y = getBallPoint()[1] + 4.5; //HACK
-                    }
-                for(var i = 0; i < players_right.model; i++)
-                    {
-                        players_right.itemAt(i).color = monitorControl.rightClub.background1Value
-                        players_right.itemAt(i).x = getPlayerPoint(i+11)[0] + 7.5-(pitch.width / 2) // HACK
-                        players_right.itemAt(i).y = getPlayerPoint(i+11)[1] - 10
-                        players_right.itemAt(i).neck_rotation = playerControl.getPlayerNeckAngle(i+11)
-                        players_right.itemAt(i).body_rotation = playerControl.getPlayerBodyAngle(i+11)
-                        ball.x = getBallPoint()[0] + 263; //HACK
-                        ball.y = getBallPoint()[1] + 4.5; //HACK
-                    }
+                monitorControl.monitorStart();
             }
         }
+    }
 }
 
 

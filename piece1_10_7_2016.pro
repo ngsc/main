@@ -8,6 +8,8 @@ CONFIG += qtquickcompile
 CONFIG += resources_big
 
 SOURCES += main.cpp \
+    livematchplayerinfo.cpp \
+    livematchplayerinfolistmodel.cpp \
     mainwindow.cpp \
     apiconnection.cpp \
     simplecrypt.cpp \
@@ -84,6 +86,8 @@ LIBS += -lwsock32 -lOle32
 
 HEADERS += \
     constants.h \
+    livematchplayerinfo.h \
+    livematchplayerinfolistmodel.h \
     mainwindow.h \
     apiconnection.h \
     simplecrypt.h \

@@ -24,6 +24,8 @@
 #include "historybrief.h"
 #include "usercommentsmodel.h"
 #include "PlayerController.h"
+#include "livematchplayerinfo.h"
+#include "livematchplayerinfolistmodel.h"
 #include "FieldController.h"
 #include "MonitorController.h"
 #include "teamtactic.h"
@@ -52,6 +54,8 @@ int main(int argc, char *argv[])
     qmlRegisterType<PlayerModel>("com.Game.Player", 1, 0, "PlayerModel");
     qmlRegisterType<MonitorControl>("com.Game.Player", 1, 0, "MonitorControl");
     qmlRegisterType<PlayerControl>("com.Game.Player", 1, 0, "PlayerControl");
+    qmlRegisterType<LiveMatchPlayerInfo>("com.Game.Player", 1, 0, "LiveMatchPlayerInfo");
+    qmlRegisterType<LiveMatchPlayerInfoListModel>("com.Game.Player", 1, 0, "LiveMatchPlayerInfoListModel");
     qmlRegisterType<FieldControl>("com.Game.Player", 1, 0, "FieldControl");
     qmlRegisterType<Club>("com.Game.Club", 1, 0, "Club");
     qmlRegisterType<ClubModel>("com.Game.Club", 1, 0, "ClubModel");

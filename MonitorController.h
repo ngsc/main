@@ -47,6 +47,7 @@
 #include "disp_holder.h"
 #include "player_painter.h"
 #include "config_dialog.h"
+#include "livematchplayerinfo.h"
 
 class ConfigDialog;
 class FieldCanvas;
@@ -55,6 +56,7 @@ class MonitorClient;
 class PlayerTypeDialog;
 class QProcess;
 class Club;
+class LiveMatchPlayerInfoListModel;
 
 class MonitorControl : public QObject
 {
@@ -62,8 +64,12 @@ class MonitorControl : public QObject
 
     Q_PROPERTY( Club* leftClub  READ getLeftClub NOTIFY leftClubChanged )
     Q_PROPERTY( Club* rightClub READ getRightClub NOTIFY rightClubChanged )
-    Q_PROPERTY( QString leftScore READ getLeftTeamScore NOTIFY leftScoreChanged )
-    Q_PROPERTY( QString rightScore READ getRightTeamScore NOTIFY rightScoreChanged )
+    Q_PROPERTY( QString leftScore READ getLeftScore NOTIFY leftScoreChanged )
+    Q_PROPERTY( QString rightScore READ getRightScore NOTIFY rightScoreChanged )
+    Q_PROPERTY( QPointF ballPosition READ getBallPosition NOTIFY ballPositionChanged )
+    Q_PROPERTY( QString pitchInfo READ getPitchInfo NOTIFY pitchInfoChanged )
+    Q_PROPERTY( QString foulCardInfo READ getFoulCardInfo NOTIFY foulCardInfoChanged )
+    Q_PROPERTY( bool connected READ getConnected NOTIFY connectedChanged )
 
 private:
 
@@ -95,23 +101,41 @@ private:
     QProcess* m_background_process;
     Club* M_left_club; // home club
     Club* M_right_club; // away club
-
+    QString M_left_score;
+    QString M_right_score;
+    QString M_pitchInfo;
+    QString M_foulCardInfo;
+    QPointF M_ball_position;
+    LiveMatchPlayerInfoListModel* m_LeftLiveMatchPlayerInfoModel;
+    LiveMatchPlayerInfoListModel* m_RightLiveMatchPlayerInfoModel;
+    QList<LiveMatchPlayerInfo*> m_LeftList;
+    QList<LiveMatchPlayerInfo*> m_RightList;
+    bool m_Connected;
 
 public:
     MonitorControl();
     ~MonitorControl();
 
     void init();
+    Q_INVOKABLE LiveMatchPlayerInfoListModel* getLeftLiveMatchPlayerInfoModel();
+    Q_INVOKABLE LiveMatchPlayerInfoListModel* getRightLiveMatchPlayerInfoModel();
     Q_INVOKABLE void startMatchServerCmd(QString token, int homeClubId, int awayClubId );
+
 
     Club* getLeftClub();
     Club* getRightClub();
-    QString getLeftTeamScore();
-    QString getRightTeamScore();
+    QString getLeftScore();
+    QString getRightScore();
+    QPointF getBallPosition();
+    QString getPitchInfo();
+    QString getFoulCardInfo();
+    bool getConnected();
 
 private:
 
     void connectMonitorTo( const char * hostname );
+    void resetMatchData();
+    void setConnected(bool connected);
 private slots:
 
 
@@ -123,17 +147,14 @@ private slots:
 
     void createConfigDialog();
     QColor getPLayerColor(const MonitorControl::Param & param);
-    QString getPitchInfo();
-	QString getFoulCardInfo();
+    QString extractPitchInfo();
+    QString extractFoulCardInfo();
 	void updateBufferingLabel();
 
 public slots:
 	bool isConnected() const;
+
 	QString getCommentaryLog();
-	QString getLeftScore();
-	QString getRightScore();	
-	QString getLeftName();
-	QString getRightName();
 	QString getTeamLeftStats();
 	QString getTeamRightStats();
 	QString getPlayerLeftStats();
@@ -151,7 +172,7 @@ public slots:
 	QString getRightYellowCard();
 	QString getRightRedCard();
 	void monitorStart();
-    void update();
+    void reloadLiveMatchInfo();
 	bool getMatchParams();
 	void sendPlayerMove(int player_id, double x, double y, int ang);
 	void sendPlayerSubstitute(int player1_id, int player2_id);
@@ -164,6 +185,10 @@ signals:
     void rightClubChanged();
     void leftScoreChanged();
     void rightScoreChanged();
+    void ballPositionChanged();
+    void pitchInfoChanged();
+    void foulCardInfoChanged();
+    void connectedChanged();
 };
 
 #endif

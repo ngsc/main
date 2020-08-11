@@ -5,10 +5,11 @@ Rectangle
 {
     id: root
     property string teamName
-    property int score
+    property string score
     property string teamColor
     property string teamTextColor
     radius: Constants.menuRectRadius
+    property bool scoreVisible
     visible: false
     color: teamColor
     Text
@@ -35,6 +36,7 @@ Rectangle
         color: "white"
         border.width: 2
         border.color: "black"
+        visible: root.visible && root.scoreVisible
         radius: Constants.menuRectRadius
         Text
         {

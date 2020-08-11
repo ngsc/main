@@ -37,7 +37,6 @@
 #include "monitor_client.h"
 #include "options.h"
 #include "MonitorController.h"
-#include "PlayerController.h"
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -51,9 +50,12 @@
 #include "qfile.h"
 #include "apiconnection.h"
 #include "club.h"
+#include "livematchplayerinfo.h"
+#include "livematchplayerinfolistmodel.h"
 
 #include<sstream>
 #include<iomanip>
+#include <QPoint>
 
 #include "icons\rcss.xpm"
 
@@ -89,7 +91,11 @@ MonitorControl::MonitorControl()
     , m_background_process(new QProcess( this ) )
     , M_left_club( nullptr )
     , M_right_club( nullptr )
+    , M_ball_position(QPointF(-1,-1))
+    , m_Connected( false )
 {
+    m_LeftLiveMatchPlayerInfoModel = new LiveMatchPlayerInfoListModel(this);
+    m_RightLiveMatchPlayerInfoModel = new LiveMatchPlayerInfoListModel(this);
 }
 
 /*-------------------------------------------------------------------*/
@@ -117,6 +123,18 @@ MonitorControl::init()
         connectMonitor();
     }
 }
+
+LiveMatchPlayerInfoListModel* MonitorControl::getLeftLiveMatchPlayerInfoModel()
+{
+    return m_LeftLiveMatchPlayerInfoModel;
+}
+
+LiveMatchPlayerInfoListModel* MonitorControl::getRightLiveMatchPlayerInfoModel()
+{
+    return m_RightLiveMatchPlayerInfoModel;
+}
+
+
 void MonitorControl::startMatchServerCmd(QString token, int homeClubId, int awayClubId )
 {
     using namespace ClientConstants;
@@ -166,6 +184,31 @@ Club* MonitorControl::getRightClub()
 }
 
 void
+MonitorControl::resetMatchData()
+{
+    M_ball_position = QPointF(-1,-1);
+    emit ballPositionChanged();
+    M_left_score = "";
+    emit leftScoreChanged();
+    M_right_score = "";
+    emit rightClubChanged();
+    m_LeftList.clear();
+    m_RightList.clear();
+    m_LeftLiveMatchPlayerInfoModel->clear();
+    m_RightLiveMatchPlayerInfoModel->clear();
+}
+
+void
+MonitorControl::setConnected(bool connected)
+{
+    if( m_Connected != connected)
+    {
+        m_Connected = connected;
+        emit connectedChanged();
+    }
+}
+
+void
 MonitorControl::connectMonitorTo( const char * hostname )
 {
 	// std::ofstream os("C:/Users/Martun/Desktop/monitor_log.txt", std::ofstream::out | std::ofstream::app);
@@ -190,20 +233,16 @@ MonitorControl::connectMonitorTo( const char * hostname )
         M_monitor_client, &MonitorClient::tcpFullMessageReceived,
         [this]()
         {
-            update();
-            emit leftScoreChanged();
-            emit rightScoreChanged();
-            emit liveMatchDataChanged();
+            reloadLiveMatchInfo();
         }
     );
-    if ( ! M_monitor_client->isConnected() )
-    {
-        //M_monitor_client->startServerAsynch();
-//        // os << "Conenction failed." << std::endl;
-        delete M_monitor_client;
-        M_monitor_client = static_cast< MonitorClient * >( 0 );
-        return;
-    }
+    connect(
+        M_monitor_client, &MonitorClient::connectedChanged,
+        [this]()
+        {
+            setConnected( M_monitor_client->getConnected() );
+        }
+    );
     // os << "Connected!" << std::endl;
 
     // reset all data
@@ -249,7 +288,7 @@ MonitorControl::monitorStart()
 
  */
 void 
-MonitorControl::update()
+MonitorControl::reloadLiveMatchInfo()
 {
     if(!isConnected())
     {
@@ -272,8 +311,10 @@ MonitorControl::update()
     {
         return;
     }
-
-    const rcss::rcg::BallT & ball = disp->show_.ball_;;
+    const rcss::rcg::BallT & ball = disp->show_.ball_;
+    M_ball_position = QPointF(Options::instance().screenX(ball.x_),
+                                    Options::instance().screenY(ball.y_));
+    emit ballPositionChanged();
     for ( int i = 0; i < rcss::rcg::MAX_PLAYER*2; ++i )
     {
         //drawAll( painter, disp->show_.player_[i], ball );
@@ -282,21 +323,67 @@ MonitorControl::update()
                        ball,
                        M_disp_holder.serverParam(),
                        M_disp_holder.playerType( disp->show_.player_[i].type_ ) );
-		PlayerControl::setBallPoint(Options::instance().screenX(param.ball_.x_), 
-                                    Options::instance().screenY(param.ball_.y_));
-        //PlayerControl::setBallColor(param.ball.color_);
-        PlayerControl::setPlayerPoint( i, param.x_, param.y_);
-        // PlayerControl::setPlayerColor(param.player_type_.id_, i < rcss::rcg::MAX_PLAYER, QColor(Qt::blue) /*painter.brush().color()*/);
-        QColor color = MonitorControl::getPLayerColor(param);
-        PlayerControl::setPlayerColor( i, color);
-        PlayerControl::setPlayerNeckAngle( i, param.player_.neck_);
-        PlayerControl::setPlayerBodyAngle( i, param.player_.body_);
+        int unum = disp->show_.player_[i].unum_;
+        LiveMatchPlayerInfo* playerInfo = new LiveMatchPlayerInfo(this);
+        playerInfo->setPlayerNumber( unum );
+        playerInfo->setPlayerPosition(QPoint(param.x_, param.y_));
+        playerInfo->setBodyAngle((int)param.player_.body_);
+        playerInfo->setNeckAngle((int)param.player_.neck_);
+        if(i >= 0 && i < rcss::rcg::MAX_PLAYER )
+        {
+            if (M_left_club)
+            {
+                playerInfo->setPlayerColor(M_left_club->background1Value());
+            }
+            if(m_LeftLiveMatchPlayerInfoModel && m_LeftLiveMatchPlayerInfoModel->count() == 0)
+            {
+                m_LeftList.push_back(playerInfo);
+            }
+            else
+            {
+               m_LeftLiveMatchPlayerInfoModel->modifyItem( playerInfo, i);
+               playerInfo->setParent(nullptr);
+               delete playerInfo;
+            }
 
-        QString pitch_info = getPitchInfo();
-        PlayerControl::setPitchInfo(pitch_info);
-		QString foul_card_info = getFoulCardInfo();
-		PlayerControl::setFoulCardInfo(foul_card_info);
+        }
+        else if( i >= rcss::rcg::MAX_PLAYER && i < rcss::rcg::MAX_PLAYER * 2 )
+        {
+            if(M_right_club)
+            {
+                playerInfo->setPlayerColor(M_right_club->background1Value());
+            }
+            if(m_RightLiveMatchPlayerInfoModel && m_RightLiveMatchPlayerInfoModel->count() == 0)
+            {
+                m_RightList.push_back(playerInfo);
+            }
+            else
+            {
+                m_RightLiveMatchPlayerInfoModel->modifyItem( playerInfo, i - 11 );
+                playerInfo->setParent(nullptr);
+                delete playerInfo;
+            }
+        }
     }
+    if( m_LeftLiveMatchPlayerInfoModel->count() == 0 )
+    {
+        m_LeftLiveMatchPlayerInfoModel->setLiveMatchPlayerInfo(m_LeftList);
+    }
+    if( m_RightLiveMatchPlayerInfoModel->count() == 0 )
+    {
+        m_RightLiveMatchPlayerInfoModel->setLiveMatchPlayerInfo(m_RightList);
+    }
+
+    M_pitchInfo = extractPitchInfo();
+    emit pitchInfoChanged();
+    M_foulCardInfo = extractFoulCardInfo();
+    emit foulCardInfoChanged();
+    M_left_score = QVariant(disp->team_[0].score_).toString();
+    emit leftScoreChanged();
+    M_right_score = QVariant(disp->team_[1].score_).toString();
+    emit rightScoreChanged();
+    setConnected(true);
+    emit liveMatchDataChanged();
 }
 /*-------------------------------------------------------------------*/
 /*!
@@ -319,6 +406,7 @@ MonitorControl::disconnectMonitor()
     if ( M_monitor_client )
     {
         std::cerr << "disconnectMonitor ..." << std::endl;
+        resetMatchData();
         M_monitor_client->disconnect();
 
         delete M_monitor_client;
@@ -446,7 +534,7 @@ MonitorControl::createConfigDialog()
 
 
 QString
-MonitorControl::getPitchInfo()
+MonitorControl::extractPitchInfo()
 {
     static const std::string s_playmode_strings[] = PLAYMODE_STRINGS;
 
@@ -593,53 +681,41 @@ MonitorControl::sendPlayerSubstitute(int player1_id, int player2_id) {
 }
 
 QString
-MonitorControl::getLeftTeamScore() {
-    return getLeftScore();
-}
-
-QString
 MonitorControl::getLeftScore() {
-	DispConstPtr disp = M_disp_holder.currentDisp();
-	if (!disp)
-	{
-		return NULL;
-	}
-	return QVariant(disp->team_[0].score_).toString();
+    return M_left_score;
 }
 
-QString
-MonitorControl::getRightTeamScore() {
-    return getRightScore();
-}
+
 QString
 MonitorControl::getRightScore() {
-	DispConstPtr disp = M_disp_holder.currentDisp();
-	if (!disp)
-	{
-		return NULL;
-	}
-	return QVariant(disp->team_[1].score_).toString();
+    return M_right_score;
 }
-QString
-MonitorControl::getLeftName() {
-	DispConstPtr disp = M_disp_holder.currentDisp();
-	if (!disp)
-	{
-		return NULL;
-	}
-	return QString::fromStdString(disp->team_[0].name_);
+
+QPointF
+MonitorControl::getBallPosition(){
+    return M_ball_position;
 }
+
 QString
-MonitorControl::getRightName() {
-	DispConstPtr disp = M_disp_holder.currentDisp();
-	if (!disp)
-	{
-		return NULL;
-	}
-	return QString::fromStdString(disp->team_[1].name_);
+MonitorControl::getPitchInfo()
+{
+    return M_pitchInfo;
 }
+
 QString
-MonitorControl::getFoulCardInfo() {
+MonitorControl::getFoulCardInfo()
+{
+    return M_foulCardInfo;
+}
+
+bool
+MonitorControl::getConnected()
+{
+    return m_Connected;
+}
+
+QString
+MonitorControl::extractFoulCardInfo() {
 	const std::pair<char, std::pair<char, int> > foul_card = M_disp_holder.FoulCard();
 	QString foul_card_info;
 	std::stringstream foul_card_sstream;
@@ -667,6 +743,7 @@ MonitorControl::getFoulCardInfo() {
 	foul_card_info.sprintf(foul_card_sstream.str().c_str());
 	return foul_card_info;
 }
+
 bool
 MonitorControl::getMatchParams() {
     //PHP_GET: update and gets all parameters from server - match_id and side (left/right) of team

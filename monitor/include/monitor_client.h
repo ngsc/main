@@ -69,6 +69,7 @@ private:
     int M_version; //!< protocol version
 
     int M_waited_msec;
+    bool M_connected;
 
 
     //! not used
@@ -88,6 +89,8 @@ public:
     void disconnect();
 
     bool isConnected() const;
+
+    bool getConnected();
 
 private:
 
@@ -185,6 +188,7 @@ signals:
     void tcpFullMessageReceived();
     void disconnectRequested();
     void reconnectRequested();
+    void connectedChanged();
 
 };
 

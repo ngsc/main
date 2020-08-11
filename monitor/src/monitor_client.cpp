@@ -69,6 +69,7 @@ MonitorClient::MonitorClient( QObject * parent,
     , M_version( version )
     , M_waited_msec( 0 )
     , M_recomposedPackage()
+    , M_connected(false)
 {
     assert( parent );
     connect(
@@ -99,7 +100,11 @@ MonitorClient::MonitorClient( QObject * parent,
         {
             std::cerr << "M_socket::disconnected" << std::endl;
             QObject::disconnect(M_tcp_connection);
-            //M_socket->close();
+            if( M_connected != false )
+            {
+                M_connected = false;
+                emit connectedChanged();
+            }
         }
     );
     // check protocl versin range
@@ -113,7 +118,7 @@ MonitorClient::MonitorClient( QObject * parent,
         M_version = 4;
     }
     M_socket->connectToHost( ClientConstants::serverHost, M_server_port );
-    int waitMs = 300;
+    int waitMs = 500;
     if( M_socket->waitForConnected(waitMs) )
     {
         qInfo() << "TCP socket conneted";
@@ -229,6 +234,12 @@ MonitorClient::isConnected() const
     return ( M_socket->socketDescriptor() != -1 );
 }
 
+bool
+MonitorClient::getConnected()
+{
+    return M_connected;
+}
+
 
 std::string getCurrentTimestamp()
 {
@@ -256,8 +267,8 @@ void
 MonitorClient::handleTcpRecevied()
 {
 
-    std::cerr << "[" << getCurrentTimestamp() << "]" << "MonitorClient::::handleTcpRecevied begin" << std::endl;
-    std::cerr << "MonitorClient::::handleTcpRecevied bytes available " <<  M_socket->bytesAvailable() << std::endl;
+    //std::cerr << "[" << getCurrentTimestamp() << "]" << "MonitorClient::::handleTcpRecevied begin" << std::endl;
+    //std::cerr << "MonitorClient::::handleTcpRecevied bytes available " <<  M_socket->bytesAvailable() << std::endl;
     if( M_socket->peerPort() != M_server_port )
     {
         M_server_port = M_socket->peerPort();
@@ -270,7 +281,7 @@ MonitorClient::handleTcpRecevied()
         index = dataFragment.indexOf(endChar);
         M_recomposedPackage += dataFragment.left(index+1); // including endChar
         dataFragment = dataFragment.right( dataFragment.size() - (index + 1) );
-        std::cerr << "MonitorClient::::handleTcpRecevied endChar detected at " << index << " M_recomposedPackage " << M_recomposedPackage.length() << std::endl;
+        //std::cerr << "MonitorClient::::handleTcpRecevied endChar detected at " << index << " M_recomposedPackage " << M_recomposedPackage.length() << std::endl;
         bool ok(false);
         switch(M_version)
         {
@@ -287,6 +298,7 @@ MonitorClient::handleTcpRecevied()
         }
         if(ok)
         {
+//            std::cerr << "MonitorClient::::handleTcpRecevied full message concatedanted: " << M_recomposedPackage.length() << std::endl;
             emit tcpFullMessageReceived();
         }
         else
@@ -302,7 +314,7 @@ MonitorClient::handleTcpRecevied()
         //dataFragment has not endChar, dataFragment is the beginning of unfinished message
         M_recomposedPackage = dataFragment;
     }
-    std::cerr << "MonitorClient::::handleTcpRecevied end" << std::endl;
+    //std::cerr << "MonitorClient::::handleTcpRecevied end" << std::endl;
 }
 
 /*-------------------------------------------------------------------*/
@@ -347,12 +359,12 @@ MonitorClient::handleTimer()
             //emit reconnectRequested();
         }
     }
-    else if ( M_waited_msec >= 30 * 1000 )
-    {
-        std::cerr << "MonitorClient::handleTimer() waited=" << M_waited_msec << " [ms] and nothin'" << std::endl; // << "[ms] and emmited disconnection";
-        //startServerAsynch();
-        emit disconnectRequested();
-    }
+//    else if ( M_waited_msec >= 30 * 1000 )
+//    {
+//        std::cerr << "MonitorClient::handleTimer() waited=" << M_waited_msec << " [ms] and nothin'" << std::endl; // << "[ms] and emmited disconnection";
+//        //startServerAsynch();
+//        emit disconnectRequested();
+//    }
 }
 
 /*-------------------------------------------------------------------*/

@@ -326,7 +326,8 @@ DispHolder::doHandleMsgInfo( const int,
                              const std::string & msg )
 {
 
-
+//    std::cout << "handle message: "
+//              << " [" << msg << "]" << std::endl;
     if ( ! msg.compare( 0, std::strlen( "(team_graphic_" ), "(team_graphic_" ) )
     {
         analyzeTeamGraphic( msg );
@@ -353,8 +354,6 @@ DispHolder::doHandleMsgInfo( const int,
 		handleFoulCards(msg);
 		return;
 	}
-        std::cout << "handle message: "
-                  << " [" << msg << "]" << std::endl;
 }
 
 /*-------------------------------------------------------------------*/
@@ -646,13 +645,13 @@ DispHolder::analyzeStatistic(DispPtr& disp) {
 void
 DispHolder::handleCommentaries( const std::string & msg )
 {
-    std::cout << "COMMENTARY1: >" << msg << "<" << std::endl;
+    //std::cout << "COMMENTARY1: >" << msg << "<" << std::endl;
     if(msg == "(commentary \" \")")
     {
         M_commentary = "Nothing special happening";
         return;
     }
-	std::cout << "COMMENTARY2: >" << M_commentary << "<" << std::endl;
+    //std::cout << "COMMENTARY2: >" << M_commentary << "<" << std::endl;
 	// std::sscanf( msg.c_str(), "(commentary %s)", &M_commentary);
 	M_commentary = msg.substr(msg.find_first_of(' ') + 1);
 	M_commentary.pop_back(); 
