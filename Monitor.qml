@@ -78,6 +78,13 @@ Rectangle
         }
     }
 
+    Connections{
+        target: monitorControl
+        onRightTeamNameChanged: {
+            monitorControl.requestLiveMatchClubsDetails(user.token, monitorControl.leftTeamName, monitorControl.rightTeamName);
+        }
+    }
+
     FieldControl{
             id: fieldControl
         }

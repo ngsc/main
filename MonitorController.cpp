@@ -135,7 +135,7 @@ LiveMatchPlayerInfoListModel* MonitorControl::getRightLiveMatchPlayerInfoModel()
 }
 
 
-void MonitorControl::startMatchServerCmd(QString token, int homeClubId, int awayClubId )
+void MonitorControl::startMatchServerCmd(const QString& token, int homeClubId, int awayClubId )
 {
     using namespace ClientConstants;
 
@@ -151,26 +151,38 @@ void MonitorControl::startMatchServerCmd(QString token, int homeClubId, int away
     QString startServerCmd = "./startserver.sh 0 " + QString::number(homeClubId) + " " + QString::number(awayClubId) + " 0 0";
     QString cmd = "plink -ssh -no-antispoof " + user + "@" + serverHost +  " -pw " + decrypted + " \"pkill matchserver ; cd " + matchServerSrcPath + " ; "  + startServerCmd + "\"";
     m_background_process->start( cmd );
+}
 
+void MonitorControl::requestLiveMatchClubsDetails(const QString& token, const QString& homeClubName, const QString& awayClubName)
+{
+    if((!M_left_club || !M_right_club) && homeClubName.compare("") != 0 && awayClubName.compare("")!= 0 )
+    {
     connect(
-        APIConnection::getInstance(), &APIConnection::getClubDetailsFinished,
-        [this, homeClubId, awayClubId](Club *club)
+        APIConnection::getInstance(), &APIConnection::getClubsFinished,
+        [this, homeClubName, awayClubName](QVector<Club*> clubs)
             {
-                if( club->id() == homeClubId )
+                for( int i = 0; i < clubs.size(); i++)
                 {
-                    M_left_club = club;
-                    emit leftClubChanged();
+                    if(clubs[i]->name().compare(homeClubName) == 0)
+                    {
+                        M_left_club = clubs[i];
+                        emit leftClubChanged();
+                    } else if(clubs[i]->name().compare(awayClubName) == 0)
+                    {
+                        M_right_club = clubs[i];
+                        emit rightClubChanged();
+                    }
+                    else
+                    {
+//                        delete clubs[i];
+//                        clubs[i] = nullptr;
+                    }
                 }
-                if( club->id() == awayClubId )
-                {
-                    M_right_club = club;
-                    emit rightClubChanged();
-                }
+
             }
     );
-    APIConnection::getInstance()->getClubDetails(token, awayClubId);
-    APIConnection::getInstance()->getClubDetails(token, homeClubId);
-
+    APIConnection::getInstance()->getClubs(token);
+    }
 }
 
 Club* MonitorControl::getLeftClub()
@@ -188,6 +200,10 @@ MonitorControl::resetMatchData()
 {
     M_ball_position = QPointF(-1,-1);
     emit ballPositionChanged();
+    M_left_team_name = "";
+    emit leftTeamNameChanged();
+    M_right_team_name = "";
+    emit rightTeamNameChanged();
     M_left_score = "";
     emit leftScoreChanged();
     M_right_score = "";
@@ -196,6 +212,18 @@ MonitorControl::resetMatchData()
     m_RightList.clear();
     m_LeftLiveMatchPlayerInfoModel->clear();
     m_RightLiveMatchPlayerInfoModel->clear();
+    if(M_left_club)
+    {
+//        M_left_club->setParent(nullptr);
+//        delete M_left_club;
+        M_left_club = nullptr;
+    }
+    if(M_right_club)
+    {
+//        M_right_club->setParent(nullptr);
+//        delete M_right_club;
+        M_right_club = nullptr;
+    }
 }
 
 void
@@ -310,6 +338,18 @@ MonitorControl::reloadLiveMatchInfo()
     if ( ! disp )
     {
         return;
+    }
+    QString tempLeft = QString::fromUtf8(disp->team_[0].name_.data());
+    if( tempLeft.compare( M_left_team_name) != 0 )
+    {
+        M_left_team_name = tempLeft;
+        emit leftTeamNameChanged();
+    }
+    QString tempRight = QString::fromUtf8(disp->team_[1].name_.data());
+    if( tempRight.compare( M_right_team_name) != 0 )
+    {
+        M_right_team_name = tempRight;
+        emit rightTeamNameChanged();
     }
     const rcss::rcg::BallT & ball = disp->show_.ball_;
     M_ball_position = QPointF(Options::instance().screenX(ball.x_),
@@ -678,6 +718,18 @@ MonitorControl::sendPlayerSubstitute(int player1_id, int player2_id) {
 		return;
 	}
 	M_monitor_client->sencChangePlayerType(disp->team_[M_side == rcss::rcg::RIGHT].name_, player1_id, player2_id);
+}
+
+QString
+MonitorControl::getLeftTeamName()
+{
+    return M_left_team_name;
+}
+
+QString
+MonitorControl::getRightTeamName()
+{
+    return M_right_team_name;
 }
 
 QString

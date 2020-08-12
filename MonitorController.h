@@ -64,6 +64,8 @@ class MonitorControl : public QObject
 
     Q_PROPERTY( Club* leftClub  READ getLeftClub NOTIFY leftClubChanged )
     Q_PROPERTY( Club* rightClub READ getRightClub NOTIFY rightClubChanged )
+    Q_PROPERTY( QString leftTeamName READ getLeftTeamName NOTIFY leftTeamNameChanged)
+    Q_PROPERTY( QString rightTeamName READ getRightTeamName NOTIFY rightTeamNameChanged)
     Q_PROPERTY( QString leftScore READ getLeftScore NOTIFY leftScoreChanged )
     Q_PROPERTY( QString rightScore READ getRightScore NOTIFY rightScoreChanged )
     Q_PROPERTY( QPointF ballPosition READ getBallPosition NOTIFY ballPositionChanged )
@@ -101,6 +103,8 @@ private:
     QProcess* m_background_process;
     Club* M_left_club; // home club
     Club* M_right_club; // away club
+    QString M_left_team_name;
+    QString M_right_team_name;
     QString M_left_score;
     QString M_right_score;
     QString M_pitchInfo;
@@ -119,11 +123,13 @@ public:
     void init();
     Q_INVOKABLE LiveMatchPlayerInfoListModel* getLeftLiveMatchPlayerInfoModel();
     Q_INVOKABLE LiveMatchPlayerInfoListModel* getRightLiveMatchPlayerInfoModel();
-    Q_INVOKABLE void startMatchServerCmd(QString token, int homeClubId, int awayClubId );
-
+    Q_INVOKABLE void startMatchServerCmd(const QString& token, int homeClubId, int awayClubId );
+    Q_INVOKABLE void requestLiveMatchClubsDetails( const QString& token, const QString& homeClubName, const QString& awayClubName);
 
     Club* getLeftClub();
     Club* getRightClub();
+    QString getLeftTeamName();
+    QString getRightTeamName();
     QString getLeftScore();
     QString getRightScore();
     QPointF getBallPosition();
@@ -183,6 +189,8 @@ signals:
     void liveMatchDataChanged();
     void leftClubChanged();
     void rightClubChanged();
+    void leftTeamNameChanged();
+    void rightTeamNameChanged();
     void leftScoreChanged();
     void rightScoreChanged();
     void ballPositionChanged();
