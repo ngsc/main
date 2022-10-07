@@ -96,6 +96,9 @@ MonitorControl::MonitorControl()
 {
     m_LeftLiveMatchPlayerInfoModel = new LiveMatchPlayerInfoListModel(this);
     m_RightLiveMatchPlayerInfoModel = new LiveMatchPlayerInfoListModel(this);
+
+    connect(m_background_process, SIGNAL(readyReadStandardError()), this, SLOT(readProgressErrorData()));
+    m_background_process->setReadChannel(QProcess::StandardError); //标准出错读取内容必须设置该属性
 }
 
 /*-------------------------------------------------------------------*/
@@ -147,9 +150,16 @@ void MonitorControl::startMatchServerCmd(const QString& token, int homeClubId, i
 
     QString decrypted = crypto.decryptToString(encrypted);
 
+//    QString newPass = crypto.encryptToString(QString("ngscteam331!"));
+//    std::cerr << "MonitorControl::startMatchServerCmd() ..." << decrypted.toUtf8().toStdString() << std::endl;
+//    std::cerr << "MonitorControl::startMatchServerCmd() ..." << newPass.toUtf8().toStdString() << std::endl;
+
     // TODO: start server with different parameters;
     QString startServerCmd = "./startserver.sh 0 " + QString::number(homeClubId) + " " + QString::number(awayClubId) + " 0 0";
     QString cmd = "plink -ssh -no-antispoof " + user + "@" + serverHost +  " -pw " + decrypted + " \"pkill matchserver ; cd " + matchServerSrcPath + " ; "  + startServerCmd + "\"";
+
+//    std::cerr << "MonitorControl::startMatchServerCmd() cmd :" << cmd.toUtf8().toStdString() << std::endl;
+
     m_background_process->start( cmd );
 }
 
@@ -497,6 +507,17 @@ MonitorControl::updateBufferingLabel()
     {
         s_last_value = current_cache;
     }
+}
+
+void MonitorControl::readProgressErrorData()
+{
+     QString eMsg(m_background_process->readAllStandardError());
+     if (eMsg.indexOf("Store key in cache? (y/n)") > 0) {
+         std::cerr << "write data :" << std::endl;
+         m_background_process->write("y\n");
+     } else {
+         std::cerr << "Progress Error Data :" << eMsg.toUtf8().toStdString() << std::endl;
+     }
 }
 
 QColor

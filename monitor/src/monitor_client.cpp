@@ -117,6 +117,9 @@ MonitorClient::MonitorClient( QObject * parent,
     {
         M_version = 4;
     }
+
+    M_socket->setProxy(QNetworkProxy::NoProxy);
+
     M_socket->connectToHost( ClientConstants::serverHost, M_server_port );
     int waitMs = 500;
     if( M_socket->waitForConnected(waitMs) )

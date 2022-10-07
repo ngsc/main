@@ -157,6 +157,8 @@ private slots:
     QString extractFoulCardInfo();
 	void updateBufferingLabel();
 
+    void readProgressErrorData();
+
 public slots:
 	bool isConnected() const;
 
