@@ -73,6 +73,98 @@ Rectangle
         //        playerActions.setPlayer(player);
     }
 
+    // clean completion text
+    function cleanCompletion(txt){
+        // group text
+        var spl = txt.split("\n\n")
+        var completion = spl.join("");  // Join lines
+
+        // remove incomplete sentences
+        const i = completion.lastIndexOf(".");
+        if (i === -1) return completion;
+
+        return completion.substring(0, i+1);
+    }
+
+    // accepts prompt and prints completion on application when executed at button click
+    function getCompletion(prompt) {
+        // change this to false if prefix is not required
+        var includePrefix = true;
+        // change prefix if required
+        var prefix = "You are an AI Model trained on the data of Xu Jiayin's Life. You have to respond in the third person always. You have to respond specifically to the question asked in a single paragraph.\n"
+
+        // Enter credentials
+//        var apiKey = "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"; // enter api key
+//        var modelId = "davinci:ft-personal:trail-prototype-2023-04-18-12-48-20"; // enter model id
+//        var orgKey = "org-cArMaSVnooAmLlKvGoB2denr"; // enter organisation key
+
+        var apiKey = "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"; // enter api key
+        var modelId = "davinci:ft-personal:trial-protptype-23th-april-2023-04-23-03-19-26"; // enter model id
+        var orgKey = "org-cArMaSVnooAmLlKvGoB2denr"; // enter organisation key
+
+        // Enter paremeters for model
+        var temperature = 0.8; // between 0-1
+        var frequency_penalty = 0.8; // between 0-2
+        var presence_penalty = 0.8; // between 0-2
+        var max_tokens = 80;
+        var stop_sequence = "###" || "";
+
+        // do not edit
+        var apiUrl = "https://api.openai.com/v1/completions";
+
+        if (includePrefix)
+            prompt = prefix+prompt
+
+        // create new Http request object
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                // if openai returns 200 OK status
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.choices && response.choices.length > 0) {
+                        var completion = response.choices[0].text;
+                        completion = cleanCompletion(completion);
+                        console.log("Prompt: ", prompt, "\nCompletion: ", completion)
+                        pushMessage(completion)
+                    } else {
+                        console.error("No completion choices were returned.");
+                    }
+                } else {
+                    console.error("Request failed with status:", xhr.status);
+                }
+            }
+        }
+        // making a post request
+        xhr.open("POST", apiUrl, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        // add apikey header
+        xhr.setRequestHeader("Authorization", "Bearer " + apiKey);
+        // add organisation key header
+        xhr.setRequestHeader("OpenAI-Organization", orgKey);
+
+        // declaring model parameters
+        var data = {
+            "model": modelId,
+            "prompt": prompt + " ->",
+            "max_tokens": max_tokens,
+            "n": 1,
+            "temperature": temperature,
+            "presence_penalty": presence_penalty,
+            "frequency_penalty": frequency_penalty,
+            "stop": stop_sequence
+        };
+        xhr.send(JSON.stringify(data));
+    }
+
+    // adds message to chatbox
+    function pushMessage(message) {
+        if (message.trim() !== "") {
+            chatModel.append({message: message});
+//            talk_tab.flickable.contentY = Math.max(0, talk_tab.flickable.contentHeight - talk_tab.flickable.height);
+        }
+    }
+
     ListModel {
         id: overviewlistModel
     }
@@ -87,6 +179,10 @@ Rectangle
     }
     ListModel{
         id : recordlistModel
+    }
+
+    ListModel {
+        id: chatModel
     }
 
     Rectangle{
@@ -404,15 +500,101 @@ Rectangle
         //        color: "black"
     }
 
+    Rectangle {
+        id: talk_Area
+        width: 2*parent.width/3-10
+        height: 30
+        anchors.bottom: parent.bottom
+        color: "transparent"
+        border.color: "gray"
+//        anchors.bottomMargin: 40
+        //            width: 600
+        //            height: 60
+        //            color: "transparent"
+        radius: width / 2
+        //            visible: stackView.__currentItem !== signinPage && stackView.__currentItem !== signupPage
+        MouseArea {
+            cursorShape: Qt.PointingHandCursor
+        }
+
+        Rectangle {
+            border.color: "#fdc807"
+            border.width: 3
+            anchors.fill: parent
+            color: "#34537a"
+            opacity: 0.7
+            radius: parent.radius
+        }
+
+        TextField {
+            id: talk_field_text
+            anchors.left: parent.left
+            anchors.top: parent.top
+            activeFocusOnPress: true
+            width: parent.width - 35
+            font.family: Constants.primaryFont ? Constants.primaryFont.name: null
+            font.pointSize: 12
+            focus: true
+            style: TextFieldStyle {
+                textColor: "#ffffff"
+                background: Rectangle {
+                    color: "transparent"
+                }
+            }
+
+            placeholderText: "Type your message..."
+            Keys.onReturnPressed: {
+                if (event.modifiers & Qt.ShiftModifier) {
+                    messageInput.insert(event.key);
+                } else {
+                    pushMessage(text);
+                    getCompletion(text)
+                    text = "";
+                }
+                event.accepted = true;
+            }
+        }
+
+        Keys.onPressed: {
+
+        }
+
+        Image {
+            id: send_icon
+            anchors.right: parent.right
+            anchors.rightMargin: 10
+            anchors.verticalCenter: parent.verticalCenter
+            height: parent.height - 15
+            width: height
+            fillMode: Image.Stretch
+            source: "qrc:/icons/arrow-blue.png"
+
+            property int fontIndex: (Math.random() * 95) % 5
+
+            MouseArea {
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+                hoverEnabled: true
+                onClicked: {
+                    pushMessage(talk_field_text.text);
+                    getCompletion(talk_field_text.text)
+                    talk_field_text.text = "";
+                }
+            }
+        }
+    }
+
     Rectangle{
         id: overveiw
         anchors.left: parent.left
-        anchors.bottom : parent.bottom
+//        anchors.bottom : parent.bottom
+        anchors.bottom : talk_Area.top
         width: 2*parent.width/3-10
-        height: parent.height/2-10
+        height: parent.height/2-10 - 15
         border.color: "gray"
         color: "transparent"
         TabView {
+            id: infoTabView
             anchors.fill: parent
             Tab {
                 title: qsTr("OverView")
@@ -513,22 +695,65 @@ Rectangle
                     id: recordcontactModel
                     listmodel: recordlistModel
                 }
-                //                Rectangle { color : "#6a6a8f" }
+            }
+
+            Tab {
+                id: talk_tab
+                title: qsTr("Talk")
+                Flickable {
+                    id: flickable
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    width: 200; height: 300
+                    contentHeight: chatColumn.height
+                    clip: true
+                    boundsBehavior: Flickable.StopAtBounds
+                    anchors.margins: 20
+                    Column {
+                        id: chatColumn
+                        width: parent.width
+                        spacing: 5
+                        Repeater {
+                            model: chatModel
+                            delegate: chatDelegate
+                        }
+                    }
+                }
             }
         }
     }
 
-        Connections {
-            target: APIConnection
-            onGetUserCommentFinished:{
-                //playerCommentBoard.playerAnnoncementRect.setcommentRectHeight()
-                map.annoncementRect.setcommentRectHeight()
-                usercommentmodel.setuserComment(usercomment)
+    Component {
+        id: chatDelegate
+
+        Rectangle {
+            width: 2*parent.width/3-10
+            height: messageText.height + 10
+            color: "lightblue"
+
+            Text {
+                id: messageText
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.margins: 20
+                text: model.message
+                wrapMode: Text.Wrap
+                font.pixelSize: 15
             }
-
-    //        onGetUsersFinished :{
-
-    //            managerProfile.setUser(u)
-    //        }
         }
+    }
+
+    Connections {
+        target: APIConnection
+        onGetUserCommentFinished:{
+            //playerCommentBoard.playerAnnoncementRect.setcommentRectHeight()
+            map.annoncementRect.setcommentRectHeight()
+            usercommentmodel.setuserComment(usercomment)
+        }
+
+//        onGetUsersFinished :{
+
+//            managerProfile.setUser(u)
+//        }
+    }
 }
