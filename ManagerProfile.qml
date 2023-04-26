@@ -98,8 +98,8 @@ Rectangle
 //        var modelId = "davinci:ft-personal:trail-prototype-2023-04-18-12-48-20"; // enter model id
 //        var orgKey = "org-cArMaSVnooAmLlKvGoB2denr"; // enter organisation key
 
-        var apiKey = "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"; // enter api key
-        var modelId = "davinci:ft-personal:trial-protptype-23th-april-2023-04-23-03-19-26"; // enter model id
+        var apiKey = "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"; // enter api key
+        var modelId = "davinci:ft-lilithfactor:test-d777-300-1-2023-04-24-11-51-35"; // enter model id
         var orgKey = "org-cArMaSVnooAmLlKvGoB2denr"; // enter organisation key
 
         // Enter paremeters for model
