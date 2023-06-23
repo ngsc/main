@@ -150,7 +150,7 @@ void MonitorControl::startMatchServerCmd(const QString& token, int homeClubId, i
 
     QString decrypted = crypto.decryptToString(encrypted);
 
-//    QString newPass = crypto.encryptToString(QString("ngscteam331!"));
+//    QString newPass = crypto.encryptToString(QString("ngscteam"));
 //    std::cerr << "MonitorControl::startMatchServerCmd() ..." << decrypted.toUtf8().toStdString() << std::endl;
 //    std::cerr << "MonitorControl::startMatchServerCmd() ..." << newPass.toUtf8().toStdString() << std::endl;
 

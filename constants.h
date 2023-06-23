@@ -9,7 +9,7 @@ namespace ClientConstants {
     // China server 106.54.22.63
     //host = "127.0.0.1";/*"106.54.22.63";*///"192.168.44.129";"127.0.0.1";
 
-    const QString serverHost = "106.54.22.63";
+    const QString serverHost = "1176.34.16.134";
     const QString matchServerSrcPath = "football/customserver/server/src";
     const QString user = "root";
     const quint64 key = 0x0c2ad4b4acb9f023;
